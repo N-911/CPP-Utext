@@ -20,6 +20,7 @@
 
 
 #include <iostream>
+#include <QPlainTextEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -42,6 +43,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QPlainTextEdit *m_text = nullptr;
+
 };
 
 

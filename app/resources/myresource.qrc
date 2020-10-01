@@ -1,4 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
+        <file>filenew.png</file>
+        <file>fileopen.png</file>
+        <file>filesave.png</file>
+        <file>editcopy.png</file>
     </qresource>
 </RCC>

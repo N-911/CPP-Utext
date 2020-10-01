@@ -18,6 +18,9 @@
 #include <QDir>
 #include <QToolBar>
 #include "src/mainwindow.h"
+#include <set>
+#include <unordered_set>
+#include "profile.h"
 
 
 using std::cout;
@@ -26,10 +29,31 @@ using std::endl;
 
 int main(int argc, char **argv)
 {
-    QApplication app(argc, argv);
-    MainWindow window;
-    window.show();
+//    QApplication app(argc, argv);
+//    MainWindow window;
+//    window.show();
 //    system("leaks -q utag");
 
-    return app.exec();
+    {
+        LOG_DURATION("Set");
+        std::set<std::string> s;
+        for (int i =0; i < 10'000'000; ++i)
+            s.insert("a");
+    }
+    {
+        LOG_DURATION("unord Set");
+        std::unordered_set<std::string> s;
+        for (int i =0; i < 10'000'000; ++i)
+            s.insert("a");
+    }
+
+
+    {
+        LOG_DURATION("String");
+        std::string s;
+        for (int i =0; i < 10'000'000; ++i) {
+            s.insert(s.size() - 1, "f");
+        }
+    }
+    return 0;
 }
