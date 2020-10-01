@@ -1,19 +1,14 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(utext VERSION 1.0 LANGUAGES CXX)
+#project(utext VERSION 1.0 LANGUAGES CXX)
 
-set(SOURCES
-        mainwindow.cpp
-
+set(SOURCES mainwindow.cpp
         )
 
 set(HEADERS mainwindow.h
         )
 
 set(UI mainwindow.ui)
-
-#link_directories(../../build/3dparty/taglib/)
-
 
 add_library(src ${SOURCES} ${HEADERS} ${UI})
 
