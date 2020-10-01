@@ -1,15 +1,15 @@
 # utext
 
 
-###Basic
+### Basic
 
-####The program window must consist of at least three parts:
+#### The program window must consist of at least three parts:
   * Toolbarshows control elements
   * Text areadisplays file content
   * Tree areashows directory and file structure
   
  
- ###General features:
+ ### General features:
  
  * open directories and single files
  •list opened directory files and subdirectories in the Tree area. 
@@ -30,7 +30,7 @@
   •horizontal and vertical scroll if the Text area is smaller than the content available
   * Error handling:
 
-###Creative
+### Creative
 
 выделение синтаксиса для исходного кода, языков разметки, файлов конфигурации и другого текста, 
 который отображается в организованном или предсказуемом формате
@@ -68,7 +68,7 @@
 
 
 
-###Resources
+### Resources
 
 
 UTEXT
