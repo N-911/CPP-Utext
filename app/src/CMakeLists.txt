@@ -8,7 +8,7 @@ set(SOURCES mainwindow.cpp
 set(HEADERS mainwindow.h
         )
 
-set(UI mainwindow.ui)
+set(UI mainwindow.ui rope.cpp rope.h rope_node.cpp rope_node.h)
 
 add_library(src ${SOURCES} ${HEADERS} ${UI})
 

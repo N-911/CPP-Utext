@@ -103,6 +103,9 @@ Memento design pattern :
 
 RESOURCES:
 
+
+http://citeseer.ist.psu.edu/viewdoc/download?doi=10.1.1.14.9450&rep=rep1&type=pdf
+
 https://www.mimuw.edu.pl/~rytter/BOOKS/text-algorithms.pdf
 
 
