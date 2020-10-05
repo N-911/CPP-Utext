@@ -42,6 +42,7 @@ int main(int argc, char **argv)
     TestRunner tr;
     RUN_TEST(tr, TestConstruct_from_two_nodes);
     RUN_TEST(tr, TestRopeAt);
+    RUN_TEST(tr, TestgetLenght);
 
     return 0;
 }
