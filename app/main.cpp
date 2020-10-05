@@ -3,6 +3,10 @@
 #include <string>
 
 #include "src/mainwindow.h"
+#include "src/test_runner.h"
+#include "src/rope_tests.h"
+
+
 
 #include <sys/stat.h>
 #include <dirent.h>
@@ -17,9 +21,9 @@
 #include <QStringList>
 #include <QDir>
 #include <QToolBar>
-#include "src/mainwindow.h"
 #include <set>
 #include <unordered_set>
+
 #include "profile.h"
 
 
@@ -34,26 +38,36 @@ int main(int argc, char **argv)
 //    window.show();
 //    system("leaks -q utag");
 
-    {
-        LOG_DURATION("Set");
-        std::set<std::string> s;
-        for (int i =0; i < 10'000'000; ++i)
-            s.insert("a");
-    }
-    {
-        LOG_DURATION("unord Set");
-        std::unordered_set<std::string> s;
-        for (int i =0; i < 10'000'000; ++i)
-            s.insert("a");
-    }
 
+    TestRunner tr;
+    RUN_TEST(tr, TestConstruct_from_two_nodes);
+    RUN_TEST(tr, TestRopeAt);
 
-    {
-        LOG_DURATION("String");
-        std::string s;
-        for (int i =0; i < 10'000'000; ++i) {
-            s.insert(s.size() - 1, "f");
-        }
-    }
     return 0;
 }
+
+
+/*
+{
+    LOG_DURATION("Set");
+    std::set<std::string> s;
+    for (int i =0; i < 10'000'000; ++i)
+        s.insert("a");
+}
+{
+    LOG_DURATION("unord Set");
+    std::unordered_set<std::string> s;
+    for (int i =0; i < 10'000'000; ++i)
+        s.insert("a");
+}
+
+
+{
+    LOG_DURATION("String");
+    std::string s;
+    for (int i =0; i < 10'000'000; ++i) {
+        s.insert(s.size() - 1, "f");
+    }
+}
+
+ */

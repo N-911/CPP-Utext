@@ -109,6 +109,9 @@ http://citeseer.ist.psu.edu/viewdoc/download?doi=10.1.1.14.9450&rep=rep1&type=pd
 https://www.mimuw.edu.pl/~rytter/BOOKS/text-algorithms.pdf
 
 
+https://medium.com/underrated-data-structures-and-algorithms/rope-data-structure-e623d7862137
+
+
 
 
 http://doc.crossplatform.ru/qt/4.7.x/demos-textedit.html

@@ -11,25 +11,30 @@ using std::string;
 class Rope {
 public:
 
-    Rope();
-    Rope(const string& _str);
-    Rope(const Rope& _rope);
+    Rope(); // default constructor
+    Rope(const string& _str); // constructor from string
+    Rope(const Rope& _rope);  // copy constructor
+
+    char at(size_t index) const;
+    string substring(size_t start_pos, size_t lenght) const;
 
 
+    // modify
+//    insert
+//    append
+//    delete
 
-    ~Rope();
 
-    string toString(void) const;
-
-    // operators
+    //// operators
 
     Rope& operator = (const Rope& rhs);
+
     bool operator == (const Rope& rhs);
     bool operator != (const Rope& rhs);
 
 
 private:
-    std::unique_ptr<Rope_node> root_node;
+    std::unique_ptr<Node> root_node;
 };
 
 
