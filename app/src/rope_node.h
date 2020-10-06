@@ -17,6 +17,8 @@ public:
 
     size_t getLength(void) const;
 
+    void insert();
+
     bool isLeft() const;
     bool isRight() const;
     bool isLeaf(void) const;

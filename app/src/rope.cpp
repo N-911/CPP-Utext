@@ -31,4 +31,22 @@ string Rope::substring(size_t start_pos, size_t lenght) const {
     return std::string();
 }
 
+void Rope::setWeight() {
+    if (this->root_node->isLeaf()) {
+    }
+}
+
+void Rope::join_rope(Rope rhs) {
+//    std::unique_ptr<Rope> new_root_node = std::make_unique<Rope>("");
+//    new_root_node->left
+
+}
+
+void Rope::insert(size_t index, Rope &_rope) {
+    if (root_node->isLeaf() && root_node->getLength() < index) {
+        throw std::invalid_argument ("index is out of range");
+    }
+
+}
+
 

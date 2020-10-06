@@ -7,7 +7,7 @@
 
 using std::string;
 
-void TestConstruct_from_two_nodes() {
+void Test_Node_Construct_from_two_nodes() {
     string str_1("Hello ");
     string str_2("world");
     string str_3(" node");
@@ -27,19 +27,31 @@ void TestConstruct_from_two_nodes() {
 //    ASSERT_EQUAL(node_3.at_node(12), 'w');
 }
 
-void TestgetLenght() {
-    string str_1("Hello ");
+void Test_Node_getLenght() {
+    string str_1("Helllo ");
     string str_2("world");
+    string str_3("right node ....");
 
     std::unique_ptr<Node> left1 = make_unique<Node>(str_1);
+    std::unique_ptr<Node> right2 = make_unique<Node>(str_3);
     std::unique_ptr<Node> right1 = make_unique<Node>(str_2);
-    Node two_node(move(left1), move(right1));
+    std::unique_ptr two_node = make_unique<Node>(move(left1), move(right1));
 
-    ASSERT_EQUAL(two_node.getLength(), 6u);
+    Node three_node(move(two_node), move(right2));
+
+    ASSERT_EQUAL(three_node.getLength(), 27u);
 
 }
 
-void TestRopeAt() {
+void Test_Node_copy_constructor() {
+
+    string str_1("New node");
+    std::unique_ptr<Node> left1 = make_unique<Node>(str_1);
+
+}
+
+
+void Test_Rope_At() {
     auto text = new Rope("qwerty");
     ASSERT_EQUAL(text->at(3), 'r');
 

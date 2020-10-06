@@ -6,8 +6,6 @@ Node::Node(const string &_str) : weight(_str.length()),
                                  right(nullptr) {
 }
 
-
-
 Node::Node(std::unique_ptr<Node> _left, std::unique_ptr<Node> _right)
                                                                 : str("") {
     this->left = move(_left);
@@ -16,7 +14,12 @@ Node::Node(std::unique_ptr<Node> _left, std::unique_ptr<Node> _right)
 }
 
 Node::Node(const Node &node) {
-
+    auto temp_left = node.left.get();
+    auto temp_right = node.right.get();
+    left = std::unique_ptr<Node>(temp_left);
+    right = std::unique_ptr<Node>(temp_right);
+    weight = left->getLength();
+    str = "";
 }
 
 
@@ -34,9 +37,14 @@ size_t Node::getLength(void) const {
 //    size_t tmp = (this->right == nullptr) ? 0 : this->right->getLength();
 //    return this->weight + tmp;
 
-    size_t temp_len;
-    temp_len = (this->left == nullptr) ? 0 : this->left->getLength();
-    return temp_len + weight;
+    size_t temp_len = 0;
+    if (this->left) {
+        temp_len += this->left->getLength();
+    }
+    if (this->right) {
+        temp_len += this->right->getLength();
+    }
+    return temp_len;
 }
 
 bool Node::isLeft() const {
@@ -56,7 +64,8 @@ char Node::at_node(size_t index) const {
         else {
             return str[index];
         }
-    } else {
+    }
+    else {
         if (index > this->weight && this->right) {
             return this->right->at_node(index - curr_weight);
         }
@@ -64,7 +73,6 @@ char Node::at_node(size_t index) const {
             return this->left->at_node(index);
         }
     }
-    return 0;
 }
 
 
