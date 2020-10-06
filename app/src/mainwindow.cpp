@@ -13,20 +13,27 @@ using std::endl;
 
 #define NAME(x) #x
 
-auto *test = new QPlainTextEdit();
+//auto *test = new QPlainTextEdit();
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_tabmg(new TabMenager()) {
     ui->setupUi(this);
+
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
                                  "}");
-    ui->tabWidget->addTab(test, NAME(test));
-//    QFont() font;
-//    font.
+//    QPlainTextEdit *textEdit = new QPlainTextEdit();;
+//    auto *test = new QPlainTextEdit();
+//    ui->tabWidget->addTab(test, NAME(test));
+
+//    QAction *openAct = new QAction( this);
+//    openAct->setShortcuts(QKeySequence::Open);
+//    openAct->setStatusTip(tr("Open an existing file"));
+//    connect(openAct, &QAction::triggered, this, &MainWindow::open);
+
 //    test->setTabStopDistance(4 * ' ');
-    test->setPlainText(QString::number(test->tabStopDistance()));
+//    test->setPlainText(QString::number(test->tabStopDistance()));
 //    ui->tabWidget->currentWidget()
 }
 
@@ -34,9 +41,13 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
+
 void MainWindow::on_actionOpen_triggered()
 {
-
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty()) {
+        loadFile(fileName);
+    }
 }
 
 void MainWindow::setCurrentFile(QString file_name) {
@@ -55,11 +66,15 @@ void MainWindow::loadFile(const QString &fileName) {
 #ifndef QT_NO_CURSOR
     QGuiApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    test->setPlainText(in.readAll());
+    auto *new_file = new QPlainTextEdit();
+    new_file->setPlainText(in.readAll());
+//    ui->tabWidget->addTab(new_file, NAME());
+    ui->tabWidget->addTab(new_file, fileName);
+
 #ifndef QT_NO_CURSOR
     QGuiApplication::restoreOverrideCursor();
 #endif
 
     setCurrentFile(fileName);
-    statusBar()->showMessage(tr("File loaded"), 2000);
+    statusBar()->showMessage(fileName + " loaded", 2000);
 }
