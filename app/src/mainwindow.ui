@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1300</width>
-    <height>625</height>
+    <height>805</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -53,7 +53,7 @@
      <height>0</height>
     </size>
    </property>
-   <layout class="QGridLayout" name="gridLayout_2">
+   <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,4">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -69,19 +69,58 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="0">
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="1">
-       <widget class="QPlainTextEdit" name="editingArea">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>500</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
+    <item row="1" column="0">
+     <widget class="QTreeWidget" name="treeWidget">
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabShape">
+       <enum>QTabWidget::Triangular</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideLeft</enum>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>

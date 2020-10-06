@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(./src/)
-include_directories(../cmake-build-debug/app/src/src_autogen/include)
+include_directories(../cmake-build-debug/app/src/src_autogen/include/ui_mainwindow.h)
 
 add_compile_options(
         -std=c++17

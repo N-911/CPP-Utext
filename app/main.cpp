@@ -33,18 +33,19 @@ using std::endl;
 
 int main(int argc, char **argv)
 {
-//    QApplication app(argc, argv);
-//    MainWindow window;
-//    window.show();
+    QApplication app(argc, argv);
+    MainWindow window;
+    window.show();
 
 
-    TestRunner tr;
-    RUN_TEST(tr, Test_Node_Construct_from_two_nodes);
-    RUN_TEST(tr, Test_Rope_At);
-    RUN_TEST(tr, Test_Node_getLenght);
+//    TestRunner tr;
+//    RUN_TEST(tr, Test_Node_Construct_from_two_nodes);
+//    RUN_TEST(tr, Test_Rope_At);
+//    RUN_TEST(tr, Test_Node_getLenght);
 
-    system("leaks -q utag");
-    return 0;
+//    system("leaks -q utag");
+//    return 0;
+    return app.exec();
 }
 
 

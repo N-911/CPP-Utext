@@ -16,11 +16,8 @@
 #include <QMediaMetaData>
 #include <QMetaDataReaderControl>
 #include <QToolBar>
-
-
-
 #include <iostream>
-#include <QPlainTextEdit>
+#include "tabmenager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -43,8 +40,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QPlainTextEdit *m_text = nullptr;
-
+    TabMenager *m_tabmg;
 };
 
 
