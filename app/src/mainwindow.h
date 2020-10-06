@@ -36,11 +36,23 @@ public:
 
     ~MainWindow() override;
 
+    void loadFile(const QString &fileName);
+    void setCurrentFile(QString file_name);
+
 private slots:
+
+        void newFile(){};
+        void open(){};
+        bool save(){};
+
+
+        void on_actionOpen_triggered();
 
 private:
     Ui::MainWindow *ui;
     TabMenager *m_tabmg;
+//    QPlainTextEdit *textEdit;
+    QString curFile;
 };
 
 

@@ -187,10 +187,6 @@
    </property>
   </action>
   <action name="actionOpen">
-   <property name="icon">
-    <iconset>
-     <normaloff>../resources/fileopen.png</normaloff>../resources/fileopen.png</iconset>
-   </property>
    <property name="text">
     <string>Open ...</string>
    </property>
