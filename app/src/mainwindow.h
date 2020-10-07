@@ -37,11 +37,10 @@ public:
     ~MainWindow() override;
 
 private slots:
-//        void newFile(){};
-//        bool save(){};
         void on_actionOpen_triggered();
         void on_tabWidget_tabCloseRequested(int index);
         void on_actionNew_file_triggered();
+        void on_actionSave_triggered();
 
 private:
     Ui::MainWindow *ui;

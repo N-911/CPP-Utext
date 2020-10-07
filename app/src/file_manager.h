@@ -20,14 +20,14 @@ public:
 //    ~FileManager();
 
     void loadFile(const QString &fileName);
-//    bool saveFile(const QString &fileName);
+    void close_file();
+    bool saveFile(const QString &fileName);
 
 private:
 
-//    bool saveFile(const QString &fileName);
-
     void setCurrentFile(QWidget *current_file);
     std::map<QString, QWidget *> m_load_files;
+    std::map<size_t, QWidget *> m_load2_files;
     QWidget *m_current_file;
     Ui::MainWindow *m_parent;
 };

@@ -19,7 +19,6 @@ FileManager::FileManager(Ui::MainWindow *parent) : m_parent(parent) {
 void FileManager::loadFile(const QString &fileName) {
     // если файл уже открыт
     if (m_load_files.count(fileName) != 0) {
-        m_parent->tabWidget->setCurrentWidget(m_load_files[fileName]);
         m_parent->tabWidget->setCurrentWidget(m_load_files[fileName]);  // делаем окно текущим
         setCurrentFile(m_load_files[fileName]);
         return;
@@ -66,38 +65,41 @@ void FileManager::setCurrentFile(QWidget *current_file) {
 //    curFile = file_name;
 //}
 
-//bool FileManager::saveFile(const QString &fileName) {
-//    QString errorMessage;
-//
-//    QGuiApplication::setOverrideCursor(Qt::WaitCursor);
-//
-//    QSaveFile file(fileName);
-//
-//    if (file.open(QFile::WriteOnly | QFile::Text)) {
-//        QTextStream out(&file);
-//
-//        auto text_to_save = qobject_cast<QPlainTextEdit>(m_parent->tabWidget->currentWidget());
-//
-//        out << text_to_save.toPlainText();
-//
-////        textEdit->toPlainText();
-//        if (!file.commit()) {
-//            errorMessage = ("Cannot write file %1:\n%2.")
-//                    .arg(QDir::toNativeSeparators(fileName), file.errorString());
-//        }
-//    } else {
-//        errorMessage = ("Cannot open file %1 for writing:\n%2.")
-//                .arg(QDir::toNativeSeparators(fileName), file.errorString());
-//    }
-//    QGuiApplication::restoreOverrideCursor();
-//
-//    if (!errorMessage.isEmpty()) {
-//        QMessageBox::warning(this, "Application", errorMessage);
-//        return false;
-//    }
-//
-////    setCurrentFile(fileName);
-//    m_parent->statusbar->showMessage("File saved", 2000);
-//    return true;
-//}
+/*
+bool FileManager::saveFile(const QString &fileName) {
+    QString errorMessage;
 
+    QGuiApplication::setOverrideCursor(Qt::WaitCursor);
+
+    QSaveFile file(fileName);
+
+    if (file.open(QFile::WriteOnly | QFile::Text)) {
+        QTextStream out(&file);
+
+        auto text_to_save = qobject_cast<QPlainTextEdit>(m_parent->tabWidget->currentWidget());
+
+        out << text_to_save.toPlainText();
+
+//        textEdit->toPlainText();
+        if (!file.commit()) {
+            errorMessage = (QString("Cannot write file %1:\n%2.").arg(QDir::toNativeSeparators(fileName), file.errorString()));
+        }
+    } else {
+        errorMessage = (QString("Cannot open file %1 for writing:\n%2.").arg(QDir::toNativeSeparators(fileName), file.errorString()));
+    }
+    QGuiApplication::restoreOverrideCursor();
+
+    if (!errorMessage.isEmpty()) {
+        const QMessageBox::StandardButton ret = QMessageBox::warning(this, "Application", errorMessage);
+        return false;
+    }
+
+//    setCurrentFile(fileName);
+    m_parent->statusbar->showMessage("File saved", 2000);
+    return true;
+}
+*/
+
+void FileManager::close_file() {
+
+}
