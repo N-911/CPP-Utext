@@ -18,10 +18,8 @@ using std::endl;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-        m_open_files = new FileManager(ui);
-
+    m_open_files = new FileManager(ui);
     m_tabmg = new TabMenager(ui->tabWidget);
-
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
 
@@ -48,8 +46,6 @@ void MainWindow::on_actionOpen_triggered()
         m_open_files->loadFile(fileName);
     }
 }
-
-
 
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {

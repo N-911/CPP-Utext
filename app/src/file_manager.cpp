@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QPlainTextEdit>
+
 #include "ui_mainwindow.h"
 
 
@@ -28,8 +29,8 @@ void FileManager::loadFile(const QString &fileName) {
     QFileInfo info_file(fileName);
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-//        QMessageBox::warning (this, "Application",
-//                             QString("Cannot read file %1:\n%2.").arg(QDir::toNativeSeparators(fileName), file.errorString()));
+      QMessageBox::warning (0, "Application",
+                             QString("Cannot read file %1:\n%2.").arg(QDir::toNativeSeparators(fileName), file.errorString()));
         m_parent->statusbar->showMessage(QString("Cannot read file %1:\n%2.").arg(QDir::toNativeSeparators(fileName),
                                                                                   file.errorString()), 2000);
         return;
@@ -65,6 +66,7 @@ void FileManager::setCurrentFile(QWidget *current_file) {
 //    curFile = file_name;
 //}
 
+
 /*
 bool FileManager::saveFile(const QString &fileName) {
     QString errorMessage;
@@ -76,7 +78,10 @@ bool FileManager::saveFile(const QString &fileName) {
     if (file.open(QFile::WriteOnly | QFile::Text)) {
         QTextStream out(&file);
 
-        auto text_to_save = qobject_cast<QPlainTextEdit>(m_parent->tabWidget->currentWidget());
+      auto *text_to_save = new QPlainTextEdit();
+
+//      text_edit_file->setPlainText= qobject_cast<QPlainTextEdit>(m_parent->tabWidget->currentWidget());
+
 
         out << text_to_save.toPlainText();
 
@@ -90,7 +95,7 @@ bool FileManager::saveFile(const QString &fileName) {
     QGuiApplication::restoreOverrideCursor();
 
     if (!errorMessage.isEmpty()) {
-        const QMessageBox::StandardButton ret = QMessageBox::warning(this, "Application", errorMessage);
+        const QMessageBox::StandardButton ret = QMessageBox::warning(0, "Application", errorMessage);
         return false;
     }
 
@@ -99,6 +104,7 @@ bool FileManager::saveFile(const QString &fileName) {
     return true;
 }
 */
+
 
 void FileManager::close_file() {
 
