@@ -11,9 +11,11 @@ public:
     explicit TabWelcome(QWidget *parent = nullptr);
     virtual ~TabWelcome();
 
-signals:
-
 public slots:
+    virtual void paintEvent(QPaintEvent *event) override;
+
+private:
+    QLabel *l_welcome;
 };
 
 #endif // TABWELCOME_H
