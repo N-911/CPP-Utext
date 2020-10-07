@@ -45,8 +45,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    TabMenager *m_tabmg;
     FileManager *m_open_files;
+    TabMenager *m_tabmg = nullptr;
+
 //    QPlainTextEdit *textEdit;
 //    QString curFile;
 };

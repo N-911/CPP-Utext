@@ -8,6 +8,7 @@ set(SOURCES mainwindow.cpp
         rope_tests.cpp
         tabmenager.cpp
         file_manager.cpp
+        tabwelcome.cpp
         )
 
 set(HEADERS mainwindow.h
@@ -17,6 +18,7 @@ set(HEADERS mainwindow.h
         rope_tests.h
         tabmenager.h
         file_manager.h
+        tabwelcome.h
         )
 
 set(UI mainwindow.ui)

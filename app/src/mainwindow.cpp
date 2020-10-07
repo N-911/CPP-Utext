@@ -7,6 +7,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "file_manager.h"
+#include "tabwelcome.h"
 
 
 using std::cout;
@@ -14,24 +15,17 @@ using std::endl;
 
 #define NAME(x) #x
 
-//auto *test = new QPlainTextEdit();
-
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_tabmg(new TabMenager()) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    auto start_tab = new QWidget();
+        m_open_files = new FileManager(ui);
 
-    m_open_files = new FileManager(ui);
-
-    ui->tabWidget->setTabsClosable(true);
-
-    ui->tabWidget->addTab(start_tab, NAME(start page));
+    m_tabmg = new TabMenager(ui->tabWidget);
 
     ui->tabWidget->removeTab(0);
-    ui->tabWidget->removeTab(1);
+    ui->tabWidget->removeTab(0);
 
-//    setCentralWidget(ui->start_tab);
-
+//    ui->tabWidget->addTab(new TabWelcome(ui->tabWidget), "Hello");
 
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
