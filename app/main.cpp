@@ -37,39 +37,13 @@ int main(int argc, char **argv)
     MainWindow window;
     window.show();
 
-
 //    TestRunner tr;
 //    RUN_TEST(tr, Test_Node_Construct_from_two_nodes);
 //    RUN_TEST(tr, Test_Rope_At);
 //    RUN_TEST(tr, Test_Node_getLenght);
 
-//    system("leaks -q utag");
+//    system("leaks -q utext");
 //    return 0;
     return app.exec();
 }
 
-
-/*
-{
-    LOG_DURATION("Set");
-    std::set<std::string> s;
-    for (int i =0; i < 10'000'000; ++i)
-        s.insert("a");
-}
-{
-    LOG_DURATION("unord Set");
-    std::unordered_set<std::string> s;
-    for (int i =0; i < 10'000'000; ++i)
-        s.insert("a");
-}
-
-
-{
-    LOG_DURATION("String");
-    std::string s;
-    for (int i =0; i < 10'000'000; ++i) {
-        s.insert(s.size() - 1, "f");
-    }
-}
-
- */
