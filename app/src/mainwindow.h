@@ -18,6 +18,7 @@
 #include <QToolBar>
 #include <iostream>
 #include "tabmenager.h"
+#include "file_manager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,18 +34,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 
-
     ~MainWindow() override;
 
-    void loadFile(const QString &fileName);
-    void setCurrentFile(QString file_name);
-
 private slots:
-
-        void newFile(){};
-        bool save(){};
-
-
+//        void newFile(){};
+//        bool save(){};
         void on_actionOpen_triggered();
         void on_tabWidget_tabCloseRequested(int index);
         void on_actionNew_file_triggered();
@@ -52,9 +46,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     TabMenager *m_tabmg;
-
+    FileManager *m_open_files;
 //    QPlainTextEdit *textEdit;
-    QString curFile;
+//    QString curFile;
 };
 
 
