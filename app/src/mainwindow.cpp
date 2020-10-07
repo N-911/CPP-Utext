@@ -19,6 +19,17 @@ using std::endl;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), m_tabmg(new TabMenager()) {
     ui->setupUi(this);
 
+    auto start_tab = new QWidget();
+    ui->tabWidget->setTabsClosable(true);
+
+    ui->tabWidget->addTab(start_tab, NAME(start page));
+
+    ui->tabWidget->removeTab(0);
+    ui->tabWidget->removeTab(1);
+
+//    setCentralWidget(ui->start_tab);
+
+
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
@@ -56,6 +67,7 @@ void MainWindow::setCurrentFile(QString file_name) {
 
 void MainWindow::loadFile(const QString &fileName) {
     QFile file(fileName);
+    QFileInfo info_file(fileName);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         QMessageBox::warning(this, "Application",
                             QString("Cannot read file %1:\n%2.").arg(QDir::toNativeSeparators(fileName), file.errorString()));
@@ -68,8 +80,7 @@ void MainWindow::loadFile(const QString &fileName) {
 #endif
     auto *new_file = new QPlainTextEdit();
     new_file->setPlainText(in.readAll());
-//    ui->tabWidget->addTab(new_file, NAME());
-    ui->tabWidget->addTab(new_file, fileName);
+    ui->tabWidget->addTab(new_file, info_file.fileName());
 
 #ifndef QT_NO_CURSOR
     QGuiApplication::restoreOverrideCursor();
@@ -77,4 +88,16 @@ void MainWindow::loadFile(const QString &fileName) {
 
     setCurrentFile(fileName);
     statusBar()->showMessage(fileName + " loaded", 2000);
+}
+
+void MainWindow::on_tabWidget_tabCloseRequested(int index)
+{
+
+    ui->tabWidget->removeTab(index);
+}
+
+void MainWindow::on_actionNew_file_triggered()
+{
+    auto untitled = new QWidget();
+ui->tabWidget->addTab(untitled, NAME(untitled));
 }

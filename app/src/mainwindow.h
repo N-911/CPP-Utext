@@ -46,10 +46,13 @@ private slots:
 
 
         void on_actionOpen_triggered();
+        void on_tabWidget_tabCloseRequested(int index);
+        void on_actionNew_file_triggered();
 
 private:
     Ui::MainWindow *ui;
     TabMenager *m_tabmg;
+
 //    QPlainTextEdit *textEdit;
     QString curFile;
 };
