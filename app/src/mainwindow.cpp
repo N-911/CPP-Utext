@@ -8,6 +8,7 @@
 #include "ui_mainwindow.h"
 #include "file_manager.h"
 #include "tabwelcome.h"
+#include "loggingcategories.h"
 #include <iostream>
 
 
@@ -61,16 +62,19 @@ void MainWindow::on_actionNew_file_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
+    qInfo(logInfo()) << "action save";
     m_open_files->save();
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
+    qInfo(logInfo()) << "action saveAs";
     m_open_files->saveAs();
 }
 
 void MainWindow::on_actionClose_Tab_triggered()
 {
+    qInfo(logInfo()) << "action on_actionClose_Tab_triggered";
     int index = ui->tabWidget->currentIndex();
     m_open_files->closeFile(index);
     ui->tabWidget->removeTab(index);
