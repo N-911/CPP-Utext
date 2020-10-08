@@ -24,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
 
-//    ui->tabWidget->addTab(new TabWelcome(ui->tabWidget), "Hello");
-
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
@@ -39,7 +37,6 @@ MainWindow::~MainWindow() {
     system("leaks -q utext");
 }
 
-
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this);
@@ -52,9 +49,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     // click on icon close tab file
     // set tab-file current
-    ui->tabWidget->setCurrentIndex(index);
-//    QString currentTabText = ui->tabWidget->tabText(index);
-//    auto current_widget = ui->tabWidget->currentWidget();
+    ui->tabWidget->setCurrentIndex(index);  // !!!!
     m_open_files->closeFile(index);
     ui->tabWidget->removeTab(index);
 }
@@ -62,7 +57,6 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 void MainWindow::on_actionNew_file_triggered()
 {
     m_open_files->newFile();
-
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -73,4 +67,11 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::on_actionSave_as_triggered()
 {
     m_open_files->saveAs();
+}
+
+void MainWindow::on_actionClose_Tab_triggered()
+{
+    int index = ui->tabWidget->currentIndex();
+    m_open_files->closeFile(index);
+    ui->tabWidget->removeTab(index);
 }

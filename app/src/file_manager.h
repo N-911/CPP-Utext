@@ -17,25 +17,24 @@ class FileManager {
 public:
     FileManager(Ui::MainWindow *parent);
 
-//    ~FileManager();
-
     void loadFile(const QString &fullFileName);
 
-    void closeFile(int index);
+    void newFile();
     bool save();
     bool saveAs();
     bool isChanged();
-    void newFile();
+    void closeFile(int index);
+
+
+private slots:
+
 
 private:
-
     QString strippedName(const QString &fullFileName);
     bool saveFile(const QString &fileName);
-    void setCurrentFile(QWidget *current_file);
+//    void setCurrentFile(QWidget *current_file);
 
     std::map<QString, QWidget *> m_load_files;
-    std::map<size_t, QString> m_load2_files;
-
     QWidget *m_current_file;
     Ui::MainWindow *m_file_widget;
 };
