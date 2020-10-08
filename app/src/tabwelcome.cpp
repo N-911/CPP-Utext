@@ -8,7 +8,7 @@ TabWelcome::TabWelcome(QWidget *parent) : QWidget(parent)
 {
     l_welcome = new QLabel(this);
     l_welcome->setText("Welcome!!!");
-    std::cout << "AAAAAA" << std::endl;
+//    std::cout << "AAAAAA" << std::endl;
 }
 
 
@@ -20,7 +20,7 @@ TabWelcome::~TabWelcome()
 
 void TabWelcome::paintEvent(QPaintEvent *event) {
     QPainter painter{this};
-    std::cout << "BBBBBBBBB" << std::endl;
+//    std::cout << "BBBBBBBBB" << std::endl;
 
     painter.setRenderHint(QPainter::Antialiasing);
 //    painter.save();

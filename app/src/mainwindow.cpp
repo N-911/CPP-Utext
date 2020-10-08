@@ -8,6 +8,7 @@
 #include "ui_mainwindow.h"
 #include "file_manager.h"
 #include "tabwelcome.h"
+#include <iostream>
 
 
 using std::cout;
@@ -50,20 +51,26 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     // click on icon close tab file
-
-    m_open_files->close_file();
+    // set tab-file current
+    ui->tabWidget->setCurrentIndex(index);
+//    QString currentTabText = ui->tabWidget->tabText(index);
+//    auto current_widget = ui->tabWidget->currentWidget();
+    m_open_files->closeFile(index);
     ui->tabWidget->removeTab(index);
 }
 
 void MainWindow::on_actionNew_file_triggered()
 {
-    auto untitled = new QWidget();
-    auto index = ui->tabWidget->addTab(untitled, NAME(untitled));
-    ui->tabWidget->setCurrentIndex(index);
+    m_open_files->newFile();
+
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-//    QString fileName =
+    m_open_files->save();
+}
 
+void MainWindow::on_actionSave_as_triggered()
+{
+    m_open_files->saveAs();
 }
