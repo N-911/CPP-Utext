@@ -46,6 +46,10 @@ private slots:
         void on_actionClose_Tab_triggered();
 
 private:
+
+    void readSettings();
+    void writeSettings();
+
     Ui::MainWindow *ui;
     FileManager *m_open_files;
     TabMenager *m_tabmg = nullptr;

@@ -25,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
 
+//    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
+//    QAction *newAct = new QAction(newIcon, tr("&New"), this);
+//    ui->toolBar->addAction(newAct);
+
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
@@ -79,4 +83,8 @@ void MainWindow::on_actionClose_Tab_triggered()
     int index = ui->tabWidget->currentIndex();
     m_open_files->closeFile(index);
     ui->tabWidget->removeTab(index);
+}
+
+void MainWindow::readSettings() {
+
 }

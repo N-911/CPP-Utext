@@ -33,23 +33,20 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 int main(int argc, char **argv)
 {
 //    / Устанавливаем файл логирования,
-//    m_logFile.reset(new QFile("/Users/snikolayen/CPP-Utext/logFile.txt"));
     m_logFile.reset(new QFile("../../app/logFile.txt"));
     m_logFile.data()->open(QFile::Append | QFile::Text);
     // Устанавливаем обработчик. To restore the message handler, call qInstallMessageHandler(0).
     qInstallMessageHandler(messageHandler);
 
     QApplication app(argc, argv);
+    // app settings
+    QCoreApplication::setOrganizationName("Ucode");
+    QCoreApplication::setApplicationName("Utext");
+    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
     MainWindow window;
     window.show();
 
-//    TestRunner tr;
-//    RUN_TEST(tr, Test_Node_Construct_from_two_nodes);
-//    RUN_TEST(tr, Test_Rope_At);
-//    RUN_TEST(tr, Test_Node_getLenght);
-
 //    system("leaks -q utext");
-//    return 0;
     return app.exec();
 }
 
@@ -83,3 +80,11 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     }
     out.flush();    // Очищаем буферизированные данные
 }
+
+
+//////////=========
+
+//    TestRunner tr;
+//    RUN_TEST(tr, Test_Node_Construct_from_two_nodes);
+//    RUN_TEST(tr, Test_Rope_At);
+//    RUN_TEST(tr, Test_Node_getLenght);
