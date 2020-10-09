@@ -270,7 +270,12 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNew_file"/>
    <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionSave_as"/>
+   <addaction name="actionSave_All"/>
+   <addaction name="actionQuit_Utext"/>
   </widget>
   <action name="actionAbout_Utext">
    <property name="text">

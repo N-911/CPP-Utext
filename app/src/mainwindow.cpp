@@ -53,6 +53,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     ui->tabWidget->setCurrentIndex(index);  // !!!!
     m_open_files->closeFile(index);
     ui->tabWidget->removeTab(index);
+    qDebug(log_text_window()) << "action on_actionClose_Tab_triggered";
 }
 
 void MainWindow::on_actionNew_file_triggered()
@@ -62,19 +63,19 @@ void MainWindow::on_actionNew_file_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    qInfo(logInfo()) << "action save";
+    qDebug(log_text_window()) << "cmd + S";
     m_open_files->save();
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-    qInfo(logInfo()) << "action saveAs";
+    qDebug(log_text_window()) << "shft + cmd + S";
     m_open_files->saveAs();
 }
 
 void MainWindow::on_actionClose_Tab_triggered()
 {
-    qInfo(logInfo()) << "action on_actionClose_Tab_triggered";
+    qDebug(log_text_window()) << "cmd + W";
     int index = ui->tabWidget->currentIndex();
     m_open_files->closeFile(index);
     ui->tabWidget->removeTab(index);

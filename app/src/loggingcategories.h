@@ -7,6 +7,7 @@ Q_DECLARE_LOGGING_CATEGORY(logDebug)
 Q_DECLARE_LOGGING_CATEGORY(logInfo)
 Q_DECLARE_LOGGING_CATEGORY(logWarning)
 Q_DECLARE_LOGGING_CATEGORY(logCritical)
+Q_DECLARE_LOGGING_CATEGORY(log_text_window)
 
 //class loggingcategories {
 //

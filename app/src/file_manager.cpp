@@ -1,4 +1,6 @@
+#include "ui_mainwindow.h"
 #include "file_manager.h"
+#include "loggingcategories.h"
 
 #include <QDir>
 #include <QFile>
@@ -10,8 +12,6 @@
 #include <iostream>
 #include <QFileDialog>
 
-#include "ui_mainwindow.h"
-
 
 FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent) {
 }
@@ -19,6 +19,7 @@ FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent) {
 void FileManager::loadFile(const QString &fullFileName) {
     // если файл уже открыт
     if (m_load_files.count(fullFileName) != 0) {
+        qInfo(logInfo()) << QString("file %1 was already been open ").arg(QFileInfo(fullFileName).fileName());
         m_file_widget->tabWidget->setCurrentWidget(m_load_files[fullFileName]);  // делаем окно текущим
 //        setCurrentFile(m_load_files[fullFileName]);
         return;

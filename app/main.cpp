@@ -1,13 +1,12 @@
-#include <iomanip>
-#include <iostream>
-#include <string>
-
 #include "src/mainwindow.h"
 #include "src/test_runner.h"
 #include "src/rope_tests.h"
+#include "profile.h"
+#include "loggingcategories.h"
 
-
-
+#include <iomanip>
+#include <iostream>
+#include <string>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <QApplication>
@@ -24,9 +23,6 @@
 #include <set>
 #include <unordered_set>
 
-#include "profile.h"
-#include "loggingcategories.h"
-
 QScopedPointer<QFile>   m_logFile;
 
 using std::cout;
@@ -37,11 +33,10 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 int main(int argc, char **argv)
 {
 //    / Устанавливаем файл логирования,
-    // внимательно сверьтесь с тем, какой используете путь для файла
-    m_logFile.reset(new QFile("/Users/snikolayen/CPP-Utext/logFile.txt"));
-    // Открываем файл логирования
+//    m_logFile.reset(new QFile("/Users/snikolayen/CPP-Utext/logFile.txt"));
+    m_logFile.reset(new QFile("../../app/logFile.txt"));
     m_logFile.data()->open(QFile::Append | QFile::Text);
-    // Устанавливаем обработчик
+    // Устанавливаем обработчик. To restore the message handler, call qInstallMessageHandler(0).
     qInstallMessageHandler(messageHandler);
 
     QApplication app(argc, argv);
@@ -60,21 +55,31 @@ int main(int argc, char **argv)
 
 void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    // Открываем поток записи в файл
     QTextStream out(m_logFile.data());
-    // Записываем дату записи
+
+    // Записываем дату запис
     out << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ");
-    // По типу определяем, к какому уровню относится сообщение
-    switch (type)
-    {
-        case QtInfoMsg:     out << "INF "; break;
-        case QtDebugMsg:    out << "DBG "; break;
-        case QtWarningMsg:  out << "WRN "; break;
-        case QtCriticalMsg: out << "CRT "; break;
-        case QtFatalMsg:    out << "FTL "; break;
+
+    QByteArray localMsg = msg.toLocal8Bit();
+    const char *file = context.file ? context.file : "";
+    const char *function = context.function ? context.function : "";
+
+    switch (type) {
+        case QtDebugMsg:
+            out << QString("Debug: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            break;
+        case QtInfoMsg:
+            out << QString("Info: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            break;
+        case QtWarningMsg:
+            out << QString("Warning: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            break;
+        case QtCriticalMsg:
+            out << QString("Critical: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            break;
+        case QtFatalMsg:
+            out << QString("Fatal: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            break;
     }
-    // Записываем в вывод категорию сообщения и само сообщение
-    out << context.category << ": "
-        << msg << endl;
     out.flush();    // Очищаем буферизированные данные
 }
