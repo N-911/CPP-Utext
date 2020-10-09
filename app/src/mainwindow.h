@@ -17,6 +17,7 @@
 #include <QMetaDataReaderControl>
 #include <QToolBar>
 #include <iostream>
+#include <deque>
 #include "tabmenager.h"
 #include "file_manager.h"
 
@@ -44,6 +45,7 @@ private slots:
         void on_actionSave_as_triggered();
 
         void on_actionClose_Tab_triggered();
+        void on_actionQuit_Utext_triggered();
 
 private:
 
@@ -53,6 +55,9 @@ private:
     Ui::MainWindow *ui;
     FileManager *m_open_files;
     TabMenager *m_tabmg = nullptr;
+
+
+
 //    QPlainTextEdit *textEdit;
 //    QString curFile;
 };

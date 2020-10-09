@@ -40,9 +40,18 @@ int main(int argc, char **argv)
 
     QApplication app(argc, argv);
     // app settings
+
+
     QCoreApplication::setOrganizationName("Ucode");
     QCoreApplication::setApplicationName("Utext");
-    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
+    QSettings settings;
+//    settings.setValue("mainwindow/size", win->size());
+
+
+    QCoreApplication::setApplicationVersion("1.0");
+
+    cout << "application dir path ="  << QCoreApplication::applicationDirPath().toStdString() << std::endl;
+    cout << "application file path ="  << QCoreApplication::applicationFilePath().toStdString() << std::endl;
     MainWindow window;
     window.show();
 

@@ -126,6 +126,7 @@ bool FileManager::isChanged() {
 
 void FileManager::newFile() {
     m_file_widget->statusbar->showMessage("newFile", 2000);
+//    auto new_file = std::make_unique<QPlainTextEdit>();
     auto *new_file = new QPlainTextEdit();
 
     // делаем новое окно текущим

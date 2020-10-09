@@ -5,6 +5,7 @@
 #include <QWidget>
 
 #include <map>
+#include <deque>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -32,10 +33,13 @@ private slots:
 private:
     QString strippedName(const QString &fullFileName);
     bool saveFile(const QString &fileName);
-//    void setCurrentFile(QWidget *current_file);
 
+//    void setCurrentFile(QWidget *current_file);
+//    QWidget *m_current_file;
     std::map<QString, QWidget *> m_load_files;
-    QWidget *m_current_file;
+
+    std::deque<QString> last_files;
+
     Ui::MainWindow *m_file_widget;
 };
 
