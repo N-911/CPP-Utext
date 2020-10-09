@@ -55,11 +55,6 @@ private:
     Ui::MainWindow *ui;
     FileManager *m_open_files;
     TabMenager *m_tabmg = nullptr;
-
-
-
-//    QPlainTextEdit *textEdit;
-//    QString curFile;
 };
 
 

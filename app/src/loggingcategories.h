@@ -9,9 +9,4 @@ Q_DECLARE_LOGGING_CATEGORY(logWarning)
 Q_DECLARE_LOGGING_CATEGORY(logCritical)
 Q_DECLARE_LOGGING_CATEGORY(log_text_window)
 
-//class loggingcategories {
-//
-//};
-
-
 #endif //UTEXT_LOGGINGCATEGORIES_H

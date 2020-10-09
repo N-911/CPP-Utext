@@ -40,14 +40,8 @@ int main(int argc, char **argv)
 
     QApplication app(argc, argv);
     // app settings
-
-
     QCoreApplication::setOrganizationName("Ucode");
     QCoreApplication::setApplicationName("Utext");
-    QSettings settings;
-//    settings.setValue("mainwindow/size", win->size());
-
-
     QCoreApplication::setApplicationVersion("1.0");
 
     cout << "application dir path ="  << QCoreApplication::applicationDirPath().toStdString() << std::endl;
@@ -63,7 +57,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 {
     QTextStream out(m_logFile.data());
 
-    // Записываем дату запис
+    // write data
     out << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ");
 
     QByteArray localMsg = msg.toLocal8Bit();
