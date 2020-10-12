@@ -20,8 +20,10 @@ using std::endl;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    m_open_files = new FileManager(ui);
-    m_tabmg = new TabMenager(ui->tabWidget);
+    qInfo(logInfo()) << QString("    start Utext\n");
+
+    m_file_manager = new FileManager(ui);
+//    m_tabmg = new TabMenager(ui->tabWidget);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
 
@@ -41,50 +43,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete m_file_manager;
+
     system("leaks -q utext");
-}
-
-void MainWindow::on_actionOpen_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(this);
-    if (!fileName.isEmpty()) {
-        m_open_files->loadFile(fileName);
-    }
-}
-
-void MainWindow::on_tabWidget_tabCloseRequested(int index)
-{
-    // click on icon close tab file
-    // set tab-file current
-    ui->tabWidget->setCurrentIndex(index);  // !!!!
-    m_open_files->closeFile(index);
-    ui->tabWidget->removeTab(index);
-    qDebug(log_text_window()) << "action on_actionClose_Tab_triggered";
-}
-
-void MainWindow::on_actionNew_file_triggered()
-{
-    m_open_files->newFile();
-}
-
-void MainWindow::on_actionSave_triggered()
-{
-    qDebug(log_text_window()) << "cmd + S";
-    m_open_files->save();
-}
-
-void MainWindow::on_actionSave_as_triggered()
-{
-    qDebug(log_text_window()) << "shft + cmd + S";
-    m_open_files->saveAs();
-}
-
-void MainWindow::on_actionClose_Tab_triggered()
-{
-    qDebug(log_text_window()) << "cmd + W";
-    int index = ui->tabWidget->currentIndex();
-    m_open_files->closeFile(index);
-    ui->tabWidget->removeTab(index);
 }
 
 void MainWindow::readSettings() {
@@ -106,7 +67,80 @@ void MainWindow::writeSettings() {
     settings.setValue("geometry", saveGeometry());
 }
 
+void MainWindow::on_actionOpen_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty()) {
+        m_file_manager->loadFile(fileName);
+    }
+}
+
+void MainWindow::on_tabWidget_tabCloseRequested(int index)
+{
+    // click on icon close tab file
+    // set tab-file current
+    ui->tabWidget->setCurrentIndex(index);  // !!!!
+    m_file_manager->closeFile(index);
+    ui->tabWidget->removeTab(index);
+    qDebug(log_text_window()) <<  "MainWindow::on_tabWidget_tabCloseRequested close tab " << index << "\n";
+}
+
+void MainWindow::on_actionNew_file_triggered()
+{
+    m_file_manager->newFile();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    if (ui->tabWidget->count() == 0) {
+        return;
+    }
+    qDebug(log_text_window()) << "MainWindow::on_actionSave_triggered";
+    m_file_manager->save();
+}
+
+void MainWindow::on_actionSave_as_triggered()
+{
+    qDebug(log_text_window()) << "MainWindow::on_actionSave_as_triggered";
+    m_file_manager->saveAs();
+}
+
+void MainWindow::on_actionClose_Tab_triggered()
+{
+    //   cmd + W
+    int index = ui->tabWidget->currentIndex();
+    qDebug(log_text_window()) << "MainWindow::on_actionClose_Tab_triggered close tab " << index << "\n";
+    if (index >= 0) {
+        m_file_manager->closeFile(index);
+        ui->tabWidget->removeTab(index);
+    }
+}
+
 void MainWindow::on_actionQuit_Utext_triggered()
 {
+    // cmd + q
     writeSettings();
+    qInfo(logInfo()) << QString("    end Utext\n");
 }
+
+void MainWindow::on_actionSave_All_triggered()
+{
+    m_file_manager->saveAll();
+}
+
+void MainWindow::on_actionNex_Tab_triggered()
+{
+    int index = (ui->tabWidget->currentIndex() + 1) < ui->tabWidget->count() ? ui->tabWidget->currentIndex() + 1 :
+                ui->tabWidget->currentIndex() + 1 - ui->tabWidget->count();
+    qDebug(logDebug()) << QString("set  %1 tab index").arg(index);
+    ui->tabWidget->setCurrentIndex(index);
+}
+
+void MainWindow::on_actionSelect_Previous_tab_triggered()
+{
+    int index = ui->tabWidget->currentIndex() > 0 ? ui->tabWidget->currentIndex() - 1:
+                ui->tabWidget->currentIndex() + ui->tabWidget->count() - 1;
+    qDebug(logDebug()) << QString("set  %1 tab index").arg(index);
+    ui->tabWidget->setCurrentIndex(index);
+}
+

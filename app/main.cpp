@@ -44,8 +44,9 @@ int main(int argc, char **argv)
     QCoreApplication::setApplicationName("Utext");
     QCoreApplication::setApplicationVersion("1.0");
 
-    cout << "application dir path ="  << QCoreApplication::applicationDirPath().toStdString() << std::endl;
-    cout << "application file path ="  << QCoreApplication::applicationFilePath().toStdString() << std::endl;
+//    cout << "application dir path ="  << QCoreApplication::applicationDirPath().toStdString() << std::endl;
+//    cout << "application file path ="  << QCoreApplication::applicationFilePath().toStdString() << std::endl;
+
     MainWindow window;
     window.show();
 
@@ -83,11 +84,3 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     }
     out.flush();    // Очищаем буферизированные данные
 }
-
-
-//////////=========
-
-//    TestRunner tr;
-//    RUN_TEST(tr, Test_Node_Construct_from_two_nodes);
-//    RUN_TEST(tr, Test_Rope_At);
-//    RUN_TEST(tr, Test_Node_getLenght);

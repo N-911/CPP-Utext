@@ -46,6 +46,10 @@ private slots:
 
         void on_actionClose_Tab_triggered();
         void on_actionQuit_Utext_triggered();
+        void on_actionSave_All_triggered();
+
+        void on_actionNex_Tab_triggered();
+        void on_actionSelect_Previous_tab_triggered();
 
 private:
 
@@ -53,7 +57,7 @@ private:
     void writeSettings();
 
     Ui::MainWindow *ui;
-    FileManager *m_open_files;
+    FileManager *m_file_manager;
     TabMenager *m_tabmg = nullptr;
 };
 

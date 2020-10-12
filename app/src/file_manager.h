@@ -6,6 +6,7 @@
 
 #include <map>
 #include <deque>
+#include <set>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,7 @@ public:
     void newFile();
     bool save();
     bool saveAs();
+    bool saveAll();
     bool isChanged();
     void closeFile(int index);
 
@@ -36,7 +38,10 @@ private:
 
 //    void setCurrentFile(QWidget *current_file);
 //    QWidget *m_current_file;
-    std::map<QString, QWidget *> m_load_files;
+//    std::map<QString, QWidget *> m_load_files;
+
+    std::map<QString, size_t> m_open_files;
+    std::set<QString> m_files;
 
     std::deque<QString> last_files;
 
