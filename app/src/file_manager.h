@@ -35,15 +35,9 @@ private slots:
 private:
     QString strippedName(const QString &fullFileName);
     bool saveFile(const QString &fileName);
-
-//    void setCurrentFile(QWidget *current_file);
-//    QWidget *m_current_file;
-//    std::map<QString, QWidget *> m_load_files;
-
     std::map<QString, size_t> m_open_files;
     std::set<QString> m_files;
-
-    std::deque<QString> last_files;
+    std::deque<QString> m_history_files;  // for history
 
     Ui::MainWindow *m_file_widget;
 };

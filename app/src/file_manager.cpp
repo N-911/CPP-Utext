@@ -44,6 +44,7 @@ void FileManager::loadFile(const QString &fullFileName) {
     m_file_widget->tabWidget->widget(index)->setWindowFilePath(fullFileName);  // associated path with widget
     m_open_files[fullFileName] = index;
     m_files.insert(fullFileName);
+//    auto file_in_hisfind(m_history_files.begin(), m_history_files.begin() + 10, fullFileName);
     qInfo(logInfo()) << QString("open file %1").arg(QFileInfo(fullFileName).fileName());
 
 #ifndef QT_NO_CURSOR
@@ -89,10 +90,11 @@ bool FileManager::saveFile(const QString &fileName) {
 void FileManager::closeFile(int index) {
     isChanged();
 
-    auto key = m_file_widget->tabWidget->widget(index)->windowFilePath();
-    m_open_files.erase(key);
-    m_files.erase(key);
-    qDebug(logDebug()) << QString("close file + key");
+    auto fuulfilename = m_file_widget->tabWidget->widget(index)->windowFilePath();
+    m_open_files.erase(fuulfilename);
+    m_files.erase(fuulfilename);
+    m_history_files.push_front(fuulfilename);
+    qDebug(logDebug()) << QString("close file " + fuulfilename);
 }
 
 QString FileManager::strippedName(const QString &fullFileName) {

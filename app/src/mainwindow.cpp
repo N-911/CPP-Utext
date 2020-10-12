@@ -37,6 +37,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
                                  "}");
+    ui->toolBar->setHidden(true);
+    m_dirmodel = new QFileSystemModel(this);
+//    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+//    m_dirmodel->setRootPath("~/");
+
+    ui->treeView->setModel(m_dirmodel);
+//    ui->treeWidget->scrollTo(m_dirmodel->index(current_project));
+
+    for (int i = 1; i < m_dirmodel->columnCount(); ++i)
+    {
+        ui->treeView->hideColumn(i);
+    }
+//    on_fileBrowser_clicked(m_dirmodel->index(m_path));
 //    test->setTabStopDistance(4 * ' ');
 //    test->setPlainText(QString::number(test->tabStopDistance()));
 }
