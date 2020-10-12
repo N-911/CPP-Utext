@@ -7,11 +7,15 @@
 class TabManager
 {
 public:
-    TabManager(QTabWidget *parent = nullptr);
+    explicit TabManager(QTabWidget *parent = nullptr);
     virtual ~TabManager();
     int addNewTab(QWidget *wd = nullptr, const QString &nameTab = "untitled");
+    int addNewTab(std::unique_ptr<QWidget> wd = nullptr, const QString &nameTab = "untitled");
+    [[nodiscard]] QWidget *getWidget(int index) const;
+    [[nodiscard]] QWidget *getCurrentWidget() const;
+    [[nodiscard]] int getCurrentIndex() const;
     void closeTab(int index);
-    int getTabIndex(QWidget *wd);
+    int getTabListIndex(QWidget *wd);
 
 signals:
 
