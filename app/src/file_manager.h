@@ -14,10 +14,13 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+class TabManager;
+
 class FileManager {
 
 public:
     FileManager(Ui::MainWindow *parent);
+    virtual ~FileManager();
 
     void loadFile(const QString &fullFileName);
 
@@ -33,8 +36,9 @@ private slots:
 
 
 private:
-    QString strippedName(const QString &fullFileName);
+    QString strippedName(const QString &fullFileName) const;
     bool saveFile(const QString &fileName);
+
 
 //    void setCurrentFile(QWidget *current_file);
 //    QWidget *m_current_file;
@@ -46,6 +50,8 @@ private:
     std::deque<QString> last_files;
 
     Ui::MainWindow *m_file_widget;
+    TabManager *m_tabManager;
+
 };
 
 #endif //UTEXT_FILE_MANAGER_H
