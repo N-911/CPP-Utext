@@ -3,45 +3,41 @@
 #include <iostream>
 #include <QPlainTextEdit>
 #include <memory>
+#include "loggingcategories.h"
 
 TabManager::TabManager(QTabWidget *parent) : m_parent(parent) {
-    m_parent->addTab(new TabWelcome(m_parent), "Welcome!");
+//    m_parent->addTab(new TabWelcome(m_parent), "Welcome!");
 }
 
 TabManager::~TabManager() {
+    for (auto &w : m_tablist) {
+        delete w;
+        w = nullptr;
+    }
     m_tablist.clear();
+    qInfo(logInfo()) << "~TabManager";
 }
 
 void TabManager::closeTab(int index) {
     auto wd = m_parent->widget(index);
     auto id = this->getTabListIndex(wd);
-    if (id != -1)
+    if (id != -1) {
+        delete m_tablist[id];
         m_tablist.remove(id);
+    }
     m_parent->removeTab(index);
 }
 
-int TabManager::addNewTab(std::unique_ptr<QWidget> wd, const QString &nameTab) {
-    int index;
-    if (wd) {
-        index = m_parent->addTab(wd.get(), nameTab);
-    }
-    else {
-        std::unique_ptr<QPlainTextEdit> tmpPlainText = std::make_unique<QPlainTextEdit>();
-        index = m_parent->addTab(tmpPlainText.get(), nameTab);
-        m_tablist.push_back(move(tmpPlainText));
-    }
-    return index;
-}
-
-int TabManager::addNewTab(QWidget *wd, const QString &nameTab) {
+int TabManager::addNewTab(QWidget *wd, const QString &nameTab, const QString &content) {
     int index;
     if (wd) {
         index = m_parent->addTab(wd, nameTab);
     }
     else {
-        std::unique_ptr<QPlainTextEdit> tmpPlainText = std::make_unique<QPlainTextEdit>();
-        index = m_parent->addTab(tmpPlainText.get(), nameTab);
-        m_tablist.push_back(move(tmpPlainText));
+        auto *tmpPlainText = new QPlainTextEdit();
+        tmpPlainText->setPlainText(content);
+        index = m_parent->addTab(tmpPlainText, nameTab);
+        m_tablist.push_back(tmpPlainText);
     }
     return index;
 }
@@ -49,7 +45,7 @@ int TabManager::addNewTab(QWidget *wd, const QString &nameTab) {
 int TabManager::getTabListIndex(QWidget *wd) {
     int id = -1;
     for (int i = 0; i < m_tablist.size(); ++i) {
-        if (wd == m_tablist[i].get()) {
+        if (wd == m_tablist[i]) {
             id = i;
             break;
         }
@@ -68,4 +64,16 @@ QWidget *TabManager::getCurrentWidget()  const{
 
 int TabManager::getCurrentIndex()  const{
     return m_parent->currentIndex();
+}
+
+void TabManager::setCurrentIndex(int index) {
+    m_parent->setCurrentIndex(index);
+}
+
+void TabManager::setTabTitle(int index, const QString &title) {
+    m_parent->setTabText(index, title);
+}
+
+int TabManager::getCountTab() const {
+    return m_parent->count();
 }

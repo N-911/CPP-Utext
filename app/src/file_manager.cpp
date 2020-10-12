@@ -11,16 +11,22 @@
 #include <QPlainTextEdit>
 #include <iostream>
 #include <QFileDialog>
+#include "tabmenager.h"
 
+FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent),
+            m_tabManager(new TabManager(m_file_widget->tabWidget)) {}
 
-FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent) {
+FileManager::~FileManager() {
+    qInfo(logInfo()) << "~FileManager";
+
+    delete m_tabManager;
 }
 
 void FileManager::loadFile(const QString &fullFileName) {
     // если файл уже открыт
     if (m_open_files.count(fullFileName) != 0) {
         qInfo(logInfo()) << QString("file %1 was already been open ").arg(QFileInfo(fullFileName).fileName());
-        m_file_widget->tabWidget->setCurrentIndex(m_open_files[fullFileName]);  // делаем окно текущим
+        m_tabManager->setCurrentIndex(m_open_files[fullFileName]);  // делаем окно текущим
         return;
     }
 
@@ -37,11 +43,9 @@ void FileManager::loadFile(const QString &fullFileName) {
 #ifndef QT_NO_CURSOR
     QGuiApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    auto text_edit_file = std::make_unique<QPlainTextEdit>();
-    text_edit_file->setPlainText(in.readAll());
-    auto index = m_file_widget->tabWidget->addTab(text_edit_file, strippedName(fullFileName));
-    m_file_widget->tabWidget->setCurrentIndex(index);  // делаем новое окно текущим
-    m_file_widget->tabWidget->widget(index)->setWindowFilePath(fullFileName);  // associated path with widget
+    auto index = m_tabManager->addNewTab(nullptr, strippedName(fullFileName), in.readAll());
+    m_tabManager->setCurrentIndex(index);  // делаем новое окно текущим
+    m_tabManager->getWidget(index)->setWindowFilePath(fullFileName);  // associated path with widget
     m_open_files[fullFileName] = index;
     m_files.insert(fullFileName);
 //    auto file_in_hisfind(m_history_files.begin(), m_history_files.begin() + 10, fullFileName);
@@ -61,7 +65,7 @@ bool FileManager::saveFile(const QString &fileName) {
 
     if (file.open(QFile::WriteOnly | QFile::Text)) {
         QTextStream out(&file);
-        auto *text_to_save =  qobject_cast<QPlainTextEdit *>(m_file_widget->tabWidget->currentWidget());
+        auto *text_to_save =  qobject_cast<QPlainTextEdit *>(m_tabManager->getCurrentWidget());
         out << text_to_save->toPlainText();
         if (!file.commit()) {
             errorMessage = (QString("Cannot write file %1:\n%2.").arg(QDir::toNativeSeparators(fileName),
@@ -78,9 +82,9 @@ bool FileManager::saveFile(const QString &fileName) {
         qWarning(logWarning()) << errorMessage;
         return false;
     }
-    m_file_widget->tabWidget->setTabText(m_file_widget->tabWidget->currentIndex(),
+    m_tabManager->setTabTitle(m_tabManager->getCurrentIndex(),
                                          strippedName(fileName)); // set tabName to new fileName
-    m_file_widget->tabWidget->currentWidget()->setWindowFilePath(fileName);  // associated path with widget
+    m_tabManager->getCurrentWidget()->setWindowFilePath(fileName);  // associated path with widget
     qInfo(logInfo()) << QString("File %1 saved").arg(fileName);
     m_file_widget->statusbar->showMessage("File " + fileName + " saved", 2000);
     return true;
@@ -95,14 +99,20 @@ void FileManager::closeFile(int index) {
     m_files.erase(fuulfilename);
     m_history_files.push_front(fuulfilename);
     qDebug(logDebug()) << QString("close file " + fuulfilename);
+//=======
+//    auto key = m_tabManager->getWidget(index)->windowFilePath();
+//    m_open_files.erase(key);
+//    m_files.erase(key);
+//    qDebug(logDebug()) << QString("close file + key");
+//>>>>>>> 20b67a4537ba49cde9f941fa2b64d6572e9e9da3
 }
 
-QString FileManager::strippedName(const QString &fullFileName) {
+QString FileManager::strippedName(const QString &fullFileName) const {
     return QFileInfo(fullFileName).fileName();
 }
 
 bool FileManager::isChanged() {
-    auto *text_edit_file = qobject_cast<QPlainTextEdit *>(m_file_widget->tabWidget->currentWidget());
+    auto *text_edit_file = qobject_cast<QPlainTextEdit *>(m_tabManager->getCurrentWidget());
     if (!text_edit_file->document()->isModified()) {
         return true;
     }
@@ -126,17 +136,16 @@ void FileManager::newFile() {
 //    m_file_widget->statusbar->showMessage("newFile", 2000);
 //    auto new_file = std::make_unique<QPlainTextEdit>();
 
-    auto *new_file = new QPlainTextEdit();
     // делаем новое окно текущим
-    auto index = m_file_widget->tabWidget->addTab(new_file, "untitled");
-    m_file_widget->tabWidget->setCurrentIndex(index);
+    auto index = m_tabManager->addNewTab();
+    m_tabManager->setCurrentIndex(index);
     qDebug(logDebug()) << QString("newFile add %1 tab idex").arg(index);
 }
 
 bool FileManager::save() {
     m_file_widget->statusbar->showMessage("save", 2000);
     // проверяєм привязан ли Widget to Path
-    QString fullFileName = m_file_widget->tabWidget->currentWidget()->windowFilePath();
+    QString fullFileName = m_tabManager->getCurrentWidget()->windowFilePath();
     qInfo(logInfo()) << QString("save file " + fullFileName);
 
     if (fullFileName.isEmpty()) {
@@ -147,7 +156,7 @@ bool FileManager::save() {
 }
 
 bool FileManager::saveAs() {
-    if (m_file_widget->tabWidget->count() == 0) {
+    if (m_tabManager->getCountTab() == 0) {
         return true;
     }
     QFileDialog dialog(0);
@@ -162,14 +171,14 @@ bool FileManager::saveAs() {
 }
 
 bool FileManager::saveAll() {
-    int temp = m_file_widget->tabWidget->currentIndex();
+    int temp = m_tabManager->getCurrentIndex();
 
-    for (int i = 1; i < m_file_widget->tabWidget->count(); ++i) {
-        m_file_widget->tabWidget->setCurrentIndex(i);
+    for (int i = 1; i < m_tabManager->getCountTab(); ++i) {
+        m_tabManager->setCurrentIndex(i);
         qDebug(logDebug()) << QString("save All %1 tab index").arg(i);
         isChanged();
     }
-    m_file_widget->tabWidget->setCurrentIndex(temp);
+    m_tabManager->setCurrentIndex(temp);
     return true;
 }
 

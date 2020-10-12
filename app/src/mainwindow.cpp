@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_dirmodel = new QFileSystemModel(this);
 
 //    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-//    m_dirmodel->setRootPath("~/");
+    m_dirmodel->setRootPath("~/");
 
     ui->treeView->setModel(m_dirmodel);
 //    ui->treeWidget->scrollTo(m_dirmodel->index(current_project));
@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 MainWindow::~MainWindow() {
+    qInfo(logInfo()) << "~MainWindow";
     delete ui;
     delete m_file_manager;
 
