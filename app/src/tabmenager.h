@@ -4,11 +4,11 @@
 #include <QTabWidget>
 #include <QVector>
 
-class TabMenager
+class TabManager
 {
 public:
-    TabMenager(QTabWidget *parent = nullptr);
-    virtual ~TabMenager();
+    TabManager(QTabWidget *parent = nullptr);
+    virtual ~TabManager();
     int addNewTab(QWidget *wd = nullptr, const QString &nameTab = "untitled");
     void closeTab(int index);
     int getTabIndex(QWidget *wd);

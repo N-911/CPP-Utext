@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     qInfo(logInfo()) << QString("    start Utext\n");
 
     m_file_manager = new FileManager(ui);
-//    m_tabmg = new TabMenager(ui->tabWidget);
+//    m_tabmg = new TabManager(ui->tabWidget);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
 

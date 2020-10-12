@@ -4,15 +4,15 @@
 #include <QPlainTextEdit>
 #include <memory>
 
-TabMenager::TabMenager(QTabWidget *parent) : m_parent(parent) {
+TabManager::TabManager(QTabWidget *parent) : m_parent(parent) {
     m_parent->addTab(new TabWelcome(m_parent), "Welcome!");
 }
 
-TabMenager::~TabMenager() {
+TabManager::~TabManager() {
     m_tablist.clear();
 }
 
-void TabMenager::closeTab(int index) {
+void TabManager::closeTab(int index) {
     auto wd = m_parent->widget(index);
     auto id = this->getTabIndex(wd);
     if (id != -1)
@@ -20,7 +20,7 @@ void TabMenager::closeTab(int index) {
     m_parent->removeTab(index);
 }
 
-int TabMenager::addNewTab(QWidget *wd, const QString &nameTab) {
+int TabManager::addNewTab(QWidget *wd, const QString &nameTab) {
     int index;
     if (wd) {
         index = m_parent->addTab(wd, nameTab);
@@ -33,7 +33,7 @@ int TabMenager::addNewTab(QWidget *wd, const QString &nameTab) {
     return index;
 }
 
-int TabMenager::getTabIndex(QWidget *wd) {
+int TabManager::getTabIndex(QWidget *wd) {
     int id = -1;
     for (int i = 0; i < m_tablist.size(); ++i) {
         if (wd == m_tablist[i].get()) {
