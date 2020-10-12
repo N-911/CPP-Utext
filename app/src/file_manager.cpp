@@ -37,7 +37,7 @@ void FileManager::loadFile(const QString &fullFileName) {
 #ifndef QT_NO_CURSOR
     QGuiApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-    auto *text_edit_file = new QPlainTextEdit();
+    auto text_edit_file = std::make_unique<QPlainTextEdit>();
     text_edit_file->setPlainText(in.readAll());
     auto index = m_file_widget->tabWidget->addTab(text_edit_file, strippedName(fullFileName));
     m_file_widget->tabWidget->setCurrentIndex(index);  // делаем новое окно текущим

@@ -58,8 +58,7 @@ private:
 
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
-    TabMenager *m_tabmg = nullptr;
-
+    TabManager *m_tabmg = nullptr;
     QFileSystemModel *m_dirmodel;
 };
 

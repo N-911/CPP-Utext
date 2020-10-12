@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     qInfo(logInfo()) << QString("    start Utext\n");
 
     m_file_manager = new FileManager(ui);
-//    m_tabmg = new TabMenager(ui->tabWidget);
+//    m_tabmg = new TabManager(ui->tabWidget);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
 
@@ -37,8 +37,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
                                  "}");
+
     ui->toolBar->setHidden(true);
+//    ui->treeView->setSelectionModel(QAbstractItemView::ExtendedSelection);
+    ui->treeView->setDragEnabled(true);
+    ui->treeView->setAcceptDrops(true);
+
     m_dirmodel = new QFileSystemModel(this);
+
 //    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
 //    m_dirmodel->setRootPath("~/");
 

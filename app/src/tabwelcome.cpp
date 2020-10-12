@@ -20,7 +20,6 @@ TabWelcome::~TabWelcome()
 
 void TabWelcome::paintEvent(QPaintEvent *event) {
     QPainter painter{this};
-//    std::cout << "BBBBBBBBB" << std::endl;
 
     painter.setRenderHint(QPainter::Antialiasing);
 //    painter.save();

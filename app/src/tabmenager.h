@@ -4,15 +4,24 @@
 #include <QTabWidget>
 #include <QVector>
 
-class TabMenager : public QWidget
+class TabManager
 {
 public:
-    TabMenager(QTabWidget *parent = nullptr);
-    virtual ~TabMenager();
+    explicit TabManager(QTabWidget *parent = nullptr);
+    virtual ~TabManager();
+    int addNewTab(QWidget *wd = nullptr, const QString &nameTab = "untitled");
+    int addNewTab(std::unique_ptr<QWidget> wd = nullptr, const QString &nameTab = "untitled");
+    [[nodiscard]] QWidget *getWidget(int index) const;
+    [[nodiscard]] QWidget *getCurrentWidget() const;
+    [[nodiscard]] int getCurrentIndex() const;
+    void closeTab(int index);
+    int getTabListIndex(QWidget *wd);
+
+signals:
 
 private:
     QTabWidget *m_parent;
-//    QVector<???> m_tablist;
+    QVector<std::unique_ptr<QWidget>> m_tablist;
 };
 
 #endif // TABMENAGER_H
