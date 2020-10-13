@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.17)
 
 set(SOURCES mainwindow.cpp
         app.cpp
+        treeItem.cpp
+        treemodel.cpp
         tabmenager.cpp
         file_manager.cpp
         tabwelcome.cpp
@@ -12,6 +14,8 @@ set(SOURCES mainwindow.cpp
 
 set(HEADERS mainwindow.h
         app.h
+        treeItem.h
+        treemodel.h
         test_runner.h
         tabmenager.h
         file_manager.h

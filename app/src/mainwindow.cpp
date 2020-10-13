@@ -5,6 +5,7 @@
 #include <QPlainTextEdit>
 #include <QMessageBox>
 #include <QCoreApplication>
+#include <QFileSystemModel>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "file_manager.h"
@@ -13,6 +14,7 @@
 #include <iostream>
 
 #include "app.h"
+#include "treemodel.h"
 
 
 using std::cout;
@@ -43,9 +45,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeView->setDragEnabled(true);
     ui->treeView->setAcceptDrops(true);
 
-    m_dirmodel = new QFileSystemModel(this);
+//    m_dirmodel = new QFileSystemModel(this);
+
+    const QStringList headers({tr("Title"), tr("Description")});
+    QFile file(":/default.txt");
+    file.open(QIODevice::ReadOnly);
+    m_dirmodel = new TreeModel(headers, file.readAll());
+    file.close();
+
+//    connect(actionAdd_Project_Folder, &QAction::triggered, this, &MainWindow::insertChild);
+
 //    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    m_dirmodel->setRootPath("~/");
+//    m_dirmodel->setRootPath("~/");
 
     ui->treeView->setModel(m_dirmodel);
 //    ui->treeWidget->scrollTo(m_dirmodel->index(current_project));
@@ -162,14 +173,46 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()
 }
 
 
-
 //////////////////
 
 //    on_fileBrowser_clicked(m_dirmodel->index(m_path));
 //    test->setTabStopDistance(4 * ' ');
 //    test->setPlainText(QString::number(test->tabStopDistance()));
 
-
 //    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
 //    QAction *newAct = new QAction(newIcon, tr("&New"), this);
 //    ui->toolBar->addAction(newAct);
+void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
+{
+//    QString fullFilePath = m_dirmodel->filePath(index);
+//    if (!(QDir(fullFilePath).exists())) {
+//        m_file_manager->loadFile(fullFilePath);
+//    }
+}
+
+
+
+void MainWindow::on_actionAdd_Project_Folder_triggered()
+{
+    const QModelIndex index = ui->treeView->selectionModel()->currentIndex();
+    QAbstractItemModel *model = ui->treeView->model();
+
+    if (model->columnCount(index) == 0) {
+        if (!model->insertColumn(0, index))
+            return;
+    }
+
+    if (!model->insertRow(0, index))
+        return;
+
+    for (int column = 0; column < model->columnCount(index); ++column) {
+        const QModelIndex child = model->index(0, column, index);
+        model->setData(child, QVariant(tr("[No data]")), Qt::EditRole);
+        if (!model->headerData(column, Qt::Horizontal).isValid())
+            model->setHeaderData(column, Qt::Horizontal, QVariant(tr("[No header]")), Qt::EditRole);
+    }
+
+    ui->treeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
+                                            QItemSelectionModel::ClearAndSelect);
+//    updateActions();
+}

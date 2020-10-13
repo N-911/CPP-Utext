@@ -20,6 +20,7 @@
 #include <deque>
 #include "tabmenager.h"
 #include "file_manager.h"
+#include "treemodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -50,6 +51,9 @@ private slots:
 
         void on_actionNex_Tab_triggered();
         void on_actionSelect_Previous_tab_triggered();
+        void on_treeView_doubleClicked(const QModelIndex &index);
+
+        void on_actionAdd_Project_Folder_triggered();
 
 private:
 
@@ -59,7 +63,8 @@ private:
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
     TabManager *m_tabmg = nullptr;
-    QFileSystemModel *m_dirmodel;
+//    QFileSystemModel *m_dirmodel;
+    TreeModel *m_dirmodel;
 };
 
 

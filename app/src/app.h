@@ -4,7 +4,13 @@
 #include <QApplication>
 #include <QSettings>
 
-// app settings
+/*
+    app settings
+ * А обращение к объекту настроек из любой библиотеки проекта будет таким:
+    QSettings* pst = App::theApp()->settings();
+    pst->setV alue ("Language", "en");
+ */
+
 class App : public QApplication {
 
     Q_OBJECT
