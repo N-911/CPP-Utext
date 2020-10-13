@@ -4,12 +4,15 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QMessageBox>
+#include <QCoreApplication>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "file_manager.h"
 #include "tabwelcome.h"
 #include "loggingcategories.h"
 #include <iostream>
+
+#include "app.h"
 
 
 using std::cout;
@@ -29,9 +32,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     readSettings();
 
-//    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
-//    QAction *newAct = new QAction(newIcon, tr("&New"), this);
-//    ui->toolBar->addAction(newAct);
 
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
@@ -44,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeView->setAcceptDrops(true);
 
     m_dirmodel = new QFileSystemModel(this);
-
 //    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
     m_dirmodel->setRootPath("~/");
 
@@ -55,9 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     {
         ui->treeView->hideColumn(i);
     }
-//    on_fileBrowser_clicked(m_dirmodel->index(m_path));
-//    test->setTabStopDistance(4 * ' ');
-//    test->setPlainText(QString::number(test->tabStopDistance()));
+
 }
 
 MainWindow::~MainWindow() {
@@ -69,9 +66,9 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::readSettings() {
+    QSettings *settings = App::utext_app()->utext_settings();
 
-    QSettings settings(QCoreApplication::organizationName(), QCoreApplication::applicationName());
-    const QByteArray geometry = settings.value("geometry", QByteArray()).toByteArray();
+    const QByteArray geometry = settings->value("geometry", QByteArray()).toByteArray();
     if (geometry.isEmpty()) {
         const QRect availableGeometry = screen()->availableGeometry();
         resize(availableGeometry.width() / 3, availableGeometry.height() / 2);
@@ -83,8 +80,8 @@ void MainWindow::readSettings() {
 }
 
 void MainWindow::writeSettings() {
-    QSettings settings(QCoreApplication::organizationName(), QCoreApplication::applicationName());
-    settings.setValue("geometry", saveGeometry());
+    QSettings *settings = App::utext_app()->utext_settings();
+    settings->setValue("geometry", saveGeometry());
 }
 
 void MainWindow::on_actionOpen_triggered()
@@ -164,3 +161,15 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()
     ui->tabWidget->setCurrentIndex(index);
 }
 
+
+
+//////////////////
+
+//    on_fileBrowser_clicked(m_dirmodel->index(m_path));
+//    test->setTabStopDistance(4 * ' ');
+//    test->setPlainText(QString::number(test->tabStopDistance()));
+
+
+//    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
+//    QAction *newAct = new QAction(newIcon, tr("&New"), this);
+//    ui->toolBar->addAction(newAct);

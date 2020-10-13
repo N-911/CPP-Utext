@@ -1,4 +1,5 @@
 #include "src/mainwindow.h"
+#include "src/app.h"
 #include "src/test_runner.h"
 #include "profile.h"
 #include "loggingcategories.h"
@@ -37,21 +38,13 @@ int main(int argc, char **argv)
     // Устанавливаем обработчик. To restore the message handler, call qInstallMessageHandler(0).
     qInstallMessageHandler(messageHandler);
 
-    QApplication app(argc, argv);
-    // app settings
-    QCoreApplication::setOrganizationName("Ucode");
-    QCoreApplication::setApplicationName("Utext");
-    QCoreApplication::setApplicationVersion("1.0");
-
-//    cout << "application dir path ="  << QCoreApplication::applicationDirPath().toStdString() << std::endl;
-//    cout << "application file path ="  << QCoreApplication::applicationFilePath().toStdString() << std::endl;
-
+//    QApplication app(argc, argv);
+    App app(argc, argv, "Ucode", "Utext");
     MainWindow window;
     window.show();
-
-//    system("leaks -q utext");
     return app.exec();
 }
+
 
 void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -83,3 +76,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     }
     out.flush();    // Очищаем буферизированные данные
 }
+
+
+//    cout << "application dir path ="  << QCoreApplication::applicationDirPath().toStdString() << std::endl;
+//    cout << "application file path ="  << QCoreApplication::applicationFilePath().toStdString() << std::endl;

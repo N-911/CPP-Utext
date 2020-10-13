@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.17)
 #project(utext VERSION 1.0 LANGUAGES CXX)
 
 set(SOURCES mainwindow.cpp
+        app.cpp
         tabmenager.cpp
         file_manager.cpp
         tabwelcome.cpp
@@ -10,6 +11,7 @@ set(SOURCES mainwindow.cpp
         )
 
 set(HEADERS mainwindow.h
+        app.h
         test_runner.h
         tabmenager.h
         file_manager.h
