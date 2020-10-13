@@ -1,6 +1,5 @@
 #include "src/mainwindow.h"
 #include "src/test_runner.h"
-#include "src/rope_tests.h"
 #include "profile.h"
 #include "loggingcategories.h"
 
