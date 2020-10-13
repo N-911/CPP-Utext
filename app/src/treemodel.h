@@ -7,8 +7,7 @@
 #include <QModelIndex>
 #include <QVariant>
 
-class TreeModel : public QAbstractItemModel
-{
+class TreeModel : public QAbstractItemModel {
     Q_OBJECT
 
 public:
