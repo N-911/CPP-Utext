@@ -17,8 +17,7 @@ FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent),
             m_tabManager(new TabManager(m_file_widget->tabWidget)) {}
 
 FileManager::~FileManager() {
-    qInfo(logInfo()) << "~FileManager";
-
+//    qInfo(logInfo()) << "~FileManager";
     delete m_tabManager;
 }
 
@@ -181,15 +180,6 @@ bool FileManager::saveAll() {
     m_tabManager->setCurrentIndex(temp);
     return true;
 }
-
-
-
-
-
-
-
-
-
 
 
 

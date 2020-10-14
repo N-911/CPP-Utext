@@ -15,6 +15,7 @@
 
 #include "app.h"
 #include "treemodel.h"
+#include "listmodel.h"
 
 
 using std::cout;
@@ -26,14 +27,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     qInfo(logInfo()) << QString("    start Utext\n");
-
     m_file_manager = new FileManager(ui);
+    m_project_manager = new ProjectManager(ui);
+
 //    m_tabmg = new TabManager(ui->tabWidget);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
-
     readSettings();
-
 
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
@@ -45,31 +45,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeView->setDragEnabled(true);
     ui->treeView->setAcceptDrops(true);
 
-//    m_dirmodel = new QFileSystemModel(this);
-
+/*
     const QStringList headers({tr("Title"), tr("Description")});
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
-    m_dirmodel = new TreeModel(headers, file.readAll());
+    m_dirmodel = new Listmodel(QString("Folders"), ui->treeView);
     file.close();
+    connect(actionAdd_Project_Folder, &QAction::triggered, this, &MainWindow::insertChild);
+*/
 
-//    connect(actionAdd_Project_Folder, &QAction::triggered, this, &MainWindow::insertChild);
-
-//    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    m_dirmodel = new QFileSystemModel(this);
+    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
 //    m_dirmodel->setRootPath("~/");
 
-    ui->treeView->setModel(m_dirmodel);
+//    ui->treeView->setModel(m_dirmodel);
 //    ui->treeWidget->scrollTo(m_dirmodel->index(current_project));
 
-    for (int i = 1; i < m_dirmodel->columnCount(); ++i)
-    {
-        ui->treeView->hideColumn(i);
-    }
+//    for (int i = 1; i < m_dirmodel->columnCount(); ++i)
+//    {
+//        ui->treeView->hideColumn(i);
+//    }
 
 }
 
 MainWindow::~MainWindow() {
-    qInfo(logInfo()) << "~MainWindow";
     delete ui;
     delete m_file_manager;
 
@@ -151,12 +150,12 @@ void MainWindow::on_actionQuit_Utext_triggered()
     qInfo(logInfo()) << QString("    end Utext\n");
 }
 
-void MainWindow::on_actionSave_All_triggered()
+void MainWindow::on_actionSave_All_triggered()  // shift + cmd + s
 {
     m_file_manager->saveAll();
 }
 
-void MainWindow::on_actionNex_Tab_triggered()
+void MainWindow::on_actionNex_Tab_triggered()  // cmd + ]
 {
     int index = (ui->tabWidget->currentIndex() + 1) < ui->tabWidget->count() ? ui->tabWidget->currentIndex() + 1 :
                 ui->tabWidget->currentIndex() + 1 - ui->tabWidget->count();
@@ -164,7 +163,7 @@ void MainWindow::on_actionNex_Tab_triggered()
     ui->tabWidget->setCurrentIndex(index);
 }
 
-void MainWindow::on_actionSelect_Previous_tab_triggered()
+void MainWindow::on_actionSelect_Previous_tab_triggered()  // cmd + [
 {
     int index = ui->tabWidget->currentIndex() > 0 ? ui->tabWidget->currentIndex() - 1:
                 ui->tabWidget->currentIndex() + ui->tabWidget->count() - 1;
@@ -173,15 +172,6 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()
 }
 
 
-//////////////////
-
-//    on_fileBrowser_clicked(m_dirmodel->index(m_path));
-//    test->setTabStopDistance(4 * ' ');
-//    test->setPlainText(QString::number(test->tabStopDistance()));
-
-//    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
-//    QAction *newAct = new QAction(newIcon, tr("&New"), this);
-//    ui->toolBar->addAction(newAct);
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
 //    QString fullFilePath = m_dirmodel->filePath(index);
@@ -194,7 +184,26 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_actionAdd_Project_Folder_triggered()
 {
-    const QModelIndex index = ui->treeView->selectionModel()->currentIndex();
+    QString dirName = QFileDialog::getExistingDirectory(this, "Open Directory", "/",
+                                                QFileDialog::ShowDirsOnly
+                                                | QFileDialog::DontResolveSymlinks);
+    if (QDir(dirName).exists()) {
+        m_project_manager->add_project_folder(dirName);
+        // redraw tre view !!!!!
+        m_dirmodel->setRootPath(dirName);
+//        ui->treeView->setRootIndex()
+        ui->treeView->setModel(m_dirmodel);
+        for (int i = 1; i < m_dirmodel->columnCount(); ++i)
+        {
+            ui->treeView->hideColumn(i);
+        }
+    }
+}
+
+
+
+/*
+ *     const QModelIndex index = ui->treeView->selectionModel()->currentIndex();
     QAbstractItemModel *model = ui->treeView->model();
 
     if (model->columnCount(index) == 0) {
@@ -215,4 +224,15 @@ void MainWindow::on_actionAdd_Project_Folder_triggered()
     ui->treeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
                                             QItemSelectionModel::ClearAndSelect);
 //    updateActions();
-}
+ */
+
+
+//////////////////
+
+//    on_fileBrowser_clicked(m_dirmodel->index(m_path));
+//    test->setTabStopDistance(4 * ' ');
+//    test->setPlainText(QString::number(test->tabStopDistance()));
+
+//    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
+//    QAction *newAct = new QAction(newIcon, tr("&New"), this);
+//    ui->toolBar->addAction(newAct);

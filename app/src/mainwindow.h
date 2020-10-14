@@ -21,6 +21,8 @@
 #include "tabmenager.h"
 #include "file_manager.h"
 #include "treemodel.h"
+#include "listmodel.h"
+#include <projectmanager.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -63,8 +65,8 @@ private:
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
     TabManager *m_tabmg = nullptr;
-//    QFileSystemModel *m_dirmodel;
-    TreeModel *m_dirmodel;
+    QFileSystemModel *m_dirmodel;
+   ProjectManager *m_project_manager;
 };
 
 
