@@ -30,6 +30,7 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+class Search;
 
 class MainWindow : public QMainWindow
 {
@@ -57,6 +58,8 @@ private slots:
 
         void on_actionAdd_Project_Folder_triggered();
 
+        void on_buttonFind_clicked();
+
 private:
 
     void readSettings();
@@ -68,6 +71,7 @@ private:
 //    QFileSystemModel *m_dirmodel;
     ProjectManager *m_project_manager;
     Listmodel *m_project_model;
+    Search *m_searcher = nullptr;
 };
 
 
