@@ -4,6 +4,7 @@
 #include <QPlainTextEdit>
 #include <memory>
 #include "loggingcategories.h"
+#include "codeeditor.h"
 
 TabManager::TabManager(QTabWidget *parent) : m_parent(parent) {
 //    m_parent->addTab(new TabWelcome(m_parent), "Welcome!");
@@ -34,7 +35,9 @@ int TabManager::addNewTab(QWidget *wd, const QString &nameTab, const QString &co
         index = m_parent->addTab(wd, nameTab);
     }
     else {
-        auto *tmpPlainText = new QPlainTextEdit();
+//        auto *tmpPlainText = new QPlainTextEdit(); //// CodeEditor
+        auto *tmpPlainText = new CodeEditor(wd); //// CodeEditor
+
         tmpPlainText->setPlainText(content);
         index = m_parent->addTab(tmpPlainText, nameTab);
         m_tablist.push_back(tmpPlainText);

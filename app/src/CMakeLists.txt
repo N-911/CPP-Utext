@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.17)
 #project(utext VERSION 1.0 LANGUAGES CXX)
 
 set(SOURCES mainwindow.cpp
+#        linenumberarea.cpp
+        codeeditor.cpp
         app.cpp
         listmodel.cpp
         projectmanager.cpp
@@ -15,6 +17,8 @@ set(SOURCES mainwindow.cpp
         )
 
 set(HEADERS mainwindow.h
+        linenumberarea.h
+        codeeditor.h
         app.h
         listmodel.h
         treeItem.h
