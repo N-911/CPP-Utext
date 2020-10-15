@@ -57,8 +57,9 @@ private slots:
         void on_treeView_doubleClicked(const QModelIndex &index);
 
         void on_actionAdd_Project_Folder_triggered();
-
+        void on_findLine_returnPressed();
         void on_buttonFind_clicked();
+        void on_actionFind_All_triggered(bool checked);
 
 private:
 

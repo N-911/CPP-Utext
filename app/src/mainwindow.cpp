@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                                  "}");
 
     ui->toolBar->setHidden(true);
+    ui->findWidget->setHidden(true);
 //    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
 //    ui->listView->setDragEnabled(true);
 //    ui->listView->setAcceptDrops(true);
@@ -270,4 +271,14 @@ void MainWindow::on_buttonFind_clicked()
     QString text = ui->findLine->text();
     m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document());
     m_searcher->searchText(text);
+}
+
+void MainWindow::on_actionFind_All_triggered(bool checked)
+{
+    ui->findWidget->setHidden(checked);
+}
+
+void MainWindow::on_findLine_returnPressed()
+{
+    on_buttonFind_clicked();
 }
