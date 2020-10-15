@@ -7,7 +7,7 @@ ProjectManager::ProjectManager(Ui::MainWindow *parent) : m_project_widget(parent
 void ProjectManager::add_project_folder(const QString &dirName) {
     qDebug(logDebug()) << "add new project " << dirName;
 
-    if (auto it = find(m_projects.begin(), m_projects.end(), dirName);  it != m_projects.end()) {
+    if (auto it = m_projects.indexOf(dirName, 0);  it == -1) {
         qInfo(logInfo()) << QString("project %1 was already been open ").arg(QDir(dirName).dirName());
         return;
     }
@@ -18,6 +18,6 @@ void ProjectManager::add_project_folder(const QString &dirName) {
 void ProjectManager::close_project_folder(QModelIndex &index) {
     // get dirname from index
     QString dirName("find_dir");
-    auto it = find(m_projects.begin(), m_projects.end(), dirName);
-    m_projects.erase(it);
+    auto it = m_projects.indexOf(dirName, 0);
+    m_projects.remove(it);
 }

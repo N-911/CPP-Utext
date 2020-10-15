@@ -22,7 +22,7 @@ public:
     void close_project_folder(QModelIndex& index);
 
 private:
-    std::vector<QString> m_projects;
+    QVector<QString> m_projects;
     Ui::MainWindow *m_project_widget;
 };
 

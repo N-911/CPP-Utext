@@ -19,9 +19,12 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
 
+    void add_project_folder(const QString &dirName);
+
 private:
     QString m_header;
-    QList<QFileSystemModel> m_projects;
+//    QList<QFileSystemModel> m_projects_list;
+    QVector<QString> m_name_projects;
 };
 
 

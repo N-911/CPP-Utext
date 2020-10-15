@@ -45,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeView->setDragEnabled(true);
     ui->treeView->setAcceptDrops(true);
 
+    const QString headers{"Title"};
+    m_project_model = new Listmodel(headers, ui->treeView);
+
 /*
     const QStringList headers({tr("Title"), tr("Description")});
     QFile file(":/default.txt");
@@ -184,9 +187,21 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_actionAdd_Project_Folder_triggered()
 {
+
+//    readDir(index);
     QString dirName = QFileDialog::getExistingDirectory(this, "Open Directory", "/",
-                                                QFileDialog::ShowDirsOnly
-                                                | QFileDialog::DontResolveSymlinks);
+                                                        QFileDialog::ShowDirsOnly
+                                                        | QFileDialog::DontResolveSymlinks);
+
+    if (!m_project_model)
+        delete m_project_model;
+
+
+    m_project_model->add_project_folder(dirName);
+    ui->treeView->setModel(m_project_model);
+
+
+
     if (QDir(dirName).exists()) {
         m_project_manager->add_project_folder(dirName);
         // redraw tre view !!!!!

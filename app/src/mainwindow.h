@@ -66,7 +66,8 @@ private:
     FileManager *m_file_manager;
     TabManager *m_tabmg = nullptr;
     QFileSystemModel *m_dirmodel;
-   ProjectManager *m_project_manager;
+    ProjectManager *m_project_manager;
+    Listmodel *m_project_model;
 };
 
 
