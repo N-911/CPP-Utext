@@ -3,20 +3,24 @@
 
 #include <QSyntaxHighlighter>
 #include <QRegularExpression>
+#include <QPlainTextEdit>
+
 
 class Search : public QSyntaxHighlighter
 {
     Q_OBJECT
     using HLClass = QSyntaxHighlighter;
 public:
-    explicit Search(QTextDocument* parent = nullptr);
+    explicit Search(QPlainTextEdit *parent = nullptr);
     void searchText(const QString& text);
-    void setTextDocument(QTextDocument *parent);
+    void setTextDocument(QPlainTextEdit *new_parent);
+    void searchAllMatch(const QString& text);
 
 protected:
-    virtual void highlightBlock(const QString &text) override;
+    void highlightBlock(const QString &text) override;
 
 private:
+    QPlainTextEdit *m_parent = nullptr;
     QRegularExpression m_pattern;
     QTextCharFormat m_format;
 };

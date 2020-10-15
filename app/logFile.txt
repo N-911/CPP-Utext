@@ -1,0 +1,3 @@
+2020-10-15 19:39:32.032 Info: "    start Utext\n" (/Users/snikolayen/CPP-Utext/app/src/mainwindow.cpp:30, MainWindow::MainWindow(QWidget *))
+2020-10-15 19:39:33.966 Info: "    end Utext\n" (/Users/snikolayen/CPP-Utext/app/src/mainwindow.cpp:145, void MainWindow::on_actionQuit_Utext_triggered())
+2020-10-15 19:39:33.968 Info: ~TabManager (/Users/snikolayen/CPP-Utext/app/src/tabmenager.cpp:21, virtual TabManager::~TabManager())

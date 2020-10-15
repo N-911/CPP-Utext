@@ -34,9 +34,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
     readSettings();
-    m_searcher = ui->tabWidget->count() > 0 ? new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document())
-            : new Search(nullptr);
-
+//    m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
                                  "qproperty-drawBase:0;\n"
@@ -196,7 +194,7 @@ void MainWindow::on_actionAdd_Project_Folder_triggered() {
     ui->treeView->viewport()->update();
 }
 
-
+/*
 void MainWindow::on_buttonFind_clicked()
 {
     QString text = ui->findLine->text();
@@ -214,13 +212,36 @@ void MainWindow::on_findLine_returnPressed()
     on_buttonFind_clicked();
 }
 
+*/
 
 void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)
 {
     ui->treeView->setHidden(checked);
 }
 
+void MainWindow::on_buttonFind_clicked()
+{
+    if (ui->tabWidget->count() <= 0)
+        return;
+    QString text = ui->findLine->text();
+    m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
+    m_searcher->searchText(text);
+}
 
+void MainWindow::on_actionFind_All_triggered(bool checked)
+{
+    if (m_searcher)
+        delete m_searcher;
+
+    m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
+
+    ui->findWidget->setHidden(checked);
+}
+
+void MainWindow::on_findLine_returnPressed()
+{
+    on_buttonFind_clicked();
+}
 
 
 
@@ -285,5 +306,4 @@ void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)
 //    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
 //    QAction *newAct = new QAction(newIcon, tr("&New"), this);
 //    ui->toolBar->addAction(newAct);
-
 
