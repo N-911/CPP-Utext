@@ -5,13 +5,19 @@
 #include <QPlainTextEdit>
 #include <QObject>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class MainWindow;
+}
+QT_END_NAMESPACE
+
 
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
 
 public:
-    CodeEditor(QWidget *parent = nullptr);
+    CodeEditor(Ui::MainWindow *ui_parent, QWidget *parent);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -26,6 +32,7 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+    Ui::MainWindow *m_main_widget;
 };
 
 #endif //UTEXT_CODEEDITOR_H

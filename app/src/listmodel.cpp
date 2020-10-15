@@ -91,3 +91,4 @@ void Listmodel::add_data(const QString& dirName) {
 //    m_name_projects.insert(m_name_projects.begin() + m_name_projects.size(), dirName);
 //    qInfo(logInfo()) << "m_projects size = " << m_name_projects.size();
 //}
+

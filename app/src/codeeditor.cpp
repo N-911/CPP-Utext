@@ -2,8 +2,10 @@
 #include "linenumberarea.h"
 #include <QPainter>
 #include <QTextBlock>
+#include "ui_mainwindow.h"
 
-CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent) {
+CodeEditor::CodeEditor(Ui::MainWindow *ui_parent, QWidget *parent) : QPlainTextEdit(parent),
+                                        m_main_widget(ui_parent) {
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
@@ -59,7 +61,7 @@ void CodeEditor::highlightCurrentLine()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::green).lighter(60);
+        QColor lineColor = QColor(Qt::green).lighter(40);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -69,6 +71,13 @@ void CodeEditor::highlightCurrentLine()
     }
 
     setExtraSelections(extraSelections);
+
+//    QTextEdit::ExtraSelection selection;
+//    selection.cursor.blockNumber();
+//    QPoint pos0 = QCursor::pos();
+//    int QTextCursor::position ();
+//    m_main_widget->statusbar->showMessage(QString("%1:%2").arg(QTextCursor::position()).arg(00));
+
 }
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)

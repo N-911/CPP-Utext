@@ -14,7 +14,7 @@
 #include "tabmenager.h"
 
 FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent),
-            m_tabManager(new TabManager(m_file_widget->tabWidget)) {}
+            m_tabManager(new TabManager(m_file_widget->tabWidget, parent)) {}
 
 FileManager::~FileManager() {
 //    qInfo(logInfo()) << "~FileManager";
@@ -28,7 +28,7 @@ void FileManager::loadFile(const QString &fullFileName) {
         m_tabManager->setCurrentIndex(m_open_files[fullFileName]);  // делаем окно текущим
         return;
     }
-
+    // новий файл
     QFile file(fullFileName);
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
         QString warning = QString("Cannot read file %1:\n%2.").arg(QDir::toNativeSeparators(fullFileName),
@@ -46,7 +46,7 @@ void FileManager::loadFile(const QString &fullFileName) {
     m_tabManager->setCurrentIndex(index);  // делаем новое окно текущим
     m_tabManager->getWidget(index)->setWindowFilePath(fullFileName);  // associated path with widget
     m_open_files[fullFileName] = index;
-    m_files.insert(fullFileName);
+//    m_files.insert(fullFileName);
 //    auto file_in_hisfind(m_history_files.begin(), m_history_files.begin() + 10, fullFileName);
     qInfo(logInfo()) << QString("open file %1").arg(QFileInfo(fullFileName).fileName());
 
@@ -95,7 +95,7 @@ void FileManager::closeFile(int index) {
 
     auto fuulfilename = m_file_widget->tabWidget->widget(index)->windowFilePath();
     m_open_files.erase(fuulfilename);
-    m_files.erase(fuulfilename);
+//    m_files.erase(fuulfilename);
     m_history_files.push_front(fuulfilename);
     qDebug(logDebug()) << QString("close file " + fuulfilename);
 //=======
@@ -181,22 +181,8 @@ bool FileManager::saveAll() {
     return true;
 }
 
+void FileManager::update_history_files() {
+//    if ()
 
+}
 
-////////////============================================================================
-
-//void FileManager::setCurrentFile(QWidget *current_file) {
-//    m_current_file = current_file;
-//}
-
-
-
-
-//void MainWindow::on_actionClose_Tab_triggered()
-//{
-////    std::cout <<
-//    auto *curr_tab = m_file_widget->tabWidget->currentWidget();
-//    std::cout << "cuttenr tab =" <<
-//              m_file_widget->tabWidget->tabText(m_file_widget->tabWidget->currentIndex()).toStdString() << std::endl;
-//    closeFile(m_file_widget->tabWidget->currentIndex());
-//}

@@ -38,9 +38,10 @@ private slots:
 private:
     QString strippedName(const QString &fullFileName) const;
     bool saveFile(const QString &fileName);
+    void update_history_files();
 
     std::map<QString, size_t> m_open_files;
-    std::set<QString> m_files;
+//    std::set<QString> m_files;
     std::deque<QString> m_history_files;  // for history
 
     Ui::MainWindow *m_file_widget;

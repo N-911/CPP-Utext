@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->toolBar->setHidden(true);
     ui->findWidget->setHidden(true);
+    ui->treeView->setHidden(true);
+
 //    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
 //    ui->listView->setDragEnabled(true);
 //    ui->listView->setAcceptDrops(true);
@@ -195,9 +197,28 @@ void MainWindow::on_actionAdd_Project_Folder_triggered() {
 }
 
 
+void MainWindow::on_buttonFind_clicked()
+{
+    QString text = ui->findLine->text();
+    m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document());
+    m_searcher->searchText(text);
+}
+
+void MainWindow::on_actionFind_All_triggered(bool checked)
+{
+    ui->findWidget->setHidden(checked);
+}
+
+void MainWindow::on_findLine_returnPressed()
+{
+    on_buttonFind_clicked();
+}
 
 
-
+void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)
+{
+    ui->treeView->setHidden(checked);
+}
 
 
 
@@ -266,19 +287,3 @@ void MainWindow::on_actionAdd_Project_Folder_triggered() {
 //    ui->toolBar->addAction(newAct);
 
 
-void MainWindow::on_buttonFind_clicked()
-{
-    QString text = ui->findLine->text();
-    m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document());
-    m_searcher->searchText(text);
-}
-
-void MainWindow::on_actionFind_All_triggered(bool checked)
-{
-    ui->findWidget->setHidden(checked);
-}
-
-void MainWindow::on_findLine_returnPressed()
-{
-    on_buttonFind_clicked();
-}

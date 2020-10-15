@@ -4,10 +4,16 @@
 #include <QTabWidget>
 #include <QVector>
 
+QT_BEGIN_NAMESPACE
+namespace Ui {
+    class MainWindow;
+}
+QT_END_NAMESPACE
+
 class TabManager
 {
 public:
-    explicit TabManager(QTabWidget *parent = nullptr);
+    explicit TabManager(QTabWidget *parent, Ui::MainWindow *ui_parent);
     virtual ~TabManager();
     int addNewTab(QWidget *wd = nullptr, const QString &nameTab = "untitled", const QString &content = "");
     [[nodiscard]] QWidget *getWidget(int index) const;
@@ -22,6 +28,8 @@ public:
 private:
     QTabWidget *m_parent;
     QVector<QWidget *> m_tablist;
+
+    Ui::MainWindow *m_main_widget;
 };
 
 #endif // TABMENAGER_H
