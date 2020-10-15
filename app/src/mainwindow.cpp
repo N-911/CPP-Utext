@@ -41,32 +41,33 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                                  "}");
 
     ui->toolBar->setHidden(true);
-//    ui->treeView->setSelectionModel(QAbstractItemView::ExtendedSelection);
-    ui->treeView->setDragEnabled(true);
-    ui->treeView->setAcceptDrops(true);
+//    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
+    ui->listView->setDragEnabled(true);
+    ui->listView->setAcceptDrops(true);
 
     const QString headers{"Title"};
-    m_project_model = new Listmodel(headers, ui->treeView);
+    m_project_model = new Listmodel(headers, this, ui, m_project_manager);
+    ui->listView->setModel(m_project_model);
 
 /*
     const QStringList headers({tr("Title"), tr("Description")});
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
-    m_dirmodel = new Listmodel(QString("Folders"), ui->treeView);
+    m_dirmodel = new Listmodel(QString("Folders"), ui->listView);
     file.close();
     connect(actionAdd_Project_Folder, &QAction::triggered, this, &MainWindow::insertChild);
 */
 
-    m_dirmodel = new QFileSystemModel(this);
-    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+//    m_dirmodel = new QFileSystemModel(this);
+//    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
 //    m_dirmodel->setRootPath("~/");
 
-//    ui->treeView->setModel(m_dirmodel);
+//    ui->listView->setModel(m_dirmodel);
 //    ui->treeWidget->scrollTo(m_dirmodel->index(current_project));
 
 //    for (int i = 1; i < m_dirmodel->columnCount(); ++i)
 //    {
-//        ui->treeView->hideColumn(i);
+//        ui->listView->hideColumn(i);
 //    }
 
 }
@@ -197,29 +198,35 @@ void MainWindow::on_actionAdd_Project_Folder_triggered()
         delete m_project_model;
 
 
-    m_project_model->add_project_folder(dirName);
-    ui->treeView->setModel(m_project_model);
+
+    m_project_manager->add_project_folder(dirName);
+    m_project_model = new Listmodel("", this, ui, m_project_manager);
+    ui->listView->setModel(m_project_model);
+    ui->listView->viewport()->update();
 
 
 
-    if (QDir(dirName).exists()) {
-        m_project_manager->add_project_folder(dirName);
+//    if (QDir(dirName).exists()) {
+//        m_project_manager->add_project_folder(dirName);
         // redraw tre view !!!!!
-        m_dirmodel->setRootPath(dirName);
-//        ui->treeView->setRootIndex()
-        ui->treeView->setModel(m_dirmodel);
-        for (int i = 1; i < m_dirmodel->columnCount(); ++i)
-        {
-            ui->treeView->hideColumn(i);
-        }
-    }
+//        m_project_model
+
+
+//        m_dirmodel->setRootPath(dirName);
+//        ui->listView->setRootIndex()
+//        ui->listView->setModel(m_dirmodel);
+//        for (int i = 1; i < m_dirmodel->columnCount(); ++i)
+//        {
+//            ui->listView->hideColumn(i);
+//        }
+//    }
 }
 
 
 
 /*
- *     const QModelIndex index = ui->treeView->selectionModel()->currentIndex();
-    QAbstractItemModel *model = ui->treeView->model();
+ *     const QModelIndex index = ui->listView->selectionModel()->currentIndex();
+    QAbstractItemModel *model = ui->listView->model();
 
     if (model->columnCount(index) == 0) {
         if (!model->insertColumn(0, index))
@@ -236,7 +243,7 @@ void MainWindow::on_actionAdd_Project_Folder_triggered()
             model->setHeaderData(column, Qt::Horizontal, QVariant(tr("[No header]")), Qt::EditRole);
     }
 
-    ui->treeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
+    ui->listView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
                                             QItemSelectionModel::ClearAndSelect);
 //    updateActions();
  */

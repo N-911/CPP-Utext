@@ -120,7 +120,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QTreeView" name="treeView">
+     <widget class="QListView" name="listView">
       <property name="minimumSize">
        <size>
         <width>250</width>
@@ -592,22 +592,6 @@
     <hint type="destinationlabel">
      <x>649</x>
      <y>33</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionToggle_Tree_View</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>treeView</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>129</x>
-     <y>411</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>129</x>
-     <y>411</y>
     </hint>
    </hints>
   </connection>

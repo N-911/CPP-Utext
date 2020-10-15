@@ -1,5 +1,21 @@
 #include "listmodel.h"
 #include <loggingcategories.h>
+#include "projectmanager.h"
+#include <QTreeView>
+#include "ui_mainwindow.h"
+
+Listmodel::Listmodel(const QString &header, QWidget *parent, Ui::MainWindow *ui, const ProjectManager *manager)
+        : QAbstractListModel(parent),
+          m_header(header),
+          m_manager(manager) {
+    if (!m_manager)
+        return;
+    for (auto& model : m_manager->getProjects()) {
+        QTreeView tmp(parent);
+        ui->listView->setModel(model);
+        m_project_treeView.push_back(&tmp);
+    }
+}
 
 int Listmodel::rowCount(const QModelIndex &parent) const {
     return m_name_projects.size();
@@ -13,7 +29,7 @@ QVariant Listmodel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     if (role == Qt::DisplayRole) {
-        return m_name_projects.at(index.column());
+        return "m_project_treeView[index.row()]";
 //        return QVariant();
     }
     else
