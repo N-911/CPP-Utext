@@ -12,6 +12,7 @@
 #include "tabwelcome.h"
 #include "loggingcategories.h"
 #include <iostream>
+#include "search.h"
 
 #include "app.h"
 #include "treemodel.h"
@@ -29,11 +30,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     qInfo(logInfo()) << QString("    start Utext\n");
     m_file_manager = new FileManager(ui);
     m_project_manager = new ProjectManager(ui);
-
 //    m_tabmg = new TabManager(ui->tabWidget);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
     readSettings();
+    m_searcher = ui->tabWidget->count() > 0 ? new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document())
+            : new Search(nullptr);
 
     ui->tabWidget->setStyleSheet("QTabBar {\n"
                                  "background-color: transparent;\n"
@@ -75,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow() {
     delete ui;
     delete m_file_manager;
+    delete m_searcher;
 
     system("leaks -q utext");
 }
@@ -258,3 +261,11 @@ void MainWindow::on_actionAdd_Project_Folder_triggered()
 //    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
 //    QAction *newAct = new QAction(newIcon, tr("&New"), this);
 //    ui->toolBar->addAction(newAct);
+
+
+void MainWindow::on_buttonFind_clicked()
+{
+    QString text = ui->findLine->text();
+    m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document());
+    m_searcher->searchText(text);
+}

@@ -12,6 +12,7 @@ set(SOURCES mainwindow.cpp
         file_manager.cpp
         tabwelcome.cpp
         loggingcategories.cpp
+        search.cpp
         )
 
 set(HEADERS mainwindow.h
@@ -25,6 +26,7 @@ set(HEADERS mainwindow.h
         file_manager.h
         tabwelcome.h
         loggingcategories.h
+        search.h
         )
 
 set(UI mainwindow.ui)
