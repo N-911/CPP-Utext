@@ -46,6 +46,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     m_dirmodel = new QFileSystemModel(this);
     m_dirmodel->setRootPath("/");
+
+    ui->treeView->setContextMenuPolicy(Qt::DefaultContextMenu);
+//    ui->treeView
+
+//    QWidget::customContextMenuRequested(const QPoint&)
+
 //    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
 //    ui->listView->setDragEnabled(true);
 //    ui->listView->setAcceptDrops(true);
@@ -217,6 +223,11 @@ void MainWindow::on_findLine_returnPressed()
 void MainWindow::on_actionActivity_Log_triggered()
 {
     m_file_manager->loadFile(QCoreApplication::applicationDirPath() + "/logFile.txt");
+}
+
+void MainWindow::on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos)
+{
+
 }
 
 

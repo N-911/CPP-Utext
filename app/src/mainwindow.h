@@ -60,8 +60,11 @@ private slots:
         void on_findLine_returnPressed();
         void on_buttonFind_clicked();
         void on_actionFind_All_triggered(bool checked);
+
 //        void on_actionToggle_Tree_View_triggered(bool checked);
+
         void on_actionActivity_Log_triggered();
+        void on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos);
 
 private:
 

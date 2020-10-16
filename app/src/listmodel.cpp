@@ -96,3 +96,4 @@ void Listmodel::add_data(const QString& dirName) {
 
 
 
+
