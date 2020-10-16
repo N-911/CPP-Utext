@@ -70,6 +70,7 @@ bool FileManager::saveFile(const QString &fileName) {
             errorMessage = (QString("Cannot write file %1:\n%2.").arg(QDir::toNativeSeparators(fileName),
                                                                       file.errorString()));
         }
+        text_to_save->document()->setModified(false);
     } else {
         errorMessage = (QString("Cannot open file %1 for writing:\n%2.").arg(QDir::toNativeSeparators(fileName),
                                                                              file.errorString()));
@@ -111,10 +112,14 @@ QString FileManager::strippedName(const QString &fullFileName) const {
 }
 
 bool FileManager::isChanged() {
+
     auto *text_edit_file = qobject_cast<QPlainTextEdit *>(m_tabManager->getCurrentWidget());
     if (!text_edit_file->document()->isModified()) {
+        qDebug(logDebug()) << "isChanged - false";
         return true;
     }
+    qDebug(logDebug()) << "isChanged - true";
+
     const QMessageBox::StandardButton ret
             = QMessageBox::warning(0, QString("Application"),
                                    QString("The document has been modified.\n"
@@ -172,7 +177,7 @@ bool FileManager::saveAs() {
 bool FileManager::saveAll() {
     int temp = m_tabManager->getCurrentIndex();
 
-    for (int i = 1; i < m_tabManager->getCountTab(); ++i) {
+    for (int i = 0; i < m_tabManager->getCountTab(); ++i) {
         m_tabManager->setCurrentIndex(i);
         qDebug(logDebug()) << QString("save All %1 tab index").arg(i);
         isChanged();

@@ -32,15 +32,14 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 
 int main(int argc, char **argv)
 {
+    App app(argc, argv, "Ucode", "Utext");
 //    / Устанавливаем файл логирования,
-    m_logFile.reset(new QFile("../../app/logFile.txt"));
+//    m_logFile.reset(new QFile(QCoreApplication::applicationDirPath() + "/logFile.txt"));
 //    m_logFile.reset(new QFile("./app/logFile.txt"));
+    m_logFile.reset(new QFile("../../app/logFile.txt"));
     m_logFile.data()->open(QFile::Append | QFile::Text);
     // Устанавливаем обработчик. To restore the message handler, call qInstallMessageHandler(0).
     qInstallMessageHandler(messageHandler);
-
-//    QApplication app(argc, argv);
-    App app(argc, argv, "Ucode", "Utext");
     MainWindow window;
     window.show();
     return app.exec();
@@ -51,28 +50,26 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 {
     QTextStream out(m_logFile.data());
 
-    // write data
     out << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ");
-
     QByteArray localMsg = msg.toLocal8Bit();
     const char *file = context.file ? context.file : "";
     const char *function = context.function ? context.function : "";
 
     switch (type) {
         case QtDebugMsg:
-            out << QString("Debug: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            out << QString(" Debug: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
             break;
         case QtInfoMsg:
-            out << QString("Info: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            out << QString(" Info: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
             break;
         case QtWarningMsg:
-            out << QString("Warning: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            out << QString(" Warning: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
             break;
         case QtCriticalMsg:
-            out << QString("Critical: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            out << QString(" Critical: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
             break;
         case QtFatalMsg:
-            out << QString("Fatal: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
+            out << QString(" Fatal: %1 (%2:%3, %4)\n").arg(localMsg.constData()).arg(file).arg(context.line).arg(function);
             break;
     }
     out.flush();    // Очищаем буферизированные данные

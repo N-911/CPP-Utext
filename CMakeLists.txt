@@ -7,3 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(3dparty)
 add_subdirectory(app)
+
+#set_target_properties(utext PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../..)
