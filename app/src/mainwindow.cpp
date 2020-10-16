@@ -209,10 +209,10 @@ void MainWindow::on_findLine_returnPressed()
     on_buttonFind_clicked();
 }
 
-void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
-{
-    ui->treeView->setHidden(checked);
-}
+//void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
+//{
+//    ui->treeView->setHidden(checked);
+//}
 
 void MainWindow::on_actionActivity_Log_triggered()
 {
