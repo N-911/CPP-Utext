@@ -199,15 +199,22 @@ void MainWindow::on_buttonFind_clicked()
         return;
     QString text = ui->findLine->text();
     m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
+    m_searcher->replace("***");
     m_searcher->searchText(text);
 }
 
 void MainWindow::on_actionFind_All_triggered(bool checked)
 {
-    if (m_searcher)
+    if (m_searcher) {
         delete m_searcher;
-    m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
+        m_searcher = nullptr;
+    }
+    if (!checked) {
+        m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
+        ui->findLine->setFocus();
+    }
     ui->findWidget->setHidden(checked);
+
 }
 
 void MainWindow::on_findLine_returnPressed()
