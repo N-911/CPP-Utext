@@ -34,6 +34,7 @@ int main(int argc, char **argv)
 {
 //    / Устанавливаем файл логирования,
     m_logFile.reset(new QFile("../../app/logFile.txt"));
+//    m_logFile.reset(new QFile("./app/logFile.txt"));
     m_logFile.data()->open(QFile::Append | QFile::Text);
     // Устанавливаем обработчик. To restore the message handler, call qInstallMessageHandler(0).
     qInstallMessageHandler(messageHandler);

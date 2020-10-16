@@ -70,9 +70,9 @@ private:
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
     TabManager *m_tabmg = nullptr;
-//    QFileSystemModel *m_dirmodel;
+    QFileSystemModel *m_dirmodel = nullptr;
     ProjectManager *m_project_manager;
-    Listmodel *m_project_model;
+//    Listmodel *m_project_model;
     Search *m_searcher = nullptr;
 };
 

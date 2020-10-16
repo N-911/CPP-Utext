@@ -27,10 +27,12 @@ using std::endl;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    qInfo(logInfo()) << QString("    start Utext\n");
+    qInfo(logInfo()) << QString("    Start Utext\n");
     m_file_manager = new FileManager(ui);
     m_project_manager = new ProjectManager(ui);
-//    m_tabmg = new TabManager(ui->tabWidget);
+
+    m_dirmodel = new QFileSystemModel(this);
+
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
     readSettings();
@@ -47,19 +49,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
 //    ui->listView->setDragEnabled(true);
 //    ui->listView->setAcceptDrops(true);
-    const QString headers{"Title"};
-    m_project_model = new Listmodel(headers, this, ui);
+//    const QString headers{"Title"};
+//    m_project_model = new Listmodel(headers, this, ui);
 //    ui->listView->setModel(m_project_model);
 
 
-//    m_dirmodel = new QFileSystemModel(this);
-//    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-//    m_dirmodel->setRootPath("~/");
-//    ui->treeWidget->scrollTo(m_dirmodel->index(current_project));
-//    for (int i = 1; i < m_dirmodel->columnCount(); ++i)
-//    {
-//        ui->listView->hideColumn(i);
-//    }
 
 }
 
@@ -127,9 +121,8 @@ void MainWindow::on_actionSave_as_triggered()
     m_file_manager->saveAs();
 }
 
-void MainWindow::on_actionClose_Tab_triggered()
+void MainWindow::on_actionClose_Tab_triggered()  //   cmd + W
 {
-    //   cmd + W
     int index = ui->tabWidget->currentIndex();
     qDebug(log_text_window()) << "MainWindow::on_actionClose_Tab_triggered close tab " << index << "\n";
     if (index >= 0) {
@@ -138,11 +131,12 @@ void MainWindow::on_actionClose_Tab_triggered()
     }
 }
 
-void MainWindow::on_actionQuit_Utext_triggered()
+void MainWindow::on_actionQuit_Utext_triggered()  // cmd + q
 {
-    // cmd + q
     writeSettings();
+    m_file_manager->saveAll();
     qInfo(logInfo()) << QString("    end Utext\n");
+    App::quit();
 }
 
 void MainWindow::on_actionSave_All_triggered()  // shift + cmd + s
@@ -169,10 +163,11 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()  // cmd + [
 
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
-//    QString fullFilePath = m_dirmodel->filePath(index);
-//    if (!(QDir(fullFilePath).exists())) {
-//        m_file_manager->loadFile(fullFilePath);
-//    }
+    QString fullFilePath = m_dirmodel->filePath(index);
+    qInfo(logInfo()) << "file path " << fullFilePath;
+    if (!(QDir(fullFilePath).exists())) {
+        m_file_manager->loadFile(fullFilePath);
+    }
 }
 
 void MainWindow::on_actionAdd_Project_Folder_triggered() {
@@ -180,43 +175,42 @@ void MainWindow::on_actionAdd_Project_Folder_triggered() {
     QString dirName = QFileDialog::getExistingDirectory(this, "Open Directory", "/",
                                                         QFileDialog::ShowDirsOnly
                                                         | QFileDialog::DontResolveSymlinks);
+    qInfo(logInfo()) << "project path " << dirName;
+//    dirName += '/';
+//    auto index = dynamic_cast<QFileSystemModel *>(ui->treeView->model())->index(dirName);
+//    m_dirmodel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    if (m_dirmodel)
+        delete m_dirmodel;
+    m_dirmodel = new QFileSystemModel(this);
 
-    if (!m_project_model)
-        delete m_project_model;
+
+    m_dirmodel->setRootPath(dirName);
+
+    qInfo(logInfo()) << "dir_model path " << m_dirmodel->rootPath();
+    ui->treeView->setHidden(false);
+    ui->treeView->setModel(m_dirmodel);
+
+    ui->treeView->setRootIndex(m_dirmodel->index(dirName));
+//    ui->treeView->setRootIndex(index);
+
+//    ui->treeView->scrollTo(m_dirmodel->index(dirName));
+    for (int i = 1; i < m_dirmodel->columnCount(); ++i)
+    {
+        ui->treeView->hideColumn(i);
+    }
 
 
-//    m_project_manager->add_project_folder(dirName);
-    m_project_model->add_data(dirName);
+//    if (!m_project_model)
+//        delete m_project_model;
+//
+//
+////    m_project_manager->add_project_folder(dirName);
+//    m_project_model->add_data(dirName);
+//
+//    m_project_model = new Listmodel("", this, ui);
+//    ui->treeView->setModel(m_project_model);
 
-    m_project_model = new Listmodel("", this, ui);
-    ui->treeView->setModel(m_project_model);
-
-    ui->treeView->viewport()->update();
-}
-
-/*
-void MainWindow::on_buttonFind_clicked()
-{
-    QString text = ui->findLine->text();
-    m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document());
-    m_searcher->searchText(text);
-}
-
-void MainWindow::on_actionFind_All_triggered(bool checked)
-{
-    ui->findWidget->setHidden(checked);
-}
-
-void MainWindow::on_findLine_returnPressed()
-{
-    on_buttonFind_clicked();
-}
-
-*/
-
-void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)
-{
-    ui->treeView->setHidden(checked);
+//    ui->treeView->viewport()->update();
 }
 
 void MainWindow::on_buttonFind_clicked()
@@ -243,6 +237,10 @@ void MainWindow::on_findLine_returnPressed()
     on_buttonFind_clicked();
 }
 
+void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
+{
+    ui->treeView->setHidden(checked);
+}
 
 
 
@@ -251,7 +249,22 @@ void MainWindow::on_findLine_returnPressed()
 
 
 
-//////////////////////////
+////////////////////////// delete before release
+
+/*
+void MainWindow::on_buttonFind_clicked()
+{
+    QString text = ui->findLine->text();
+    m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget())->document());
+    m_searcher->searchText(text);
+}
+
+void MainWindow::on_findLine_returnPressed()
+{
+    on_buttonFind_clicked();
+}
+
+*/
 
 
 //    if (QDir(dirName).exists()) {

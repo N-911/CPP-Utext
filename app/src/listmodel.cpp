@@ -92,3 +92,5 @@ void Listmodel::add_data(const QString& dirName) {
 //    qInfo(logInfo()) << "m_projects size = " << m_name_projects.size();
 //}
 
+
+
