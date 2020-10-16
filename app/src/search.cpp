@@ -9,25 +9,9 @@ Search::Search(QPlainTextEdit *parent) : HLClass(parent->document()), m_parent(p
     m_format.setBackground(Qt::blue);
 }
 
-
-
-void Search::searchText(const QString &text)
+void Search::searchText(const QString &text, bool reverse, bool casesens, bool words)
 {
-    auto document = m_parent->document();
-    QTextCursor newCursor(document);
-
-    while (!newCursor.isNull() && !newCursor.atEnd()) {
-        newCursor = document->find(text, newCursor);
-        if (!newCursor.isNull()) {
-//            newCursor;
-            newCursor.mergeCharFormat(m_format);
-        }
-    }
     QTextDocument::FindFlags flag;
-
-    bool reverse = false;
-    bool casesens = false;
-    bool words = false;
     if (reverse) flag |= QTextDocument::FindBackward;
     if (casesens) flag |= QTextDocument::FindCaseSensitively;
     if (words) flag |= QTextDocument::FindWholeWords;
@@ -35,23 +19,50 @@ void Search::searchText(const QString &text)
     QTextCursor cursor = m_parent->textCursor();
     QTextCursor cursorSaved = cursor;
 
-    if (!m_parent->find(text, flag))
+    m_currentCursor = m_parent->document()->find(text, cursor, flag);
+
+    if (m_currentCursor.isNull() && !m_parent->find(text, flag))
     {
-        cursor.movePosition(reverse ? QTextCursor::End:QTextCursor::Start);
+        m_currentCursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
+        cursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
         m_parent->setTextCursor(cursor);
+        m_currentCursor = m_parent->document()->find(text, m_currentCursor, flag);
+        m_parent->find(text, flag);
     }
     m_pattern = QRegularExpression(text);
     QRegularExpression::PatternOption fl;
-    fl = QRegularExpression::CaseInsensitiveOption;
-    fl = QRegularExpression::DontCaptureOption;
+    if (casesens)  fl = QRegularExpression::CaseInsensitiveOption;
     m_pattern.setPatternOptions(fl);
 
     rehighlight();
-}
 
+//    QTextDocument::FindFlags flag;
+//    if (reverse) flag |= QTextDocument::FindBackward;
+//    if (casesens) flag |= QTextDocument::FindCaseSensitively;
+//    if (words) flag |= QTextDocument::FindWholeWords;
+//
+//    QTextCursor cursor = m_parent->textCursor();
+//    QTextCursor cursorSaved = cursor;
+//
+//    m_currentCursor = m_parent->document()->find(text, m_currentCursor, flag);
+//
+//    if (!m_parent->find(text, flag))
+//    {
+//        cursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
+//        m_parent->setTextCursor(cursor);
+//        m_parent->find(text, flag);
+//        m_currentCursor = nullptr;
+//    }
+//    m_pattern = QRegularExpression(text);
+//    QRegularExpression::PatternOption fl;
+//    if (casesens)  fl = QRegularExpression::CaseInsensitiveOption;
+//    m_pattern.setPatternOptions(fl);
+//
+//    rehighlight();
+}
 void Search::highlightBlock(const QString &text)
 {
-    QRegularExpressionMatchIterator matchIterator = m_pattern.globalMatch(text, 0, QRegularExpression::NoMatch);
+    QRegularExpressionMatchIterator matchIterator = m_pattern.globalMatch(text, 0, QRegularExpression::NormalMatch);
     while (matchIterator.hasNext())
     {
         QRegularExpressionMatch match = matchIterator.next();
@@ -62,4 +73,13 @@ void Search::highlightBlock(const QString &text)
 void Search::setTextDocument(QPlainTextEdit *new_parent) {
     m_parent = new_parent;
     setDocument(m_parent->document());
+}
+
+void Search::replace(const QString &text) {
+    m_currentCursor.beginEditBlock();
+    if (m_currentCursor.isNull())
+        return;
+    m_currentCursor.insertText(text);
+    m_currentCursor.endEditBlock();
+
 }

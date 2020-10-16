@@ -12,14 +12,16 @@ class Search : public QSyntaxHighlighter
     using HLClass = QSyntaxHighlighter;
 public:
     explicit Search(QPlainTextEdit *parent = nullptr);
-    void searchText(const QString& text);
+    void searchText(const QString& text, bool reverse = false, bool casesens = false, bool words = false);
     void setTextDocument(QPlainTextEdit *new_parent);
-    void searchAllMatch(const QString& text);
+    void replace(const QString &text);
 
 protected:
     void highlightBlock(const QString &text) override;
 
 private:
+    QString m_current_key{""};
+    QTextCursor m_currentCursor;
     QPlainTextEdit *m_parent = nullptr;
     QRegularExpression m_pattern;
     QTextCharFormat m_format;
