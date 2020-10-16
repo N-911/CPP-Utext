@@ -14,6 +14,7 @@ CodeEditor::CodeEditor(Ui::MainWindow *ui_parent, QWidget *parent) : QPlainTextE
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+    ui_parent->tabWidget->setFocus();
 }
 
 int CodeEditor::lineNumberAreaWidth()

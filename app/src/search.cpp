@@ -21,12 +21,12 @@ void Search::searchText(const QString &text, bool reverse, bool casesens, bool w
 
     m_currentCursor = m_parent->document()->find(text, cursor, flag);
 
-    if (m_currentCursor.isNull() && !m_parent->find(text, flag))
+    if (/*m_currentCursor.isNull() && */!m_parent->find(text, flag))
     {
-        m_currentCursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
+//        m_currentCursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
         cursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
         m_parent->setTextCursor(cursor);
-        m_currentCursor = m_parent->document()->find(text, m_currentCursor, flag);
+        m_currentCursor = m_parent->document()->find(text, cursor, flag);
         m_parent->find(text, flag);
     }
     m_pattern = QRegularExpression(text);
@@ -35,7 +35,7 @@ void Search::searchText(const QString &text, bool reverse, bool casesens, bool w
     m_pattern.setPatternOptions(fl);
 
     rehighlight();
-
+//
 //    QTextDocument::FindFlags flag;
 //    if (reverse) flag |= QTextDocument::FindBackward;
 //    if (casesens) flag |= QTextDocument::FindCaseSensitively;
@@ -44,14 +44,12 @@ void Search::searchText(const QString &text, bool reverse, bool casesens, bool w
 //    QTextCursor cursor = m_parent->textCursor();
 //    QTextCursor cursorSaved = cursor;
 //
-//    m_currentCursor = m_parent->document()->find(text, m_currentCursor, flag);
 //
 //    if (!m_parent->find(text, flag))
 //    {
 //        cursor.movePosition(reverse ? QTextCursor::End : QTextCursor::Start);
 //        m_parent->setTextCursor(cursor);
 //        m_parent->find(text, flag);
-//        m_currentCursor = nullptr;
 //    }
 //    m_pattern = QRegularExpression(text);
 //    QRegularExpression::PatternOption fl;
