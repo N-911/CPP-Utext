@@ -42,19 +42,47 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
                                  "}");
     ui->toolBar->setHidden(true);
     ui->findWidget->setHidden(true);
+    ui->replace_Widget->setHidden(true);
     ui->treeView->setHidden(true);
 
     m_dirmodel = new QFileSystemModel(this);
     m_dirmodel->setRootPath("/");
 
-    ui->treeView->setContextMenuPolicy(Qt::DefaultContextMenu);
+    // contextMenu
+//    contextMenu = new QMenu(ui->treeView);
+    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+//    contextMenu->addAction("Uninstall TA", this, SLOT(uninstallAppletClickedSlot());
+
+    connect(ui->treeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
+
+//  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+//          this, SLOT(ShowContextMenu(const QPoint &)));
+//    ui->treeView->addAction(on_actionSave_triggered());
 //    ui->treeView
-
 //    QWidget::customContextMenuRequested(const QPoint&)
-
 //    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
 //    ui->listView->setDragEnabled(true);
 //    ui->listView->setAcceptDrops(true);
+}
+
+void MainWindow::onCustomContextMenu(const QPoint &point)
+{
+  QMenu contextMenu(tr("Context menu"), this);
+
+  QAction action_new("New ", this);
+  connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
+  contextMenu.addAction(&action_new);
+  QAction action_rename("Rename ", this);
+  connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
+  contextMenu.addAction(&action_rename);
+
+  contextMenu.exec(mapToGlobal(point));
+
+//  QModelIndex index = ui->treeView->indexAt(point);
+//  if (index.isValid() && index.row() % 2 == 0) {
+//    ui->treeView->exec(ui->treeView->viewport()->mapToGlobal(point));
+//    ui->contextMenu->exec(ui->treeView->viewport()->mapToGlobal(point));
+//  }
 }
 
 MainWindow::~MainWindow() {
@@ -217,15 +245,18 @@ void MainWindow::on_actionFind_All_triggered(bool checked)
 
 }
 
+void MainWindow::on_actionReplace_Next_triggered(bool checked)
+{
+  ui->replace_Widget->setHidden(checked);
+}
+
+
 void MainWindow::on_findLine_returnPressed()
 {
     on_buttonFind_clicked();
 }
 
-//void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
-//{
-//    ui->treeView->setHidden(checked);
-//}
+
 
 void MainWindow::on_actionActivity_Log_triggered()
 {
@@ -238,6 +269,10 @@ void MainWindow::on_treeView_customContextMenuRequested(const QModelIndex& index
 }
 
 
+//void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
+//{
+//    ui->treeView->setHidden(checked);
+//}
 
 
 ////////////////////////// delete before release
@@ -318,4 +353,5 @@ void MainWindow::on_findLine_returnPressed()
 //    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
 //    QAction *newAct = new QAction(newIcon, tr("&New"), this);
 //    ui->toolBar->addAction(newAct);
+
 

@@ -61,15 +61,21 @@ private slots:
         void on_buttonFind_clicked();
         void on_actionFind_All_triggered(bool checked);
 
+        void on_actionReplace_Next_triggered(bool checked);  // cmd + R
+
 //        void on_actionToggle_Tree_View_triggered(bool checked);
 
         void on_actionActivity_Log_triggered();
         void on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos);
+        void onCustomContextMenu(const QPoint &point);
+
 
 private:
 
     void readSettings();
     void writeSettings();
+
+//    QMenu* contextMenu;
 
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
