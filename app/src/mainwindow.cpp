@@ -73,7 +73,7 @@ void MainWindow::onCustomContextMenu(const QPoint &point)
   connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
   contextMenu.addAction(&action_new);
   QAction action_rename("Rename ", this);
-  connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
+  connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_actionNew_file_rename()));
   contextMenu.addAction(&action_rename);
 
   contextMenu.exec(mapToGlobal(point));
@@ -84,6 +84,19 @@ void MainWindow::onCustomContextMenu(const QPoint &point)
 //    ui->contextMenu->exec(ui->treeView->viewport()->mapToGlobal(point));
 //  }
 }
+
+
+void MainWindow::on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos)
+{
+  qDebug(logDebug()) << "on_treeView_customContextMenuRequested context =" << index.row();
+
+}
+void MainWindow::on_actionNew_file_rename(const QModelIndex& index, const QPoint &pos) {
+
+    qDebug(logDebug()) << "rename context =" << index.row();
+
+}
+
 
 MainWindow::~MainWindow() {
     delete ui;
@@ -263,10 +276,7 @@ void MainWindow::on_actionActivity_Log_triggered()
     m_file_manager->loadFile(QCoreApplication::applicationDirPath() + "/logFile.txt");
 }
 
-void MainWindow::on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos)
-{
 
-}
 
 
 //void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView

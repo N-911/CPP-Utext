@@ -174,25 +174,39 @@
         </item>
         <item>
          <widget class="QWidget" name="findWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="toolTipDuration">
+           <number>-1</number>
+          </property>
           <property name="styleSheet">
-           <string notr="true">QWidget { background-color: rgb(161, 160, 163); border: none; }
+           <string notr="true">QWidget { background-color: rgb(98, 100, 105); 
+				border: none; }
+
 </string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout" stretch="10,1,1">
            <property name="spacing">
             <number>10</number>
            </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
            <property name="leftMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>30</number>
+            <number>0</number>
            </property>
            <property name="bottomMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <item>
             <widget class="QLineEdit" name="findLine">
@@ -203,10 +217,21 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true">QLineEdit {
+    border-width: 1px;
+	border-right-style: solid;
+	border-right-color:  white;
+}
+padding: 5px;
+/*border: 1px solid;
+border-radius: 50%;*/
+</string>
              </property>
              <property name="frame">
               <bool>false</bool>
+             </property>
+             <property name="cursorPosition">
+              <number>0</number>
              </property>
              <property name="placeholderText">
               <string>Find</string>
@@ -217,77 +242,93 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="minimumSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton { background-color: rgb(157, 155, 158); border: none; }
+            <widget class="QWidget" name="find_options" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QPushButton" name="Match_Case">
+                <property name="minimumSize">
+                 <size>
+                  <width>23</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton { background-color: rgb(98, 100, 105); border: none; }
+
+
 </string>
-               </property>
-               <property name="text">
-                <string>Aa</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="minimumSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton { background-color: rgb(157, 155, 158); border: none; }</string>
-               </property>
-               <property name="text">
-                <string>W</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="MatchCase">
-               <property name="minimumSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton { background-color: rgb(157, 155, 158); border: none; }</string>
-               </property>
-               <property name="text">
-                <string>.*</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+                </property>
+                <property name="text">
+                 <string>Aa</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Word">
+                <property name="minimumSize">
+                 <size>
+                  <width>23</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton { background-color: rgb(98, 100, 105); border: none; }</string>
+                </property>
+                <property name="text">
+                 <string>W</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Regex">
+                <property name="minimumSize">
+                 <size>
+                  <width>23</width>
+                  <height>23</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton { background-color: rgb(98, 100, 105); border: none; }</string>
+                </property>
+                <property name="text">
+                 <string>.*</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="buttonFind">
              <property name="minimumSize">
               <size>
-               <width>80</width>
+               <width>30</width>
                <height>30</height>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">/*background-color: black;*/</string>
+              <string notr="true">QPushButton {
+    border-width: 1px;
+	border-left-style: solid;
+	border-left-color:  white;
+}
+
+/*background-color: black;*/</string>
              </property>
              <property name="text">
               <string>Find</string>
@@ -295,31 +336,34 @@
             </widget>
            </item>
           </layout>
+          <zorder>find_options</zorder>
+          <zorder>findLine</zorder>
+          <zorder>buttonFind</zorder>
          </widget>
         </item>
         <item>
          <widget class="QWidget" name="replace_Widget" native="true">
           <property name="styleSheet">
-           <string notr="true">QWidget { background-color: rgb(161, 160, 163); border: none; }</string>
+           <string notr="true">QWidget { background-color: rgb(98, 100, 105); border: none; }</string>
           </property>
-          <layout class="QHBoxLayout" name="replaceWidget" stretch="10,1">
+          <layout class="QHBoxLayout" name="replaceWidget" stretch="11,1">
            <property name="spacing">
-            <number>10</number>
+            <number>0</number>
            </property>
            <property name="leftMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>30</number>
+            <number>0</number>
            </property>
            <property name="bottomMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <item>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="replaceLine">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -329,17 +373,37 @@
              <property name="styleSheet">
               <string notr="true">padding: 5px;
 /*border: 1px solid;
-border-radius: 50%;*/</string>
+border-radius: 50%;*/
+
+
+QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
              </property>
              <property name="text">
-              <string>Replace</string>
+              <string/>
+             </property>
+             <property name="frame">
+              <bool>false</bool>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="buttomReplace">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
              <property name="styleSheet">
-              <string notr="true">/*background-color: black;*/</string>
+              <string notr="true">QPushButton {
+    border-width: 1px;
+	border-left-style: solid;
+	border-left-color:  white;
+}
+</string>
              </property>
              <property name="text">
               <string>Replace</string>

@@ -69,6 +69,8 @@ private slots:
         void on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos);
         void onCustomContextMenu(const QPoint &point);
 
+        void on_actionNew_file_rename(const QModelIndex& index, const QPoint &pos);
+
 
 private:
 
