@@ -82,3 +82,5 @@ void TabManager::setTabTitle(int index, const QString &title) {
 int TabManager::getCountTab() const {
     return m_parent->count();
 }
+
+

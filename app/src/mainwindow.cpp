@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 //    ui->listView->setAcceptDrops(true);
 }
 
+
 void MainWindow::onCustomContextMenu(const QPoint &point)
 {
   QMenu contextMenu(tr("Context menu"), this);
@@ -86,15 +87,26 @@ void MainWindow::onCustomContextMenu(const QPoint &point)
 }
 
 
-void MainWindow::on_treeView_customContextMenuRequested(const QModelIndex& index, const QPoint &pos)
+void MainWindow::on_treeView_customContextMenuRequested(const QPoint &pos)
 {
-  qDebug(logDebug()) << "on_treeView_customContextMenuRequested context =" << index.row();
+  QModelIndex index = ui->treeView->currentIndex();
+
+  qDebug(logDebug()) << "on_treeView_customContextMenuRequested context =" << index.data();
 
 }
-void MainWindow::on_actionNew_file_rename(const QModelIndex& index, const QPoint &pos) {
+void MainWindow::on_actionNew_file_rename() {
+    QModelIndex index = ui->treeView->currentIndex();
 
     qDebug(logDebug()) << "rename context =" << index.row();
+    qDebug(logDebug()) << "rename context =" << index.data();
+    qDebug(logDebug()) << "rename root path context =" << m_dirmodel->rootPath();
 
+     QFile current_file(QString(m_dirmodel->rootPath() + "/" + index.data().toString()));
+     if (current_file.exists()) {
+       qDebug(logDebug()) << "rename  " <<  index.data().toString() << "to  new file";
+       current_file.rename(QString(m_dirmodel->rootPath() + "/" + index.data().toString()),
+                           QString(m_dirmodel->rootPath() + "/" + "new_name"));
+     }
 }
 
 

@@ -71,6 +71,9 @@
     </property>
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,4">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QTreeView" name="treeView">
         <property name="minimumSize">
@@ -383,6 +386,9 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
              </property>
              <property name="frame">
               <bool>false</bool>
+             </property>
+             <property name="placeholderText">
+              <string>Replace</string>
              </property>
              <property name="clearButtonEnabled">
               <bool>true</bool>
