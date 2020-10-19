@@ -30,9 +30,9 @@ ___
     ./utext
 
 ### Main parts:
-   ####1. Toolbar
-   ####2. Text area
-   ####3. Tree area
+ ####1. Toolbar
+ ####2. Text area
+ ####3. Tree area
 
 ### General features:
    - [x] open directories and single files

@@ -60,7 +60,6 @@ private slots:
         void on_actionFind_All_triggered(bool checked);
 
         void on_actionReplace_Next_triggered(bool checked);  // cmd + R
-
 //        void on_actionToggle_Tree_View_triggered(bool checked);
 
         void on_actionActivity_Log_triggered();

@@ -35,8 +35,8 @@ int main(int argc, char **argv)
     App app(argc, argv, "Ucode", "Utext");
 //    / Устанавливаем файл логирования,
 //    m_logFile.reset(new QFile(QCoreApplication::applicationDirPath() + "/logFile.txt"));
-//    m_logFile.reset(new QFile("./app/logFile.txt"));
-    m_logFile.reset(new QFile("../../app/logFile.txt"));
+//    m_logFile.reset(new QFile("./app/logFile.txt"));  // run from zsh
+    m_logFile.reset(new QFile("../../app/logFile.txt"));  // run from Clion
     m_logFile.data()->open(QFile::Append | QFile::Text);
     // Устанавливаем обработчик. To restore the message handler, call qInstallMessageHandler(0).
     qInstallMessageHandler(messageHandler);

@@ -8,6 +8,8 @@ CodeEditor::CodeEditor(Ui::MainWindow *ui_parent, QWidget *parent) : QPlainTextE
                                         m_main_widget(ui_parent) {
     lineNumberArea = new LineNumberArea(this);
 
+//    CodeEditor->setStyleSheet("color: white; background-color: blue;");
+
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
     connect(this, &CodeEditor::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine);
@@ -62,7 +64,7 @@ void CodeEditor::highlightCurrentLine()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::green).lighter(10);
+        QColor lineColor = QColor( 72, 108, 241).lighter(150);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);

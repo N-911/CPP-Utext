@@ -13,6 +13,7 @@
 #include "tabwelcome.h"
 #include "loggingcategories.h"
 #include <iostream>
+#include <QInputDialog>
 #include "search.h"
 #include "app.h"
 
@@ -100,11 +101,26 @@ void MainWindow::on_actionNew_file_rename() {
     qDebug(logDebug()) << "rename context =" << index.data();
     qDebug(logDebug()) << "rename root path context =" << m_dirmodel->rootPath();
 
+
+
+//    QDialog->setStyleSheet("QLineEdit { background-color: yellow }");
+
      QFile current_file(QString(m_dirmodel->rootPath() + "/" + index.data().toString()));
      if (current_file.exists()) {
        qDebug(logDebug()) << "rename  " <<  index.data().toString() << "to  new file";
-       current_file.rename(QString(m_dirmodel->rootPath() + "/" + index.data().toString()),
-                           QString(m_dirmodel->rootPath() + "/" + "new_name"));
+
+         bool ok;
+         QInputDialog* dialog = new QInputDialog(this);
+         dialog->setInputMode(QInputDialog::TextInput);
+         dialog->setStyleSheet("QLineEdit { background-color: blue }");
+         dialog->setOptions(QInputDialog::NoButtons);
+
+         QString new_name = dialog->getText(this,"Rename file", tr("Enter the new path for the file."), QLineEdit::Normal,
+                                           index.data().toString(), &ok);
+         if (ok) {
+             current_file.rename(QString(m_dirmodel->rootPath() + "/" + index.data().toString()),
+                                 QString(m_dirmodel->rootPath() + "/" + new_name));
+         }
      }
 }
 

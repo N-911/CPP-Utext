@@ -35,5 +35,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Multimedia
         src
 )
+#target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE -DQT_DEBUG -DQT_MESSAGELOGCONTEXT)
 
 
