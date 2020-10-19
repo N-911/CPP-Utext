@@ -6,7 +6,7 @@
 #include <QRegularExpression>
 #include <QVector>
 
-class QSyntaxStyle;
+class SyntaxStyle;
 
 class SyntaxHiglighterCXX : public StyleSyntaxHighlighter
 {

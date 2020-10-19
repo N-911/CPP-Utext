@@ -12,6 +12,7 @@ class SyntaxStyle : public QObject
 public:
     explicit SyntaxStyle(QObject* parent = nullptr);
     static SyntaxStyle* defaultStyle();
+    static SyntaxStyle* darkStyle();
     bool load(const QString &fl);
     QString name() const;
     bool isLoaded() const;

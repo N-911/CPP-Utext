@@ -14,21 +14,21 @@
 #include "loggingcategories.h"
 #include <iostream>
 #include <QInputDialog>
+#include <QMenu>
 #include "search.h"
 #include "app.h"
+#include "syntaxstyle.h"
+#include "syntaxhighlightercxx.h"
 
 using std::cout;
 using std::endl;
 
-#define NAME(x) #x
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+    qInfo(logInfo()) << QString("Start Utext\n");
+
     ui->setupUi(this);
-
-    qInfo(logInfo()) << QString("    Start Utext\n");
     m_file_manager = new FileManager(ui);
-    m_project_manager = new ProjectManager(ui);
-
+//    m_project_manager = new ProjectManager(ui);
     m_dirmodel = new QFileSystemModel(this);
 
     ui->tabWidget->removeTab(0);
@@ -47,83 +47,75 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_dirmodel = new QFileSystemModel(this);
     m_dirmodel->setRootPath("/");
 
-    // contextMenu
-//    contextMenu = new QMenu(ui->treeView);
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
-//    contextMenu->addAction("Uninstall TA", this, SLOT(uninstallAppletClickedSlot());
-
     connect(ui->treeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
-
-//  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-//          this, SLOT(ShowContextMenu(const QPoint &)));
-//    ui->treeView->addAction(on_actionSave_triggered());
-//    ui->treeView
-//    QWidget::customContextMenuRequested(const QPoint&)
-//    ui->listView->setSelectionModel(QAbstractItemView::ExtendedSelection);
-//    ui->listView->setDragEnabled(true);
-//    ui->listView->setAcceptDrops(true);
+    m_file_manager->getTabManager()->setSyntaxStyle(SyntaxStyle::darkStyle());          // Dark Style;
+//    m_file_manager->getTabManager()->setSyntaxStyle(SyntaxStyle::defaultStyle());     // Default Style;
 }
-
 
 void MainWindow::onCustomContextMenu(const QPoint &point)
 {
   QMenu contextMenu(tr("Context menu"), this);
 
-  QAction action_new("New ", this);
-  connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
-  contextMenu.addAction(&action_new);
-  QAction action_rename("Rename ", this);
-  connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_actionNew_file_rename()));
-  contextMenu.addAction(&action_rename);
-
-  contextMenu.exec(mapToGlobal(point));
-
-//  QModelIndex index = ui->treeView->indexAt(point);
-//  if (index.isValid() && index.row() % 2 == 0) {
-//    ui->treeView->exec(ui->treeView->viewport()->mapToGlobal(point));
-//    ui->contextMenu->exec(ui->treeView->viewport()->mapToGlobal(point));
-//  }
+    QAction action_new("New ", this);
+    connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
+    contextMenu.addAction(&action_new);
+    QAction action_rename("Rename ", this);
+    connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_action_context_file_rename()));
+    contextMenu.addAction(&action_rename);
+    QAction action_delete("Delete ", this);
+    connect(&action_delete, SIGNAL(triggered()), this, SLOT(on_action_context_file_delete()));
+    contextMenu.addAction(&action_delete);
+    QAction action_new_folder("New folder ", this);
+    connect(&action_new_folder, SIGNAL(triggered()), this, SLOT(on_action_context_new_folder()));
+    contextMenu.addAction(&action_new_folder);
+    contextMenu.exec(mapToGlobal(point));
 }
 
-
-void MainWindow::on_treeView_customContextMenuRequested(const QPoint &pos)
-{
-  QModelIndex index = ui->treeView->currentIndex();
-  qDebug(logDebug()) << pos;
-
-  qDebug(logDebug()) << "on_treeView_customContextMenuRequested context =" << index.data();
-
-}
-void MainWindow::on_actionNew_file_rename() {
+void MainWindow::on_action_context_file_rename() {
     QModelIndex index = ui->treeView->currentIndex();
-
-    qDebug(logDebug()) << "rename context =" << index.row();
-    qDebug(logDebug()) << "rename context =" << index.data();
-    qDebug(logDebug()) << "rename root path context =" << m_dirmodel->rootPath();
-
-
-
 //    QDialog->setStyleSheet("QLineEdit { background-color: yellow }");
 
-     QFile current_file(QString(m_dirmodel->rootPath() + "/" + index.data().toString()));
-     if (current_file.exists()) {
-       qDebug(logDebug()) << "rename  " <<  index.data().toString() << "to  new file";
-
-         bool ok;
-         QInputDialog* dialog = new QInputDialog(this);
-         dialog->setInputMode(QInputDialog::TextInput);
-         dialog->setStyleSheet("QLineEdit { background-color: blue }");
-         dialog->setOptions(QInputDialog::NoButtons);
-
-         QString new_name = dialog->getText(this,"Rename file", tr("Enter the new path for the file."), QLineEdit::Normal,
-                                           index.data().toString(), &ok);
-         if (ok) {
-             current_file.rename(QString(m_dirmodel->rootPath() + "/" + index.data().toString()),
-                                 QString(m_dirmodel->rootPath() + "/" + new_name));
-         }
-     }
+    QString fullFileName = (m_dirmodel->rootPath() + "/" + ui->treeView->currentIndex().data().toString());
+    if (QFileInfo info(m_dirmodel->rootPath() + "/" + index.data().toString()); info.isDir()) {
+        return;
+    } else {
+        m_file_manager->fileRename(fullFileName);
+    }
 }
 
+void MainWindow::on_action_context_file_delete() {
+//    QModelIndex index = ui->treeView->currentIndex();
+    QString cur_file(m_dirmodel->rootPath() + "/" + ui->treeView->currentIndex().data().toString());
+
+    if (QFileInfo info(cur_file); info.isFile()) {
+        const QMessageBox::StandardButton ret = QMessageBox::warning(0, QString("Application"),
+                                            QString("Are you sure you want to delete the selected item?"),
+                                                 QMessageBox::Cancel | QMessageBox:: Ok);
+        if (ret == QMessageBox::Ok) {
+            m_file_manager->deleteFile(cur_file, m_dirmodel->rootPath());
+        }
+    }
+    else {
+        QMessageBox::warning (0, "Warning ", "You cannot delete the folder");  // show warning
+    }
+}
+
+void MainWindow::on_action_context_new_folder() {
+    bool ok;
+    QString new_folder_name = QInputDialog::getText(this,"New folder",
+                                                    tr("Enter the new path for the new folder"),
+                                                    QLineEdit::Normal,
+                                                    "",
+                                                     &ok);
+    if (ok) {
+        QDir dir(m_dirmodel->rootPath());
+        if (!(dir.mkdir(new_folder_name))) {
+            qDebug(logDebug()) << "Folder is alrady exists";
+            QMessageBox::warning (0, "new folder", "Folder is alrady exists");  // show warning
+        }
+    }
+}
 
 MainWindow::~MainWindow() {
     if (m_searcher)
@@ -204,7 +196,7 @@ void MainWindow::on_actionQuit_Utext_triggered()  // cmd + q
 {
     writeSettings();
     m_file_manager->saveAll();
-    qInfo(logInfo()) << QString("    end Utext\n");
+    qInfo(logInfo()) << QString("Quit Utext\n");
     App::quit();
 }
 
@@ -326,6 +318,23 @@ void MainWindow::on_buttonReplaceAll_clicked()
     }
 }
 
+void MainWindow::loadStyle(const QString &path)
+{
+    QFile fl(path);
+
+    if (!fl.open(QIODevice::ReadOnly))
+    {
+        return;
+    }
+
+    auto style = new SyntaxStyle(this);
+
+    if (!style->load(fl.readAll()))
+    {
+        delete style;
+        return;
+    }
+}
 
 //void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
 //{
@@ -412,7 +421,33 @@ void MainWindow::on_findLine_returnPressed()
 //    QAction *newAct = new QAction(newIcon, tr("&New"), this);
 //    ui->toolBar->addAction(newAct);
 
+//  QModelIndex index = ui->treeView->indexAt(point);
+//  if (index.isValid() && index.row() % 2 == 0) {
+//    ui->treeView->exec(ui->treeView->viewport()->mapToGlobal(point));
+//    ui->contextMenu->exec(ui->treeView->viewport()->mapToGlobal(point));
+//  }
 
 
+//         QInputDialog* dialog = new QInputDialog(this);
+//         dialog->setInputMode(QInputDialog::TextInput);
+//         dialog->setStyleSheet("QLineEdit { background-color: blue }");
+//         dialog->setOptions(QInputDialog::NoButtons);
+
+///  rename
 
 
+//     if (current_file.exists()) {
+//       qDebug(logDebug()) << "rename  " <<  index.data().toString() << "to  new file";
+//
+//         bool ok;
+//         QString new_name = QInputDialog::getText(this,"Rename file",
+//                                                  tr("Enter the new path for the file."),
+//                                                  QLineEdit::Normal,
+//                                                  index.data().toString(),
+//                                                  &ok);
+//         if (ok) {
+//
+//             current_file.rename(QString(m_dirmodel->rootPath() + "/" + index.data().toString()),
+//                                 QString(m_dirmodel->rootPath() + "/" + new_name));
+//         }
+//     }

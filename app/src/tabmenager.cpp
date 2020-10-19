@@ -35,15 +35,20 @@ int TabManager::addNewTab(QWidget *wd, const QString &nameTab, const QString &co
     int index;
     if (wd) {
         index = m_parent->addTab(wd, nameTab);
+//        setHighlighter(m_highlighter);
+        qobject_cast<CodeEditor *>(wd)->setSyntaxStyle(m_style);
     }
     else {
 //        auto *tmpPlainText = new QPlainTextEdit(); //// CodeEditor
-        auto *tmpPlainText = new CodeEditor(m_main_widget, wd); //// CodeEditor
+        auto *tmpPlainText = new CodeEditor(m_main_widget, wd, m_style); //// CodeEditor
 
         tmpPlainText->setPlainText(content);
+        tmpPlainText->setHighlighter(m_highlighter);
+        tmpPlainText->setSyntaxStyle(m_style);
         index = m_parent->addTab(tmpPlainText, nameTab);
         m_tablist.push_back(tmpPlainText);
     }
+    updateTabs();
     return index;
 }
 
@@ -81,6 +86,28 @@ void TabManager::setTabTitle(int index, const QString &title) {
 
 int TabManager::getCountTab() const {
     return m_parent->count();
+}
+
+void TabManager::setSyntaxStyle(SyntaxStyle *style) {
+    m_style = style;
+    for (int i = 0; i < m_parent->count(); ++i) {
+        qobject_cast<CodeEditor *>(m_parent->widget(i))->setSyntaxStyle(m_style);
+    }
+}
+
+void TabManager::setHighlighter(StyleSyntaxHighlighter *highlighter) {
+    m_highlighter = highlighter;
+    for (int i = 0; i < m_parent->count(); ++i) {
+        qobject_cast<CodeEditor *>(m_parent->widget(i))->setHighlighter(m_highlighter);
+    }
+}
+
+void TabManager::updateTabs() {
+    for (int i = 0; i < m_parent->count(); ++i) {
+        std::cout << i << std::endl;
+        qobject_cast<CodeEditor *>(m_parent->widget(i))->setSyntaxStyle(SyntaxStyle::darkStyle());
+        qobject_cast<CodeEditor *>(m_parent->widget(i))->setHighlighter(new SyntaxHiglighterCXX);
+    }
 }
 
 

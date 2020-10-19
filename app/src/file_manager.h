@@ -29,8 +29,12 @@ public:
     bool saveAs();
     bool saveAll();
     bool isChanged();
+    bool fileRename(const QString& fullFileName);
+    bool deleteFile(const QString &fullFileName, const QString& dir_path);
     void closeFile(int index);
-
+    void closeFile(const QString& fullFileName);
+    bool isOpen(const QString& fullFileName);
+    TabManager *getTabManager() const;
 
 private slots:
 

@@ -152,3 +152,26 @@ SyntaxStyle* SyntaxStyle::defaultStyle()
 
     return &style;
 }
+
+SyntaxStyle* SyntaxStyle::darkStyle()
+{
+    static SyntaxStyle style;
+
+    if (!style.isLoaded())
+    {
+        Q_INIT_RESOURCE(lang);
+        QFile fl(":/drakula.xml");
+
+        if (!fl.open(QIODevice::ReadOnly))
+        {
+            return &style;
+        }
+
+        if (!style.load(fl.readAll()))
+        {
+            qDebug() << "Can't load default style.";
+        }
+    }
+
+    return &style;
+}

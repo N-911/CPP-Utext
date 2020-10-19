@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>default_style.xml</file>
         <file>languages/cpp.xml</file>
+        <file>drakula.xml</file>
     </qresource>
 </RCC>
