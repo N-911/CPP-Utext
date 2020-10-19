@@ -29,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     m_file_manager = new FileManager(ui);
 //    m_project_manager = new ProjectManager(ui);
-    m_dirmodel = new QFileSystemModel(this);
 
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
@@ -55,17 +54,31 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 void MainWindow::onCustomContextMenu(const QPoint &point)
 {
+
+/*
+  QMenu *menu = new QMenu;
+  QModelIndex index = this->currentIndex();
+
+  QString fileName = this->model()->data(this->model()->index(index.row(), 0),0).toString();
+  menu->addAction(QString("Import"), this, SLOT(slotTest()));
+  menu->addAction(QString("Export"), this, SLOT(slotTest()));
+  menu->exec(QCursor::pos());
+  */
+
   QMenu contextMenu(tr("Context menu"), this);
 
     QAction action_new("New ", this);
     connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
     contextMenu.addAction(&action_new);
+
     QAction action_rename("Rename ", this);
     connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_action_context_file_rename()));
     contextMenu.addAction(&action_rename);
+
     QAction action_delete("Delete ", this);
     connect(&action_delete, SIGNAL(triggered()), this, SLOT(on_action_context_file_delete()));
     contextMenu.addAction(&action_delete);
+
     QAction action_new_folder("New folder ", this);
     connect(&action_new_folder, SIGNAL(triggered()), this, SLOT(on_action_context_new_folder()));
     contextMenu.addAction(&action_new_folder);
@@ -87,6 +100,14 @@ void MainWindow::on_action_context_file_rename() {
 void MainWindow::on_action_context_file_delete() {
 //    QModelIndex index = ui->treeView->currentIndex();
     QString cur_file(m_dirmodel->rootPath() + "/" + ui->treeView->currentIndex().data().toString());
+
+
+  QModelIndex index = ui->treeView->currentIndex();
+
+//  ui->treeView->treePosition()
+
+    qDebug(logDebug()) << "cur_file = " << cur_file;
+    qDebug(logDebug()) << "cur_file = " << index.data().;
 
     if (QFileInfo info(cur_file); info.isFile()) {
         const QMessageBox::StandardButton ret = QMessageBox::warning(0, QString("Application"),
