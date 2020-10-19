@@ -11,6 +11,7 @@
 #include <QPlainTextEdit>
 #include <iostream>
 #include <QFileDialog>
+#include <QInputDialog>
 #include "tabmenager.h"
 
 FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent),
@@ -94,18 +95,23 @@ bool FileManager::saveFile(const QString &fileName) {
 void FileManager::closeFile(int index) {
     isChanged();
 
-    auto fuulfilename = m_file_widget->tabWidget->widget(index)->windowFilePath();
-    m_open_files.erase(fuulfilename);
-//    m_files.erase(fuulfilename);
-    m_history_files.push_front(fuulfilename);
-    qDebug(logDebug()) << QString("close file " + fuulfilename);
-//=======
-//    auto key = m_tabManager->getWidget(index)->windowFilePath();
-//    m_open_files.erase(key);
-//    m_files.erase(key);
-//    qDebug(logDebug()) << QString("close file + key");
-//>>>>>>> 20b67a4537ba49cde9f941fa2b64d6572e9e9da3
+    auto fullFileName = m_file_widget->tabWidget->widget(index)->windowFilePath();
+    m_open_files.erase(fullFileName);
+    m_history_files.push_front(fullFileName);
+    qInfo(logInfo()) << QString("close file " + fullFileName);
 }
+
+
+
+void FileManager::closeFile(const QString &fullFileName) {
+    auto index = m_open_files[fullFileName];
+    m_tabManager->closeTab(index);
+    m_open_files.erase(fullFileName);
+    qInfo(logInfo()) << QString("close file " + fullFileName);
+}
+
+
+
 
 QString FileManager::strippedName(const QString &fullFileName) const {
     return QFileInfo(fullFileName).fileName();
@@ -145,6 +151,19 @@ void FileManager::newFile() {
     m_tabManager->setCurrentIndex(index);
     qDebug(logDebug()) << QString("newFile add %1 tab idex").arg(index);
 }
+
+bool FileManager::deleteFile(const QString &fullFileName, const QString& dir_path) {
+    if (this->isOpen(fullFileName)) {
+        this->closeFile(fullFileName);
+        qDebug(logDebug()) << fullFileName << " is open";
+    }
+    QDir dir(dir_path);
+    dir.remove(fullFileName);
+    return true;
+}
+
+
+
 
 bool FileManager::save() {
     m_file_widget->statusbar->showMessage("save", 2000);
@@ -190,4 +209,30 @@ void FileManager::update_history_files() {
 //    if ()
 
 }
+
+bool FileManager::isOpen(const QString &fullFileName) {
+    if (m_open_files.count(fullFileName) == 0) {
+        return false;
+    }
+    return true;
+}
+
+bool FileManager::fileRename(const QString &fullFileName) {
+    bool ok;
+    QFile current_file(fullFileName);
+
+    QString new_name = QInputDialog::getText(0,"Rename file",
+                                             ("Enter the new path for the file."),
+                                             QLineEdit::Normal,
+                                             QFileInfo(fullFileName).fileName(),
+                                             &ok);
+    if (ok) {
+
+        current_file.rename(fullFileName,
+                            QString(QFileInfo(fullFileName).absolutePath() + "/" + new_name));
+    }
+    return false;
+}
+
+
 

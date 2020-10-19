@@ -61,12 +61,13 @@ private slots:
 
         void on_actionReplace_Next_triggered(bool checked);  // cmd + R
 //        void on_actionToggle_Tree_View_triggered(bool checked);
-
         void on_actionActivity_Log_triggered();
-        void on_treeView_customContextMenuRequested(const QPoint &pos);
-        void onCustomContextMenu(const QPoint &point);
 
-        void on_actionNew_file_rename();
+        // context menu
+        void onCustomContextMenu(const QPoint &point);
+        void on_action_context_file_rename();
+        void on_action_context_file_delete();
+        void on_action_context_new_folder();
 
 
 private:
@@ -74,14 +75,13 @@ private:
     void readSettings();
     void writeSettings();
 
-//    QMenu* contextMenu;
-
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
-    TabManager *m_tabmg = nullptr;
     QFileSystemModel *m_dirmodel = nullptr;
-    ProjectManager *m_project_manager;
+
+//    ProjectManager *m_project_manager;
 //    Listmodel *m_project_model;
+
     Search *m_searcher = nullptr;
 };
 
