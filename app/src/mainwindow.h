@@ -69,6 +69,10 @@ private slots:
         void on_actionNew_file_rename();
 
 
+        void on_replaceLine_editingFinished();
+
+        void on_buttonReplaceAll_clicked();
+
 private:
 
     void readSettings();

@@ -126,9 +126,10 @@ void MainWindow::on_actionNew_file_rename() {
 
 
 MainWindow::~MainWindow() {
-    delete ui;
+    if (m_searcher)
+        delete m_searcher;
     delete m_file_manager;
-    delete m_searcher;
+    delete ui;
 
     system("leaks -q utext");
 }
@@ -267,7 +268,6 @@ void MainWindow::on_buttonFind_clicked()
         return;
     QString text = ui->findLine->text();
     m_searcher->setTextDocument(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
-    m_searcher->replace("***");
     m_searcher->searchText(text);
 }
 
@@ -277,17 +277,23 @@ void MainWindow::on_actionFind_All_triggered(bool checked)
         delete m_searcher;
         m_searcher = nullptr;
     }
-    if (!checked) {
+    if (!checked && ui->tabWidget->currentWidget()) {
         m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
         ui->findLine->setFocus();
     }
-    ui->findWidget->setHidden(checked);
+    if (!ui->replace_Widget->isHidden() && checked)
+    {
+        ui->replace_Widget->setHidden(checked);
+    }
 
+    ui->findWidget->setHidden(checked);
 }
 
 void MainWindow::on_actionReplace_Next_triggered(bool checked)
 {
-  ui->replace_Widget->setHidden(checked);
+    if (!checked)
+        on_actionFind_All_triggered(checked);
+    ui->replace_Widget->setHidden(checked);
 }
 
 
@@ -296,14 +302,29 @@ void MainWindow::on_findLine_returnPressed()
     on_buttonFind_clicked();
 }
 
-
-
 void MainWindow::on_actionActivity_Log_triggered()
 {
     m_file_manager->loadFile(QCoreApplication::applicationDirPath() + "/logFile.txt");
 }
 
+void MainWindow::on_replaceLine_editingFinished()
+{
+    if (ui->replaceLine->text() == "")
+        return;
+    if (m_searcher) {
+        m_searcher->searchText(ui->findLine->text());
+        m_searcher->replace(ui->replaceLine->text());
+    }
+}
 
+void MainWindow::on_buttonReplaceAll_clicked()
+{
+    if (ui->replaceLine->text() == "")
+        return;
+    if (m_searcher) {
+        m_searcher->replaceAll(ui->replaceLine->text(), ui->findLine->text());
+    }
+}
 
 
 //void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
@@ -390,5 +411,8 @@ void MainWindow::on_findLine_returnPressed()
 //    const QIcon newIcon = QIcon::fromTheme("New", QIcon(":/filenew.png"));
 //    QAction *newAct = new QAction(newIcon, tr("&New"), this);
 //    ui->toolBar->addAction(newAct);
+
+
+
 
 

@@ -11,6 +11,10 @@ set(SOURCES mainwindow.cpp
         tabwelcome.cpp
         loggingcategories.cpp
         search.cpp
+        syntaxhighlightercxx.cpp
+        syntaxstyle.cpp
+        stylesyntaxhighlighter.cpp
+        language.cpp
         )
 
 set(HEADERS mainwindow.h
@@ -24,6 +28,11 @@ set(HEADERS mainwindow.h
         tabwelcome.h
         loggingcategories.h
         search.h
+        syntaxhighlightercxx.h
+        syntaxstyle.h
+        stylesyntaxhighlighter.cpp
+        language.h
+        highlightrule.h
         )
 
 set(UI mainwindow.ui)

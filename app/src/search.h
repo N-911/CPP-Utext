@@ -12,8 +12,10 @@ class Search : public QSyntaxHighlighter
     using HLClass = QSyntaxHighlighter;
 public:
     explicit Search(QPlainTextEdit *parent = nullptr);
-    void searchText(const QString& text, bool reverse = false, bool casesens = false, bool words = false);
+    virtual ~Search() = default;
+    bool searchText(const QString& text, bool reverse = false, bool casesens = false, bool words = false);
     void setTextDocument(QPlainTextEdit *new_parent);
+    void replaceAll(const QString &text, const QString &find);
     void replace(const QString &text);
 
 protected:
