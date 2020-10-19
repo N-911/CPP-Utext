@@ -8,7 +8,7 @@ include_directories(../cmake-build-debug/app/src/src_autogen/include/ui_mainwind
 add_compile_options(
         -std=c++17
 #        -Wdev
-#         -Werror
+         -Werror
          -Wall
          -Wextra
          -Wpedantic

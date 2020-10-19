@@ -20,8 +20,6 @@
 #include <deque>
 #include "tabmenager.h"
 #include "file_manager.h"
-#include "treemodel.h"
-#include "listmodel.h"
 #include <projectmanager.h>
 
 QT_BEGIN_NAMESPACE

@@ -4,6 +4,8 @@
 #include <QPlainTextEdit>
 #include <iostream>
 
+#include "loggingcategories.h"
+
 TabWelcome::TabWelcome(QWidget *parent) : QWidget(parent)
 {
     l_welcome = new QLabel(this);
@@ -20,6 +22,7 @@ TabWelcome::~TabWelcome()
 
 void TabWelcome::paintEvent(QPaintEvent *event) {
     QPainter painter{this};
+    qDebug(logDebug()) << event;
 
     painter.setRenderHint(QPainter::Antialiasing);
 //    painter.save();

@@ -15,8 +15,6 @@
 #include <iostream>
 #include "search.h"
 #include "app.h"
-#include "treemodel.h"
-#include "listmodel.h"
 
 using std::cout;
 using std::endl;
@@ -90,6 +88,7 @@ void MainWindow::onCustomContextMenu(const QPoint &point)
 void MainWindow::on_treeView_customContextMenuRequested(const QPoint &pos)
 {
   QModelIndex index = ui->treeView->currentIndex();
+  qDebug(logDebug()) << pos;
 
   qDebug(logDebug()) << "on_treeView_customContextMenuRequested context =" << index.data();
 

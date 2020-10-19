@@ -78,7 +78,7 @@ bool FileManager::saveFile(const QString &fileName) {
     QGuiApplication::restoreOverrideCursor();
 
     if (!errorMessage.isEmpty()) {
-        const QMessageBox::StandardButton ret = QMessageBox::warning(0, "Application", errorMessage);
+//        const QMessageBox::StandardButton ret = QMessageBox::warning(0, "Application", errorMessage);
         qWarning(logWarning()) << errorMessage;
         return false;
     }

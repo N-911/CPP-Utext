@@ -5,10 +5,7 @@ cmake_minimum_required(VERSION 3.17)
 set(SOURCES mainwindow.cpp
         codeeditor.cpp
         app.cpp
-        listmodel.cpp
         projectmanager.cpp
-        treeItem.cpp
-        treemodel.cpp
         tabmenager.cpp
         file_manager.cpp
         tabwelcome.cpp
@@ -20,10 +17,7 @@ set(HEADERS mainwindow.h
         linenumberarea.h
         codeeditor.h
         app.h
-        listmodel.h
-        treeItem.h
         projectmanager.h
-        treemodel.h
         test_runner.h
         tabmenager.h
         file_manager.h

@@ -30,7 +30,7 @@ void Search::searchText(const QString &text, bool reverse, bool casesens, bool w
         m_parent->find(text, flag);
     }
     m_pattern = QRegularExpression(text);
-    QRegularExpression::PatternOption fl;
+    QRegularExpression::PatternOption fl{};
     if (casesens)  fl = QRegularExpression::CaseInsensitiveOption;
     m_pattern.setPatternOptions(fl);
 
