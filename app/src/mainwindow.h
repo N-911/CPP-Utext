@@ -60,18 +60,13 @@ private slots:
         void on_actionFind_All_triggered(bool checked);
 
         void on_actionReplace_Next_triggered(bool checked);  // cmd + R
-//        void on_actionToggle_Tree_View_triggered(bool checked);
         void on_actionActivity_Log_triggered();
 
         // context menu
         void onCustomContextMenu(const QPoint &point);
-        void on_action_context_file_rename();
-        void on_action_context_file_delete();
-        void on_action_context_new_folder();
 
-
+        // find replace
         void on_replaceLine_editingFinished();
-
         void on_buttonReplaceAll_clicked();
 
 private:
@@ -80,15 +75,14 @@ private:
     void writeSettings();
     void loadStyle(const QString &path);
 
+    void on_action_context_file_rename(QString fullFileName);
+    void on_action_context_file_delete(QString fullFileName);
+    void on_action_context_new_folder(QString fullFileName);
+
     Ui::MainWindow *ui;
     FileManager *m_file_manager;
     QFileSystemModel *m_dirmodel = nullptr;
-
-//    ProjectManager *m_project_manager;
-//    Listmodel *m_project_model;
-
     Search *m_searcher = nullptr;
 };
-
 
 #endif // MAINWINDOW_H

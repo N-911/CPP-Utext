@@ -481,7 +481,6 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
      <addaction name="actionHistory"/>
      <addaction name="separator"/>
     </widget>
-    <addaction name="actionNew_Window"/>
     <addaction name="actionNew_file"/>
     <addaction name="actionOpen"/>
     <addaction name="actionAdd_Project_Folder"/>
@@ -493,7 +492,6 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
     <addaction name="actionSave_All"/>
     <addaction name="separator"/>
     <addaction name="actionClose_Tab"/>
-    <addaction name="actionClose_Window"/>
     <addaction name="actionClose_All_Tabs"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -505,12 +503,9 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
     <addaction name="separator"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
-    <addaction name="actionCopy_Path"/>
     <addaction name="actionPaste"/>
     <addaction name="actionSelect_All"/>
     <addaction name="separator"/>
-    <addaction name="actionGo_To_Line"/>
-    <addaction name="actionDuplicate_Line"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -585,6 +580,13 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
    <addaction name="actionSave"/>
    <addaction name="actionSave_as"/>
    <addaction name="actionSave_All"/>
+   <addaction name="actionCopy"/>
+   <addaction name="actionCut"/>
+   <addaction name="actionPaste"/>
+   <addaction name="actionFind_All"/>
+   <addaction name="actionReplace_Next"/>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
    <addaction name="actionQuit_Utext"/>
   </widget>
   <action name="actionAbout_Utext">
@@ -654,14 +656,6 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
     <string>Ctrl+W</string>
    </property>
   </action>
-  <action name="actionNew_Window">
-   <property name="text">
-    <string>New Window</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+N</string>
-   </property>
-  </action>
   <action name="actionAdd_Project_Folder">
    <property name="text">
     <string>Add Project Folder...</string>
@@ -681,14 +675,6 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
   <action name="actionHistory">
    <property name="text">
     <string>Clear History</string>
-   </property>
-  </action>
-  <action name="actionClose_Window">
-   <property name="text">
-    <string>Close Window</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+W</string>
    </property>
   </action>
   <action name="actionClose_All_Tabs">
@@ -716,35 +702,29 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
    <property name="text">
     <string>Cut</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="actionCopy">
    <property name="text">
     <string>Copy</string>
    </property>
-  </action>
-  <action name="actionCopy_Path">
-   <property name="text">
-    <string>Copy Path</string>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
   <action name="actionPaste">
    <property name="text">
     <string>Paste</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
   </action>
   <action name="actionSelect_All">
    <property name="text">
     <string>Select All</string>
-   </property>
-  </action>
-  <action name="actionGo_To_Line">
-   <property name="text">
-    <string>Go To Line</string>
-   </property>
-  </action>
-  <action name="actionDuplicate_Line">
-   <property name="text">
-    <string>Duplicate Line</string>
    </property>
   </action>
   <action name="actionToolbar">

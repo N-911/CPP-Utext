@@ -18,7 +18,6 @@ FileManager::FileManager(Ui::MainWindow *parent) : m_file_widget(parent),
             m_tabManager(new TabManager(m_file_widget->tabWidget, parent)) {}
 
 FileManager::~FileManager() {
-//    qInfo(logInfo()) << "~FileManager";
     delete m_tabManager;
 }
 
@@ -47,8 +46,6 @@ void FileManager::loadFile(const QString &fullFileName) {
     m_tabManager->setCurrentIndex(index);  // делаем новое окно текущим
     m_tabManager->getWidget(index)->setWindowFilePath(fullFileName);  // associated path with widget
     m_open_files[fullFileName] = index;
-//    m_files.insert(fullFileName);
-//    auto file_in_hisfind(m_history_files.begin(), m_history_files.begin() + 10, fullFileName);
     qInfo(logInfo()) << QString("open file %1").arg(QFileInfo(fullFileName).fileName());
 
 #ifndef QT_NO_CURSOR
@@ -143,30 +140,23 @@ bool FileManager::isChanged() {
 }
 
 void FileManager::newFile() {
-//    m_file_widget->statusbar->showMessage("newFile", 2000);
-//    auto new_file = std::make_unique<QPlainTextEdit>();
-
     // делаем новое окно текущим
     auto index = m_tabManager->addNewTab();
     m_tabManager->setCurrentIndex(index);
     qDebug(logDebug()) << QString("newFile add %1 tab idex").arg(index);
 }
 
-bool FileManager::deleteFile(const QString &fullFileName, const QString& dir_path) {
+bool FileManager::deleteFile(const QString &fullFileName) {
     if (this->isOpen(fullFileName)) {
         this->closeFile(fullFileName);
         qDebug(logDebug()) << fullFileName << " is open";
     }
-    QDir dir(dir_path);
-    dir.remove(fullFileName);
+    QFile file;
+    file.moveToTrash(fullFileName);
     return true;
 }
 
-
-
-
 bool FileManager::save() {
-    m_file_widget->statusbar->showMessage("save", 2000);
     // проверяєм привязан ли Widget to Path
     QString fullFileName = m_tabManager->getCurrentWidget()->windowFilePath();
     qInfo(logInfo()) << QString("save file " + fullFileName);
@@ -176,6 +166,7 @@ bool FileManager::save() {
     } else {
         return saveFile(fullFileName);
     }
+    m_file_widget->statusbar->showMessage("save", 2000);
 }
 
 bool FileManager::saveAs() {
@@ -183,14 +174,12 @@ bool FileManager::saveAs() {
         return true;
     }
     QFileDialog dialog(0);
-//    m_file_widget->statusbar->showMessage("saveAs", 2000);
     dialog.setWindowModality(Qt::WindowModal);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
 
     if (dialog.exec() != QDialog::Accepted)
         return false;
     return saveFile(dialog.selectedFiles().first());
-
 }
 
 bool FileManager::saveAll() {
@@ -206,7 +195,6 @@ bool FileManager::saveAll() {
 }
 
 void FileManager::update_history_files() {
-//    if ()
 
 }
 
@@ -227,9 +215,16 @@ bool FileManager::fileRename(const QString &fullFileName) {
                                              QFileInfo(fullFileName).fileName(),
                                              &ok);
     if (ok) {
+        QString new_file_path = QString(QFileInfo(fullFileName).absolutePath() + "/" + new_name);
+        current_file.rename(fullFileName, new_file_path);
+        if (m_open_files.count(fullFileName) != 0) {
+            auto index = m_open_files[fullFileName];
+            m_open_files.erase(fullFileName);
+            m_tabManager->setTabTitle(index, new_name);
+            m_tabManager->getWidget(index)->setWindowFilePath(new_file_path);  // associated path with widget
+            qDebug(logDebug()) << QString("rename file %1 to %2").arg(fullFileName).arg(new_file_path);
+        }
 
-        current_file.rename(fullFileName,
-                            QString(QFileInfo(fullFileName).absolutePath() + "/" + new_name));
     }
     return false;
 }

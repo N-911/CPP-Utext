@@ -27,13 +27,13 @@ public:
     int getTabListIndex(QWidget *wd);
     void setCurrentIndex(int index);
     void setTabTitle(int index, const QString &title = "untitled");
+
     void updateTabs();
     int getCountTab() const;
 
 private:
     QTabWidget *m_parent;
     QVector<QWidget *> m_tablist;
-
     SyntaxStyle *m_style = nullptr;
     StyleSyntaxHighlighter *m_highlighter = nullptr;
 

@@ -23,14 +23,13 @@ public:
     virtual ~FileManager();
 
     void loadFile(const QString &fullFileName);
-
     void newFile();
     bool save();
     bool saveAs();
     bool saveAll();
     bool isChanged();
     bool fileRename(const QString& fullFileName);
-    bool deleteFile(const QString &fullFileName, const QString& dir_path);
+    bool deleteFile(const QString &fullFileName);
     void closeFile(int index);
     void closeFile(const QString& fullFileName);
     bool isOpen(const QString& fullFileName);
@@ -45,11 +44,9 @@ private:
     void update_history_files();
 
     std::map<QString, size_t> m_open_files;
-//    std::set<QString> m_files;
     std::deque<QString> m_history_files;  // for history
     Ui::MainWindow *m_file_widget;
     TabManager *m_tabManager;
-
 };
 
 #endif //UTEXT_FILE_MANAGER_H

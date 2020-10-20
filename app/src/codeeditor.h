@@ -42,6 +42,10 @@ private slots:
     QChar charUnderCursor(int offset = 0) const;
     int getIndentationSpaces();
     void setTabSize(int size);
+    void copy_new();
+    void paste_new();
+    void cut_new();
+
 
 private:
     StyleSyntaxHighlighter* m_highlighter = nullptr;

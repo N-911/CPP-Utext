@@ -6,6 +6,9 @@
 #include <QMessageBox>
 #include <QCoreApplication>
 #include <QFileSystemModel>
+#include <QTreeView>
+#include <QInputDialog>
+#include <QMenu>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -13,8 +16,7 @@
 #include "tabwelcome.h"
 #include "loggingcategories.h"
 #include <iostream>
-#include <QInputDialog>
-#include <QMenu>
+
 #include "search.h"
 #include "app.h"
 #include "syntaxstyle.h"
@@ -48,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
+
     m_file_manager->getTabManager()->setSyntaxStyle(SyntaxStyle::darkStyle());          // Dark Style;
 //    m_file_manager->getTabManager()->setSyntaxStyle(SyntaxStyle::defaultStyle());     // Default Style;
 }
@@ -55,74 +58,56 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 void MainWindow::onCustomContextMenu(const QPoint &point)
 {
 
-/*
-  QMenu *menu = new QMenu;
-  QModelIndex index = this->currentIndex();
+    QMenu contextMenu(tr("Context menu"), this);
 
-  QString fileName = this->model()->data(this->model()->index(index.row(), 0),0).toString();
-  menu->addAction(QString("Import"), this, SLOT(slotTest()));
-  menu->addAction(QString("Export"), this, SLOT(slotTest()));
-  menu->exec(QCursor::pos());
-  */
-
-  QMenu contextMenu(tr("Context menu"), this);
+    auto fullFileName = dynamic_cast<QFileSystemModel *>(ui->treeView->model())->filePath(ui->treeView->indexAt(point));
 
     QAction action_new("New ", this);
     connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
     contextMenu.addAction(&action_new);
 
     QAction action_rename("Rename ", this);
-    connect(&action_rename, SIGNAL(triggered()), this, SLOT(on_action_context_file_rename()));
+    connect(&action_rename, &QAction::triggered, this, [=] () { on_action_context_file_rename(fullFileName); });
     contextMenu.addAction(&action_rename);
 
     QAction action_delete("Delete ", this);
-    connect(&action_delete, SIGNAL(triggered()), this, SLOT(on_action_context_file_delete()));
+    connect(&action_delete, &QAction::triggered, this, [=] { on_action_context_file_delete(fullFileName) ;});
     contextMenu.addAction(&action_delete);
 
     QAction action_new_folder("New folder ", this);
-    connect(&action_new_folder, SIGNAL(triggered()), this, SLOT(on_action_context_new_folder()));
+    connect(&action_new_folder, &QAction::triggered, this, [=] () {on_action_context_new_folder(fullFileName); });
     contextMenu.addAction(&action_new_folder);
+
     contextMenu.exec(mapToGlobal(point));
 }
 
-void MainWindow::on_action_context_file_rename() {
-    QModelIndex index = ui->treeView->currentIndex();
-//    QDialog->setStyleSheet("QLineEdit { background-color: yellow }");
-
-    QString fullFileName = (m_dirmodel->rootPath() + "/" + ui->treeView->currentIndex().data().toString());
-    if (QFileInfo info(m_dirmodel->rootPath() + "/" + index.data().toString()); info.isDir()) {
-        return;
-    } else {
+void MainWindow::on_action_context_file_rename(QString fullFileName) {
+    if (QFileInfo info(fullFileName); info.isDir()) {
+        QMessageBox::warning(0, "Warning ", "You cannot rename the folder");  // show warning
+    }
+    else {
         m_file_manager->fileRename(fullFileName);
     }
 }
 
-void MainWindow::on_action_context_file_delete() {
-//    QModelIndex index = ui->treeView->currentIndex();
-    QString cur_file(m_dirmodel->rootPath() + "/" + ui->treeView->currentIndex().data().toString());
+void MainWindow::on_action_context_file_delete(QString fullFileName) {
 
 
-  QModelIndex index = ui->treeView->currentIndex();
-
-//  ui->treeView->treePosition()
-
-    qDebug(logDebug()) << "cur_file = " << cur_file;
-    qDebug(logDebug()) << "cur_file = " << index.data().;
-
-    if (QFileInfo info(cur_file); info.isFile()) {
-        const QMessageBox::StandardButton ret = QMessageBox::warning(0, QString("Application"),
-                                            QString("Are you sure you want to delete the selected item?"),
-                                                 QMessageBox::Cancel | QMessageBox:: Ok);
-        if (ret == QMessageBox::Ok) {
-            m_file_manager->deleteFile(cur_file, m_dirmodel->rootPath());
+    const QMessageBox::StandardButton ret = QMessageBox::warning(0, QString("Application"),
+                                        QString("Are you sure you want to delete the selected item?"),
+                                             QMessageBox::Cancel | QMessageBox:: Ok);
+    if (ret == QMessageBox::Ok) {
+        if (QFileInfo(fullFileName).isFile()) {
+            m_file_manager->deleteFile(fullFileName );
+        } else {
+            QMessageBox::warning(0, "Warning ", "You cannot delete the folder");  // show warning
+            qInfo(logInfo()) << "Warning You cannot delete the folder " << fullFileName;
         }
-    }
-    else {
-        QMessageBox::warning (0, "Warning ", "You cannot delete the folder");  // show warning
     }
 }
 
-void MainWindow::on_action_context_new_folder() {
+void MainWindow::on_action_context_new_folder(QString fullFileName) {
+    qDebug(logDebug()) << "fullFileName = " << fullFileName;
     bool ok;
     QString new_folder_name = QInputDialog::getText(this,"New folder",
                                                     tr("Enter the new path for the new folder"),
@@ -130,11 +115,18 @@ void MainWindow::on_action_context_new_folder() {
                                                     "",
                                                      &ok);
     if (ok) {
-        QDir dir(m_dirmodel->rootPath());
-        if (!(dir.mkdir(new_folder_name))) {
-            qDebug(logDebug()) << "Folder is alrady exists";
+        if (QFileInfo(fullFileName).isDir()) {
+            fullFileName.append("/");
+        }
+        else {
+            fullFileName.remove(fullFileName.lastIndexOf("/"),fullFileName.size());
+        }
+        QDir dir;
+        if (!dir.mkpath(fullFileName + new_folder_name)) {
+            qWarning(logWarning()) << "Folder is alrady exists";
             QMessageBox::warning (0, "new folder", "Folder is alrady exists");  // show warning
         }
+        qInfo(logInfo()) << "New folder " << fullFileName + new_folder_name;
     }
 }
 
@@ -238,7 +230,7 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()  // cmd + [
 {
     int index = ui->tabWidget->currentIndex() > 0 ? ui->tabWidget->currentIndex() - 1:
                 ui->tabWidget->currentIndex() + ui->tabWidget->count() - 1;
-    qDebug(logDebug()) << QString("set  %1 tab index").arg(index);
+//    qDebug(logDebug()) << QString("set  %1 tab index").arg(index);
     ui->tabWidget->setCurrentIndex(index);
 }
 
@@ -246,7 +238,7 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()  // cmd + [
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
     QString fullFilePath = m_dirmodel->filePath(index);
-    qInfo(logInfo()) << "file path " << fullFilePath;
+    qInfo(logInfo()) << "Opne file " << fullFilePath;
     if (!(QDir(fullFilePath).exists())) {
         m_file_manager->loadFile(fullFilePath);
     }
@@ -453,22 +445,3 @@ void MainWindow::on_findLine_returnPressed()
 //         dialog->setInputMode(QInputDialog::TextInput);
 //         dialog->setStyleSheet("QLineEdit { background-color: blue }");
 //         dialog->setOptions(QInputDialog::NoButtons);
-
-///  rename
-
-
-//     if (current_file.exists()) {
-//       qDebug(logDebug()) << "rename  " <<  index.data().toString() << "to  new file";
-//
-//         bool ok;
-//         QString new_name = QInputDialog::getText(this,"Rename file",
-//                                                  tr("Enter the new path for the file."),
-//                                                  QLineEdit::Normal,
-//                                                  index.data().toString(),
-//                                                  &ok);
-//         if (ok) {
-//
-//             current_file.rename(QString(m_dirmodel->rootPath() + "/" + index.data().toString()),
-//                                 QString(m_dirmodel->rootPath() + "/" + new_name));
-//         }
-//     }
