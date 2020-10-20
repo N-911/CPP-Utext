@@ -30,9 +30,9 @@ ___
     ./utext
 
 ### Main parts:
- ####1. Toolbar
- ####2. Text area
- ####3. Tree area
+ #### 1. Toolbar
+ #### 2. Text area
+ #### 3. Tree area
 
 ### General features:
    - [x] open directories and single files
@@ -42,6 +42,9 @@ ___
    - [x] copy/cut/paste options in the Toolbar
    - [x] find and replace options in the Toolbar
    - [x] undo and redo options in the Toolbar
+   - [x] syntax highlighting for source code
+   - [x] line wrapping
+   - [x] ability to create/delete/rename files or directories from Tree area
 
 ### Shortcuts
 * Toolbar:      Cmd + T
