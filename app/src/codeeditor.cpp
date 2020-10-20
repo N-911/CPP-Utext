@@ -26,9 +26,9 @@ CodeEditor::CodeEditor(Ui::MainWindow *ui_parent, QWidget *parent, SyntaxStyle* 
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
     connect(this, &CodeEditor::cursorPositionChanged, this, &CodeEditor::highlightCurrentLine);
 
-    connect(this, SIGNAL(m_main_widget->actionCopy), this, SLOT(CodeEditor::copy_new));
-    connect(this, SIGNAL(m_main_widget->actionPaste), this, SLOT(CodeEditor::paste_new));
-    connect(this, SIGNAL(m_main_widget->actionCut), this, SLOT(CodeEditor::cut_new));
+    connect(this, SIGNAL(m_main_widget->actionCopy), this, SLOT(CodeEditor::copy_new()));
+    connect(this, SIGNAL(m_main_widget->actionPaste), this, SLOT(CodeEditor::paste_new()));
+    connect(this, SIGNAL(m_main_widget->actionCut), this, SLOT(CodeEditor::cut_new()));
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();

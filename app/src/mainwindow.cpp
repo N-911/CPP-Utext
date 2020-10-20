@@ -30,8 +30,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->setupUi(this);
     m_file_manager = new FileManager(ui);
-//    m_project_manager = new ProjectManager(ui);
-
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
     readSettings();
@@ -50,20 +48,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
-
     m_file_manager->getTabManager()->setSyntaxStyle(SyntaxStyle::darkStyle());          // Dark Style;
 //    m_file_manager->getTabManager()->setSyntaxStyle(SyntaxStyle::defaultStyle());     // Default Style;
 }
 
 void MainWindow::onCustomContextMenu(const QPoint &point)
 {
-
     QMenu contextMenu(tr("Context menu"), this);
 
     auto fullFileName = dynamic_cast<QFileSystemModel *>(ui->treeView->model())->filePath(ui->treeView->indexAt(point));
 
     QAction action_new("New ", this);
-    connect(&action_new, SIGNAL(triggered()), this, SLOT(on_actionNew_file_triggered()));
+    connect(&action_new, &QAction::triggered, this, [=] () {on_action_context_file_new(fullFileName); });
     contextMenu.addAction(&action_new);
 
     QAction action_rename("Rename ", this);
@@ -89,6 +85,32 @@ void MainWindow::on_action_context_file_rename(QString fullFileName) {
         m_file_manager->fileRename(fullFileName);
     }
 }
+
+void MainWindow::on_action_context_file_new(QString fullFileName) {
+    bool ok;
+    QString new_file_name = QInputDialog::getText(this,"New file",
+                                                    tr("Enter the new path for the new file"),
+                                                    QLineEdit::Normal,
+                                                    "",
+                                                    &ok);
+    if (ok) {
+        if (QFileInfo(fullFileName).isDir()) {
+            fullFileName.append("/");
+        }
+        else {
+            fullFileName.remove(fullFileName.lastIndexOf("/") + 1, fullFileName.size());
+        }
+
+        QFile file(fullFileName + new_file_name);
+        if (!file.open(QIODevice::ReadWrite))
+            qWarning(logWarning()) << "file " << fullFileName + new_file_name << " dont create";
+        file.close();
+        m_file_manager->loadFile(fullFileName + new_file_name);
+    }
+    qInfo(logInfo()) << "New file " << fullFileName + new_file_name;
+}
+
+
 
 void MainWindow::on_action_context_file_delete(QString fullFileName) {
 
@@ -348,6 +370,8 @@ void MainWindow::loadStyle(const QString &path)
         return;
     }
 }
+
+
 
 //void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
 //{

@@ -75,6 +75,7 @@ private:
     void writeSettings();
     void loadStyle(const QString &path);
 
+    void on_action_context_file_new(QString fullFileName);
     void on_action_context_file_rename(QString fullFileName);
     void on_action_context_file_delete(QString fullFileName);
     void on_action_context_new_folder(QString fullFileName);
