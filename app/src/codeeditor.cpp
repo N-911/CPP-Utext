@@ -365,3 +365,4 @@ void CodeEditor::cut_new() {
     if (hasFocus())
         QPlainTextEdit::cut();
 }
+

@@ -2,7 +2,7 @@
 ___
 
  ### Description:
-    Ucode project: utext - GUI text edito in c++ 
+    Ucode project: utext - GUI text editor in c++ 
  ### Developers:
  [Mykyta Savytskyi](https://github.com/intelek2al) | 
  [Serhiy Nikolayenko](https://github.com/N-911)

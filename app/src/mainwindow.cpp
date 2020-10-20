@@ -32,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_file_manager = new FileManager(ui);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
+
+    m_tab_settings= new TabSetings(this);
+//    m_tab_settings->show();
+
     readSettings();
 //    m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
     ui->tabWidget->setStyleSheet("QTabBar {\n"
@@ -371,6 +375,11 @@ void MainWindow::loadStyle(const QString &path)
     }
 }
 
+
+void MainWindow::on_actionAbout_Utext_triggered()
+{
+    QMessageBox::about(0, "About", "Ucode project: utext - GUI text editor in c++ ");
+}
 
 
 //void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView

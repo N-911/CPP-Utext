@@ -15,6 +15,7 @@ set(SOURCES mainwindow.cpp
         syntaxstyle.cpp
         stylesyntaxhighlighter.cpp
         language.cpp
+        tabSetings.cpp
         )
 
 set(HEADERS mainwindow.h
@@ -33,6 +34,7 @@ set(HEADERS mainwindow.h
         stylesyntaxhighlighter.cpp
         language.h
         highlightrule.h
+        tabSetings.h
         )
 
 set(UI mainwindow.ui)

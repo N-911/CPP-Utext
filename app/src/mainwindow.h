@@ -22,6 +22,8 @@
 #include "file_manager.h"
 #include <projectmanager.h>
 
+#include "tabSetings.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
     class MainWindow;
@@ -69,6 +71,9 @@ private slots:
         void on_replaceLine_editingFinished();
         void on_buttonReplaceAll_clicked();
 
+        // About
+        void on_actionAbout_Utext_triggered();
+
 private:
 
     void readSettings();
@@ -81,9 +86,10 @@ private:
     void on_action_context_new_folder(QString fullFileName);
 
     Ui::MainWindow *ui;
-    FileManager *m_file_manager;
+    FileManager *m_file_manager = nullptr;
     QFileSystemModel *m_dirmodel = nullptr;
     Search *m_searcher = nullptr;
+    TabSetings *m_tab_settings = nullptr;
 };
 
 #endif // MAINWINDOW_H
