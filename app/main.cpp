@@ -22,6 +22,8 @@
 #include <QToolBar>
 #include <set>
 #include <unordered_set>
+#include <QStyleFactory>
+
 
 QScopedPointer<QFile>   m_logFile;
 
@@ -33,6 +35,11 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 int main(int argc, char **argv)
 {
     App app(argc, argv, "Ucode", "Utext");
+
+//    QFile file(":/qss/ElegantDark.qss");
+//    file.open(QFile::ReadOnly);
+//    app.setStyleSheet(file.readAll());
+
 //    / Устанавливаем файл логирования,
 //    m_logFile.reset(new QFile(QCoreApplication::applicationDirPath() + "/logFile.txt"));
 //    m_logFile.reset(new QFile("./app/logFile.txt"));  // run from zsh

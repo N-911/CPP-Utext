@@ -468,6 +468,7 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
      <string>Utext</string>
     </property>
     <addaction name="actionAbout_Utext"/>
+    <addaction name="actionPreferences"/>
     <addaction name="actionQuit_Utext"/>
    </widget>
    <widget class="QMenu" name="menuFile">
@@ -884,6 +885,14 @@ QPushButton { background-color: rgb(98, 100, 105); border: solid; }</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+[</string>
+   </property>
+  </action>
+  <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
    </property>
   </action>
  </widget>

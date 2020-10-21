@@ -232,3 +232,5 @@ bool FileManager::fileRename(const QString &fullFileName) {
 TabManager *FileManager::getTabManager() const {
     return m_tabManager;
 }
+
+

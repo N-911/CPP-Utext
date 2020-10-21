@@ -4,5 +4,9 @@
         <file>fileopen.png</file>
         <file>filesave.png</file>
         <file>editcopy.png</file>
+        <file>qss/ConsoleStyle.qss</file>
+        <file>qss/ElegantDark.qss</file>
+        <file>qss/ManjaroMix.qss</file>
+        <file>qss/MaterialDark.qss</file>
     </qresource>
 </RCC>

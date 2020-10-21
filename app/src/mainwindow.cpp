@@ -21,6 +21,7 @@
 #include "app.h"
 #include "syntaxstyle.h"
 #include "syntaxhighlightercxx.h"
+#include "dialogsettings.h"
 
 using std::cout;
 using std::endl;
@@ -32,9 +33,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_file_manager = new FileManager(ui);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
+    m_settings = new Settings("Ucode", "Utext");
 
-    m_tab_settings= new TabSetings(this);
-//    m_tab_settings->show();
+//    connect();
 
     readSettings();
 //    m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
@@ -379,6 +380,23 @@ void MainWindow::loadStyle(const QString &path)
 void MainWindow::on_actionAbout_Utext_triggered()
 {
     QMessageBox::about(0, "About", "Ucode project: utext - GUI text editor in c++ ");
+}
+
+void MainWindow::applySettings(QMap<QString, QString> _settings) {
+    m_settings->set_settings(_settings);
+
+}
+
+
+void MainWindow::on_actionPreferences_triggered()
+{
+    DialogSettings *window_settings = new DialogSettings({{"theme","dark"}}, 0);
+    window_settings->setModal(true);
+    QObject::connect(window_settings, &DialogSettings::SavedSettings,
+                     this, &MainWindow::applySettings);
+    window_settings->exec();
+
+//    m_settings->current_settings(window_settings.getsettings());
 }
 
 

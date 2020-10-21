@@ -5,7 +5,6 @@ cmake_minimum_required(VERSION 3.17)
 set(SOURCES mainwindow.cpp
         codeeditor.cpp
         app.cpp
-        projectmanager.cpp
         tabmenager.cpp
         file_manager.cpp
         tabwelcome.cpp
@@ -15,14 +14,14 @@ set(SOURCES mainwindow.cpp
         syntaxstyle.cpp
         stylesyntaxhighlighter.cpp
         language.cpp
-        tabSetings.cpp
+        dialogsettings.cpp
+        settings.cpp
         )
 
 set(HEADERS mainwindow.h
         linenumberarea.h
         codeeditor.h
         app.h
-        projectmanager.h
         test_runner.h
         tabmenager.h
         file_manager.h
@@ -34,10 +33,11 @@ set(HEADERS mainwindow.h
         stylesyntaxhighlighter.cpp
         language.h
         highlightrule.h
-        tabSetings.h
+        dialogsettings.h
+        settings.h
         )
 
-set(UI mainwindow.ui)
+set(UI mainwindow.ui dialogsettings.ui)
 
 add_library(src ${SOURCES} ${HEADERS} ${UI})
 

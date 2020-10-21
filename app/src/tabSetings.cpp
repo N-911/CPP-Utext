@@ -12,6 +12,7 @@
 TabSetings::TabSetings(QWidget *parent) : QWidget(parent) {
     settings = App::utext_app()->utext_settings();
 
+    /*
     auto mlayout = new QVBoxLayout();
     setLayout(mlayout);
 
@@ -40,6 +41,7 @@ TabSetings::TabSetings(QWidget *parent) : QWidget(parent) {
     // restore button from settings
     int id = settings->value("buttonGroup").toInt();
     buttonGroup->button(id)->setChecked(true);
+     */
 }
 
 void

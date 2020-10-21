@@ -21,8 +21,7 @@
 #include "tabmenager.h"
 #include "file_manager.h"
 #include <projectmanager.h>
-
-#include "tabSetings.h"
+#include "settings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -74,6 +73,11 @@ private slots:
         // About
         void on_actionAbout_Utext_triggered();
 
+        // dialog settings
+        void on_actionPreferences_triggered();
+
+        void applySettings(QMap<QString, QString> _settings);
+
 private:
 
     void readSettings();
@@ -89,7 +93,7 @@ private:
     FileManager *m_file_manager = nullptr;
     QFileSystemModel *m_dirmodel = nullptr;
     Search *m_searcher = nullptr;
-    TabSetings *m_tab_settings = nullptr;
+    Settings *m_settings = nullptr;
 };
 
 #endif // MAINWINDOW_H
