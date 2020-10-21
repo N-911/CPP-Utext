@@ -33,10 +33,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     m_file_manager = new FileManager(ui);
     ui->tabWidget->removeTab(0);
     ui->tabWidget->removeTab(0);
-    m_settings = new Settings("Ucode", "Utext");
-
-//    connect();
-
+//    m_settings = new Settings("Ucode", "Utext");
+    m_settings = new Settings();
     readSettings();
 //    m_searcher = new Search(qobject_cast<QPlainTextEdit *>(ui->tabWidget->currentWidget()));
     ui->tabWidget->setStyleSheet("QTabBar {\n"
@@ -168,6 +166,12 @@ MainWindow::~MainWindow() {
 
 void MainWindow::readSettings() {
     QSettings *settings = App::utext_app()->utext_settings();
+
+    QStringList keys = settings->allKeys();
+    qDebug(logDebug()) << keys;
+
+    QString theme = settings->value("theme").toString();
+
 
     const QByteArray geometry = settings->value("geometry", QByteArray()).toByteArray();
     if (geometry.isEmpty()) {
@@ -383,6 +387,7 @@ void MainWindow::on_actionAbout_Utext_triggered()
 }
 
 void MainWindow::applySettings(QMap<QString, QString> _settings) {
+    qInfo(logInfo()) <<"MainWindow::applySettings";
     m_settings->set_settings(_settings);
 
 }
@@ -390,7 +395,8 @@ void MainWindow::applySettings(QMap<QString, QString> _settings) {
 
 void MainWindow::on_actionPreferences_triggered()
 {
-    DialogSettings *window_settings = new DialogSettings({{"theme","dark"}}, 0);
+    qDebug(logDebug()) << "on_actionPreferences_triggered";
+    DialogSettings *window_settings = new DialogSettings(m_settings->get_current_settings(), 0);
     window_settings->setModal(true);
     QObject::connect(window_settings, &DialogSettings::SavedSettings,
                      this, &MainWindow::applySettings);

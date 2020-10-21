@@ -14,9 +14,16 @@ QT_END_NAMESPACE
 
 class Settings {
 public:
-    Settings(const QString& strOrg, const QString& strAppName);
+//    Settings(const QString& strOrg, const QString& strAppName);
+    Settings();
     virtual ~Settings();
     void set_settings(QMap<QString, QString> _settings);
+    void loadTheme(QString& theme);
+    QMap<QString, QString> get_current_settings() const;
+
+    //    QFile file(":/qss/ElegantDark.qss");
+//    file.open(QFile::ReadOnly);
+//    app.setStyleSheet(file.readAll());
 
 //    void set_settings(QMap<QString, QStringList> _settings);
 
