@@ -20,7 +20,6 @@
 #include <deque>
 #include "tabmenager.h"
 #include "file_manager.h"
-#include <projectmanager.h>
 #include "settings.h"
 
 QT_BEGIN_NAMESPACE
@@ -76,7 +75,7 @@ private slots:
         // dialog settings
         void on_actionPreferences_triggered();
 
-        void applySettings(QMap<QString, QString> _settings);
+//        void applySettings(QMap<QString, QString> _settings);
 
 private:
 

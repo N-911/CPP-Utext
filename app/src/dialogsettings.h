@@ -20,14 +20,14 @@ public:
 
     void accepted();
 
+    void get_dialog_options(QMap<QString, QString>& dialog_options) const;
+
 signals:
     QMap<QString, QString> SavedSettings(QMap<QString, QString>);
 
 private:
     Ui::DialogSettings *ui;
-
     QMap<QString, QString> m_dialog_settings;
-
 };
 
 #endif // DIALOGSETTINGS_H

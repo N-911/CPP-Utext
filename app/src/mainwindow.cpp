@@ -261,7 +261,6 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()  // cmd + [
 {
     int index = ui->tabWidget->currentIndex() > 0 ? ui->tabWidget->currentIndex() - 1:
                 ui->tabWidget->currentIndex() + ui->tabWidget->count() - 1;
-//    qDebug(logDebug()) << QString("set  %1 tab index").arg(index);
     ui->tabWidget->setCurrentIndex(index);
 }
 
@@ -269,7 +268,7 @@ void MainWindow::on_actionSelect_Previous_tab_triggered()  // cmd + [
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
     QString fullFilePath = m_dirmodel->filePath(index);
-    qInfo(logInfo()) << "Opne file " << fullFilePath;
+    qInfo(logInfo()) << "Open file " << fullFilePath;
     if (!(QDir(fullFilePath).exists())) {
         m_file_manager->loadFile(fullFilePath);
     }
@@ -285,8 +284,6 @@ void MainWindow::on_actionAdd_Project_Folder_triggered() {
         qWarning(logWarning()) << QString(QDir(dirName).dirName() + " directory not readable");
         ui->statusbar->showMessage(QString(QDir(dirName).dirName() + " directory not readable"), 3000);
     };
-
-
     m_dirmodel->setRootPath(dirName);
     ui->treeView->setHidden(false);
     ui->treeView->setModel(m_dirmodel);
@@ -386,30 +383,26 @@ void MainWindow::on_actionAbout_Utext_triggered()
     QMessageBox::about(0, "About", "Ucode project: utext - GUI text editor in c++ ");
 }
 
-void MainWindow::applySettings(QMap<QString, QString> _settings) {
-    qInfo(logInfo()) <<"MainWindow::applySettings";
-    m_settings->set_settings(_settings);
+//void MainWindow::applySettings(QMap<QString, QString> _settings) {
+//    qInfo(logInfo()) <<"MainWindow::applySettings";
+//    m_settings->set_settings(_settings);
+//}
 
-}
+void MainWindow::on_actionPreferences_triggered() {
+    qDebug(logDebug()) << "on_action Preferences_triggered";
 
-
-void MainWindow::on_actionPreferences_triggered()
-{
-    qDebug(logDebug()) << "on_actionPreferences_triggered";
     DialogSettings *window_settings = new DialogSettings(m_settings->get_current_settings(), 0);
     window_settings->setModal(true);
-    QObject::connect(window_settings, &DialogSettings::SavedSettings,
-                     this, &MainWindow::applySettings);
-    window_settings->exec();
 
-//    m_settings->current_settings(window_settings.getsettings());
+//    QObject::connect(window_settings, &DialogSettings::SavedSettings, this, &MainWindow::applySettings);
+
+  if (window_settings->exec() == QDialog::Accepted) {
+    qInfo(logInfo()) << "exec QDilaog";
+    QMap<QString, QString> new_settings;
+    window_settings->get_dialog_options(new_settings);  // get settings from QDialog
+    m_settings->set_settings(new_settings);
+  }
 }
-
-
-//void MainWindow::on_actionToggle_Tree_View_triggered(bool checked)  // show or hide treeView
-//{
-//    ui->treeView->setHidden(checked);
-//}
 
 
 ////////////////////////// delete before release

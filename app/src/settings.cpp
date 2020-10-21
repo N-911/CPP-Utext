@@ -6,10 +6,10 @@
 //Settings::Settings(const QString& strOrg, const QString& strAppName) {
 Settings::Settings() {
 //    m_preferences = new QSettings(strOrg, strAppName);
-
     m_preferences = App::utext_app()->utext_settings();
-    QString theme = m_preferences->value("theme").toString();
 
+  // load saved theme
+    QString theme = m_preferences->value("theme").toString();
     loadTheme(theme);
 }
 
@@ -19,20 +19,13 @@ Settings::~Settings() {
 
 
 void Settings::set_settings(QMap<QString, QString> _settings) {
-    qInfo(logInfo()) << "new theme =" << _settings["theme"];
-    if(current_settings["theme"] != _settings["theme"]) {
-        current_settings = _settings;
-        loadTheme(_settings["theme"]);
-    }
 
-
-//    m_preferences->setValue("mainwindow/fullScreen", ui->isFullScreen());
-
-    //    QFile file(":/qss/ElegantDark.qss");
-//    file.open(QFile::ReadOnly);
-//    app.setStyleSheet(file.readAll());
-
-
+      if (current_settings["theme"] != _settings["theme"]) {
+          current_settings["theme"] = _settings["theme"];
+          loadTheme(_settings["theme"]);
+          qInfo(logInfo()) << "new theme =" << _settings["theme"];
+          m_preferences->setValue("theme", current_settings["theme"]);
+      }
 }
 
 void Settings::loadTheme(QString &theme) {
