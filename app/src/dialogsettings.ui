@@ -82,8 +82,14 @@
       <property name="spacing">
        <number>0</number>
       </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
       <property name="topMargin">
        <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>40</number>
       </property>
       <item>
        <widget class="QLabel" name="theme">
@@ -105,8 +111,14 @@
       <property name="spacing">
        <number>0</number>
       </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
       <property name="topMargin">
        <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>40</number>
       </property>
       <item>
        <widget class="QLabel" name="font">

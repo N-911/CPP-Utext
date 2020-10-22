@@ -45,6 +45,7 @@ ___
    - [x] syntax highlighting for source code
    - [x] line wrapping
    - [x] ability to create/delete/rename files or directories from Tree area
+   - [x] change theme
 
 ### Shortcuts
 * Toolbar:      Cmd + T
@@ -55,6 +56,14 @@ ___
 * Save:         Cmd + S
 * Save As...:   Shift + Cmd + S
 * Save All:     Alt + Cmd + S
+* Preferences:  Cm + ,
+
+* Copy:          Cmd + C
+* Paste:         Cmd + V
+* Cut:           Cmd + X
+* Select All:    Cmd + A
+* Undo:          Cmd + Z
+* Redo:          Cmd + Shift + Z
 
 * Find All:     Cmd + F
 * Replace next: Cmd + R
